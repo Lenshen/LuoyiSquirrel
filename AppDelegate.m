@@ -7,8 +7,12 @@
 //
 
 #import "AppDelegate.h"
+#import "LBTabBarController.h"
+
+
 
 @interface AppDelegate ()
+
 
 @end
 
@@ -17,6 +21,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+
+    //设置窗体的根控制器为自定义的标签栏控制器
+    LBTabBarController *tabbarVc = [[LBTabBarController alloc]init];
+    self.window.rootViewController = tabbarVc;
     return YES;
 }
 
