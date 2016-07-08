@@ -88,7 +88,10 @@
 
 //NavBar高度
 #define NavigationBar_HEIGHT 44
-#define NavigationColor  [UIColor colorWithRed:67.0/255.0 green:193.0/255.0 blue:55.0/255.0 alpha:1.0]
+#define NavigationColor  [UIColor colorWithRed:76.0/255.0 green:205.0/255.0 blue:61.0/255.0 alpha:1.0]
+
+#define TableviewColor  [UIColor colorWithRed:240/255.0 green:242/255.0 blue:242/255.0 alpha:1.0]
+
 
 
 

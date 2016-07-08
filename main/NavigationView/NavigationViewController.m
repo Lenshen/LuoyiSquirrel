@@ -7,6 +7,8 @@
 //
 
 #import "NavigationViewController.h"
+#import "UIImage+Image.h"
+
 
 @interface NavigationViewController ()
 
@@ -20,11 +22,17 @@
     // Do any additional setup after loading the view.
     self.interactivePopGestureRecognizer.enabled = NO;
 
-    self.navigationBar.barTintColor = [UIColor redColor];
+    self.navigationBar.barTintColor = [UIColor whiteColor];
     
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTintColor:NavigationColor];
 
-    self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
+    self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+
+    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]
+                                                 forBarPosition:UIBarPositionAny
+                                                     barMetrics:UIBarMetricsDefault];
+    [self.navigationBar setShadowImage:[UIImage new]];
+
 //    
 //    CGRect frame = self.navigationBar.frame;
 //｀
