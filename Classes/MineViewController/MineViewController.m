@@ -37,8 +37,10 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
     [self.tableView registerClass:[MineTableviewCell class] forCellReuseIdentifier:mineTableCellReuseIdntifier];
     self.tableView.rowHeight = 44;
     [self.view addSubview:self.tableView];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableHeaderView = self.tableHeadView;
     [self setExtraCellLineHidden:self.tableView];
+
 
 
 
@@ -46,6 +48,7 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 }
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -117,7 +120,12 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 
 - (void)settingChick:(UIButton *)sender
 {
-    [self.navigationController pushViewController:[SettingViewController new] animated:YES];
+
+    SettingViewController *setting = [SettingViewController new];
+    setting.hidesBottomBarWhenPushed = YES;
+
+    [self.navigationController pushViewController:setting animated:YES];
+    
 
 
 }
@@ -176,7 +184,6 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    self.navigationController.navigationBarHidden = NO;
 }
 
 /*

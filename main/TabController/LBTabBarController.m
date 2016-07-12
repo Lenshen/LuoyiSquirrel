@@ -23,7 +23,7 @@
 //#import "MyQRViewController.h"
 #import "LBXScanView.h"
 #import <objc/message.h>
-//#import "ScanResultViewController.h"
+#import "SearchViewController.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
 
@@ -77,7 +77,7 @@
     HomeViewController *HomeVC = [[HomeViewController alloc] init];
     [self setUpOneChildVcWithVc:HomeVC Image:@"tabbar_home" selectedImage:@"tabbar_home_selected" title:@"首页"];
 
-    ImformationViewController *FishVC = [[ImformationViewController alloc] init];
+    SearchViewController *FishVC = [[SearchViewController alloc] init];
     [self setUpOneChildVcWithVc:FishVC Image:@"tabbar_message_center" selectedImage:@"tabbar_message_center_selected" title:@"资源"];
 
     ResourceViewController *MessageVC = [[ResourceViewController alloc] init];

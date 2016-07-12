@@ -7,7 +7,8 @@
 //
 
 #import "SettingViewController.h"
-#define rowheight 55
+#import "MineEndTableViewCell.h"
+#define rowheight 50
 
 
 @interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -26,7 +27,10 @@
     self.view.backgroundColor = TableviewColor;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"设置";
+    
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CustomCell"];
+    [self.tableView registerClass:[MineEndTableViewCell class] forCellReuseIdentifier:@"MineEndTableViewCell"];
+
     self.tableView.scrollEnabled = NO;
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.exitView];
@@ -89,21 +93,87 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell" forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CustomCell"];
-    }
-    cell.textLabel.text = self.labelArray[indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    return cell;
+
+
+    if (indexPath.row == 3) {
+
+        MineEndTableViewCell *cell1 =  [tableView dequeueReusableCellWithIdentifier:@"MineEndTableViewCell" forIndexPath:indexPath];
+        if (!cell1) {
+            cell1 = [[MineEndTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MineEndTableViewCell"];
+        }
+
+        cell1.firstLabel.text = self.labelArray[indexPath.row];
+        [self getCacheSize:cell1.endLabel];
+        cell1.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell1;
+
+
+
+
+
+    }else
+    {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell" forIndexPath:indexPath];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CustomCell"];
+        }
+
+      cell.textLabel.text = self.labelArray[indexPath.row];
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+      cell.selectionStyle = UITableViewCellSelectionStyleNone;
+         return cell;
+
+    }
+
+
+}
+
+-(void)getCacheSize:(UILabel *)label
+{
+    NSString *cache =[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)objectAtIndex:0];
+    CGFloat fileSize = [self folderSizeAtPath:cache];
+    label.text = [NSString stringWithFormat:@"%.2fMB",fileSize];
+}
+
+
+- (CGFloat)folderSizeAtPath:(NSString *)folderPath
+{
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:folderPath]) {
+        return 0;
+    }
+
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
+
+    NSString *fileName = nil;
+    long long folderSize = 0;
+    while ((fileName = [childFilesEnumerator nextObject]) != nil) {
+        NSString *fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+        folderSize += [self fileSizeAtPath:fileAbsolutePath];
+    }
+    return folderSize/(1024.0*1024.0);
+}
+- (long long)fileSizeAtPath:(NSString *)filePath
+{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]){
+        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    return 0;
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
 
 /*
 #pragma mark - Navigation
