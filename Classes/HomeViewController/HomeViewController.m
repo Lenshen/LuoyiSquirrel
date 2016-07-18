@@ -14,9 +14,11 @@
 #import "homeTableviewCell.h"
 #import "InviteViewController.h"
 #import "IntergralViewController.h"
+#import "IntergralShoppingViewController.h"
 
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@property (strong,nonatomic)UITableView *tableView;
 @property (nonatomic, strong)UIView *tableViewHeadView;
 @property (nonatomic, strong)UIView *homeIFView;
 
@@ -25,7 +27,6 @@
 @property (strong,nonatomic)NSArray *buttonTitle;
 @property (strong,nonatomic)UILabel *timeLabel;
 @property (strong,nonatomic)UILabel *dayLabel;
-@property (strong,nonatomic)UITableView *tableView;
 @property (strong,nonatomic)UIButton *headButton;
 
 @property (strong,nonatomic)SDCycleScrollView *cycleScrollView;
@@ -167,16 +168,22 @@
 - (void)homeChick:(UIButton *)sender
 {
     NSUInteger i = sender.tag;
+    SignInViewController *sign = [SignInViewController new];
+    sign.hidesBottomBarWhenPushed = YES;
+    InviteViewController *invite = [InviteViewController new];
+    invite.hidesBottomBarWhenPushed = YES;
+
     switch (i) {
         case 0:
-            [self.navigationController pushViewController:[SignInViewController new] animated:YES];
+
+            [self.navigationController pushViewController:sign animated:YES];
             break;
         case 1:
-            [self.navigationController pushViewController:[IntergralViewController new] animated:YES];
+            [self.navigationController pushViewController:[IntergralShoppingViewController new] animated:YES];
             break;
 
         case 2:
-            [self.navigationController pushViewController:[InviteViewController new] animated:YES];
+            [self.navigationController pushViewController:invite animated:YES];
             break;
 
 

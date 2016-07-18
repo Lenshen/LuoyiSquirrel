@@ -11,6 +11,8 @@
 @interface MineEndTableViewCell : UITableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 @property (nonatomic, strong) UILabel *firstLabel;
+@property (nonatomic, strong) UILabel *lineLabel;
+
 
 @property (nonatomic, strong) UILabel *endLabel;
 @end

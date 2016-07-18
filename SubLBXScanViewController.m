@@ -147,7 +147,7 @@
         return;
     }
     self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,BYSScreenWidth, 64)];
-    self.topView.backgroundColor = [UIColor blackColor];
+    self.topView.backgroundColor = NavigationColor;
     [self.view addSubview:_topView];
 
     UIButton *dissButton = [[UIButton alloc]init];

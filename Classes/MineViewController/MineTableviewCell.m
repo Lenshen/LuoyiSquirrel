@@ -23,11 +23,11 @@
 
     _imageViewCell = [[UIImageView alloc]initWithFrame:CGRectMake(10,10,25, 25)];
     _labelCell = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_imageViewCell.frame)+20, CGRectGetMinY(_imageViewCell.frame), 200, 30)];
-    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,self.contentView.frame.size.height-1, BYSScreenWidth, 1)];
-    lineLabel.backgroundColor = TableviewColor;
+    _lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,self.contentView.frame.size.height-1, BYSScreenWidth, 1)];
+    _lineLabel.backgroundColor = TableviewColor;
 
 
-    [self.contentView addSubview:lineLabel];
+    [self.contentView addSubview:_lineLabel];
 
     [self.contentView addSubview:_imageViewCell];
 

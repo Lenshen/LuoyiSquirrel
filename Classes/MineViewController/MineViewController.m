@@ -10,6 +10,7 @@
 #import "SettingViewController.h"
 #import "MineTableviewCell.h"
 #import "PersonIFViewController.h"
+#import "AuthViewController.h"
 
 #define rowheight 44
 static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
@@ -169,6 +170,26 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    AuthViewController *autovc = [AuthViewController new];
+    autovc.hidesBottomBarWhenPushed = YES;
+    
+
+    NSUInteger i = indexPath.row;
+    switch (i) {
+        case 5:
+            [self.navigationController pushViewController:autovc animated:YES];
+
+
+            break;
+
+        default:
+            break;
+    }
 }
 
 -(void)setExtraCellLineHidden: (UITableView *)tableView

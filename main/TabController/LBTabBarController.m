@@ -26,6 +26,8 @@
 #import "SearchViewController.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
+#import "GoodsViewController.h"
+#import "MarkViewController.h"
 
 
 @interface LBTabBarController ()<LBTabBarDelegate>
@@ -77,7 +79,7 @@
     HomeViewController *HomeVC = [[HomeViewController alloc] init];
     [self setUpOneChildVcWithVc:HomeVC Image:@"tabbar_home" selectedImage:@"tabbar_home_selected" title:@"首页"];
 
-    SearchViewController *FishVC = [[SearchViewController alloc] init];
+    GoodsViewController *FishVC = [[GoodsViewController alloc] init];
     [self setUpOneChildVcWithVc:FishVC Image:@"tabbar_message_center" selectedImage:@"tabbar_message_center_selected" title:@"资源"];
 
     ResourceViewController *MessageVC = [[ResourceViewController alloc] init];

@@ -8,6 +8,12 @@
 
 #import "InviteViewController.h"
 
+@interface InviteViewController()
+@property (nonatomic,strong) UIImageView *imageView;
+
+
+@end
+
 @implementation InviteViewController
 
 - (void)viewDidLoad {
@@ -16,6 +22,35 @@
     self.view.backgroundColor =[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"邀请";
+    [self.view addSubview:self.imageView];
+
+
+
+}
+- (UIImageView *)imageView
+{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0,0, BYSScreenWidth, BYSScreenHeight-64)];
+        _imageView.image = [UIImage imageNamed:@"invite_background"];
+        _imageView.userInteractionEnabled = YES;
+
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(invite:)];
+
+        [_imageView addGestureRecognizer:tap];
+
+        
+
+
+        
+
+
+    }
+    return _imageView;
+}
+
+
+- (void)invite:(id)sender
+{
 
 
 

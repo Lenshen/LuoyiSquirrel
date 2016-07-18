@@ -39,6 +39,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
 @property (nonatomic,strong) UIPickerView *pickview;
 @property (nonatomic,strong) UIView *viewp;
+@property (nonatomic,strong) UIView *alphaView;
+
 @property (nonatomic, strong) UIButton *canceButtonl;
 @property (nonatomic, strong) UIButton *sureButton;
 @property (strong, nonatomic)NSString *dateString;
@@ -231,7 +233,9 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
             _canceButtonl.hidden = NO;
             _viewp.hidden = NO;
             _pickview.hidden = NO;
+            _alphaView.hidden = NO;
             [self getDateDataSource];
+
 
 
             [self.view addSubview:self.pickview];
@@ -244,6 +248,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
             _canceButtonl.hidden = NO;
             _viewp.hidden = NO;
             _pickview.hidden = NO;
+            _alphaView.hidden = NO;
+
 
             [self getWeightDateDataSource];
 
@@ -258,6 +264,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
             _canceButtonl.hidden = NO;
             _viewp.hidden = NO;
             _pickview.hidden = NO;
+            _alphaView.hidden = NO;
+
 
             [self getHeightDateDataSource];
 
@@ -497,7 +505,7 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
         _pickview = [[UIPickerView alloc]initWithFrame:CGRectZero];
         _pickview.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _pickview.frame = CGRectMake(0, BYSScreenHeight-44-200-50,BYSScreenWidth, _pickview.height);
+        _pickview.frame = CGRectMake(0, BYSScreenHeight-150-50,BYSScreenWidth, 150);
         _pickview.showsSelectionIndicator = YES;
         _pickview.backgroundColor = [UIColor whiteColor];
         _pickview.delegate = self;
@@ -506,18 +514,29 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
 
         _viewp = [[UIView alloc]initWithFrame:CGRectMake(0,_pickview.origin.y-50, BYSScreenHeight,50 )];
-        _viewp.backgroundColor = [UIColor grayColor];
+        _viewp.backgroundColor = TableviewColor;
+
+        _alphaView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, BYSScreenHeight)];
+        _alphaView.backgroundColor = [UIColor blackColor];
+        _alphaView.alpha = 0.3;
+        [self.view addSubview:_alphaView];
+
+
+
         [self.view addSubview:_viewp];
         _canceButtonl = [[UIButton alloc]initWithFrame:CGRectMake(0,_pickview.origin.y-50, 50,50 )];
         [_canceButtonl addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
         [_canceButtonl setTitle:@"取消" forState:UIControlStateNormal];
-        _canceButtonl.backgroundColor =[UIColor redColor];
+        _canceButtonl.backgroundColor =[UIColor clearColor];
+        [_canceButtonl setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+
 
         [self.view addSubview:_canceButtonl];
 
         _sureButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.width-50,_pickview.origin.y-50, 50,50 )];
         [_sureButton setTitle:@"确定" forState:UIControlStateNormal];
-        _sureButton.backgroundColor =[UIColor redColor];
+        _sureButton.backgroundColor = [UIColor clearColor];
+        [_sureButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_sureButton addTarget:self action:@selector(sure) forControlEvents:UIControlEventTouchUpInside];
 
         [self.view addSubview:_sureButton];
@@ -533,6 +552,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
     _sureButton.hidden = YES;
     _pickview.hidden = YES;
     _viewp.hidden = YES;
+    _alphaView.hidden = YES;
+
     self.pickview = nil;
     [self.pickview removeFromSuperview];
 
@@ -546,6 +567,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
         _sureButton.hidden = YES;
         _pickview.hidden = YES;
         _viewp.hidden = YES;
+        _alphaView.hidden = YES;
+
 
         [self.pickview removeFromSuperview];
 
@@ -572,6 +595,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
         _sureButton.hidden = YES;
         _pickview.hidden = YES;
         _viewp.hidden = YES;
+        _alphaView.hidden = YES;
+
         [self.pickview removeFromSuperview];
 
 
@@ -589,6 +614,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
         _sureButton.hidden = YES;
         _pickview.hidden = YES;
         _viewp.hidden = YES;
+        _alphaView.hidden = YES;
+
         [self.pickview removeFromSuperview];
         self.pickview = nil;
 
@@ -628,6 +655,7 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
         [self.dayArray addObject:[NSString stringWithFormat:@"%.2d",i]];
     }
     [self.pickview reloadAllComponents];
+
 }
 
 - (void)getHeightDateDataSource{
