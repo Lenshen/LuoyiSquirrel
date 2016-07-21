@@ -15,6 +15,7 @@
 #import "InviteViewController.h"
 #import "IntergralViewController.h"
 #import "IntergralShoppingViewController.h"
+#import "HRAdView.h"
 
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -173,13 +174,18 @@
     InviteViewController *invite = [InviteViewController new];
     invite.hidesBottomBarWhenPushed = YES;
 
+    IntergralShoppingViewController *inter = [IntergralShoppingViewController new];
+    inter.hidesBottomBarWhenPushed = YES;
+
+
+
     switch (i) {
         case 0:
 
-            [self.navigationController pushViewController:sign animated:YES];
+        [self.navigationController pushViewController:sign animated:YES];
             break;
         case 1:
-            [self.navigationController pushViewController:[IntergralShoppingViewController new] animated:YES];
+        [self.navigationController pushViewController:inter animated:YES];
             break;
 
         case 2:
@@ -216,12 +222,13 @@
     if (!_tableViewHeadView) {
         _tableViewHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth,400)];
         [_tableViewHeadView setBackgroundColor:TableviewColor];
+ 
+
 
 
     }
     return _tableViewHeadView;
 }
-
 
 
 
@@ -271,6 +278,26 @@
         [_homeIFView addSubview:_dayLabel];
 
 
+        NSArray *array = @[@"健康资讯第一条",@"健康资讯第二条",@"健康资讯第三条",@"健康资讯第四条"];
+
+        HRAdView * view = [[HRAdView alloc]initWithTitles:array];
+        view.frame = CGRectMake(CGRectGetMaxX(verticalLineLabel.frame)+10, 44, self.view.frame.size.width-CGRectGetMaxX(verticalLineLabel.frame)+10, 44);
+        view.textAlignment = NSTextAlignmentLeft;//默认
+        view.isHaveHeadImg = YES;
+        view.isHaveTouchEvent = YES;
+        view.labelFont = [UIFont boldSystemFontOfSize:14];
+        view.color = [UIColor blackColor];
+        view.time = 2.0f;
+
+        view.headImg = [UIImage imageNamed:@"hotDog"];
+        [_homeIFView addSubview:view];
+//        self.adView = view;
+        view.backgroundColor = [UIColor whiteColor];
+        [view beginScroll];
+
+
+
+
 
 
 
@@ -317,6 +344,7 @@
 {
     [super viewWillDisappear:YES];
     self.navigationController.navigationBarHidden = NO;
+
 }
 
 /*

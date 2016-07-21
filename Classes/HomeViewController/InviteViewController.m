@@ -30,7 +30,7 @@
 - (UIImageView *)imageView
 {
     if (!_imageView) {
-        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0,0, BYSScreenWidth, BYSScreenHeight-64)];
+        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0,64, BYSScreenWidth, BYSScreenHeight-64)];
         _imageView.image = [UIImage imageNamed:@"invite_background"];
         _imageView.userInteractionEnabled = YES;
 

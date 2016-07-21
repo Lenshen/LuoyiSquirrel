@@ -18,6 +18,11 @@
 @property (nonatomic, strong) NSString *titleSting;
 @property (nonatomic, strong) NSString *messageSting;
 @property (nonatomic, strong) NSString *buttonTitle;
+@property (nonatomic, strong) UIButton *rightButton;
+@property (nonatomic, strong) UIView *alphaView;
+@property (nonatomic, copy) void (^chickDissMissButton)();
+
+
 
 
 

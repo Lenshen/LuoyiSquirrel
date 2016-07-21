@@ -11,6 +11,9 @@
 #import "MineTableviewCell.h"
 #import "PersonIFViewController.h"
 #import "AuthViewController.h"
+#import "UIScrollView+ScalableCover.h"
+#import "MyIntergralViewController.h"
+#import "FamilyMGViewController.h"
 
 #define rowheight 44
 static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
@@ -40,7 +43,7 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
     [self.view addSubview:self.tableView];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableHeaderView = self.tableHeadView;
-    [self setExtraCellLineHidden:self.tableView];
+    [self.tableView addScalableCoverWithImage:[UIImage imageNamed:@"tableheadimage"]];    [self setExtraCellLineHidden:self.tableView];
 
 
 
@@ -73,7 +76,7 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
         _tableHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,BYSScreenWidth, 220)];
 
         _tableHeadViewImage = [[UIImageView alloc]initWithFrame:_tableHeadView.frame];
-        _tableHeadViewImage.image = [UIImage imageNamed:@"tableheadimage"];
+//        _tableHeadViewImage.image = [UIImage imageNamed:@"tableheadimage"];
 
         _settingButton = [[UIButton alloc]init];
         _settingButton.frame = CGRectMake(BYSScreenWidth-10-25, 40, 25, 25);
@@ -177,10 +180,24 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 
     AuthViewController *autovc = [AuthViewController new];
     autovc.hidesBottomBarWhenPushed = YES;
-    
+    MyIntergralViewController *myintergral = [MyIntergralViewController new];
+    myintergral.hidesBottomBarWhenPushed = YES;
+    FamilyMGViewController *family = [FamilyMGViewController new];
+    family.hidesBottomBarWhenPushed = YES;
+
+
+
 
     NSUInteger i = indexPath.row;
     switch (i) {
+            case 1:
+            
+            [self.navigationController pushViewController:family animated:YES];
+
+            break;
+        case 3:
+            [self.navigationController pushViewController:myintergral animated:YES];
+            break;
         case 5:
             [self.navigationController pushViewController:autovc animated:YES];
 

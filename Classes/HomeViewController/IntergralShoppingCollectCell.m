@@ -19,6 +19,9 @@
 
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 10, self.contentView.frame.size.width-10, 90)];
         _imageView.backgroundColor = [UIColor blueColor];
+        _imageView.layer.cornerRadius = 15;
+        _imageView.layer.masksToBounds = YES;
+
 
 
     }

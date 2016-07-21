@@ -7,12 +7,15 @@
 //
 
 #import "SignInViewController.h"
+#import "BYSAlertView.h"
 @interface SignInViewController()
 @property (nonatomic,strong) UIImageView *imageView;
 @property (nonatomic,strong) UIButton *convertButton;
 @property (nonatomic,strong) NSString *signSting;
 @property (nonatomic,strong) UILabel *signLabel;
 @property (nonatomic,assign) NSInteger signInteger;
+@property (nonatomic,strong) BYSAlertView *alertView;
+
 
 
 
@@ -29,6 +32,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"签到";
     [self.view addSubview:self.imageView];
+    
 
 
     
@@ -37,7 +41,7 @@
 - (UIImageView *)imageView
 {
     if (!_imageView) {
-        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0,0, BYSScreenWidth, BYSScreenHeight-64)];
+        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0,64, BYSScreenWidth, BYSScreenHeight-64)];
         _imageView.image = [UIImage imageNamed:@"sign_background"];
         _imageView.userInteractionEnabled = YES;
 
@@ -108,6 +112,12 @@
 
     _signLabel.attributedText = mutaAttribute;
 
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView.alphaView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+
+
+
+
 
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -117,6 +127,33 @@
 
     //去除导航栏下方的横线
  
+}
+- (BYSAlertView *)alertView
+{
+    if (!_alertView) {
+        _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15, 110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:@"签到成功" buttonTitle:@"确定"];
+        __weak typeof (self) weakSelf = self;
+        _alertView.chickDissMissButton = ^{
+            weakSelf.alertView = nil;
+        };
+        [_alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+        _alertView.rightButton.backgroundColor = [UIColor clearColor];
+
+    }
+    return _alertView;
+}
+- (void)dismiss:(id)sender
+{
+
+    self.alertView.alphaView.hidden = YES;
+    [self.alertView.alphaView removeFromSuperview];
+    self.alertView.alphaView = nil;
+    self.alertView.hidden = YES;
+    [self.alertView removeFromSuperview];
+    self.alertView = nil;
+    NSLog(@"666666");
+
+
 }
 
 - (void)didReceiveMemoryWarning {

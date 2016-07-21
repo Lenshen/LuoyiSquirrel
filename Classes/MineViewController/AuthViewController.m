@@ -15,6 +15,7 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 @interface AuthViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong,nonatomic)UITableView *tableView;
 @property (strong,nonatomic)NSArray *firstLabelTitleA;
+@property (strong,nonatomic)UIView *footview;
 @end
 
 
@@ -28,15 +29,34 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     self.title = @"认证";
     self.view.backgroundColor = TableviewColor;
     [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = self.footview;
 
 
 
 }
+- (UIView *)footview
+{
+    if (!_footview) {
+        _footview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 40)];
+        UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, BYSScreenWidth, 0.5)];
+        lineLabel.backgroundColor = RGB(188, 186, 193);
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, BYSScreenWidth-20, 40)];
+        label.text = @"Tip : 为了保护隐私及信息安全， 您的认证信息不会被泄漏给任何第三方；";
+        label.numberOfLines = 2;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor grayColor];
+        label.font = [UIFont systemFontOfSize:12];
+        [_footview addSubview:label];
+        [_footview addSubview:lineLabel];
+    }
+    return _footview;
+}
+
 
 - (NSArray *)firstLabelTitleA
 {
     if (!_firstLabelTitleA) {
-        _firstLabelTitleA = @[@"手机号码",@"地址",@"真实头像",@"身份证",@"其他证件"];
+        _firstLabelTitleA = @[@"手机号码",@"地址",@"真实头像",@"身份证"];
     }
     return _firstLabelTitleA;
 }
@@ -72,11 +92,7 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
             return  150;
 
         case 3:
-            return  200;
-
-        case 4:
             return  150;
-
 
           default:
             return 0;
@@ -89,12 +105,26 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 2) {
+    if (indexPath.row == 2 || indexPath.row == 3) {
         AutoTableCell *cell = [tableView dequeueReusableCellWithIdentifier:AutoCellimageString];
         if (!cell) {
             cell = [[AutoTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCellimageString];
         }
-        cell.labelCell.text = @"真实头像";
+        if (indexPath.row == 2) {
+            cell.labelCell.text = @"真实头像";
+            cell.labelCell2.text = @"(请上传手持身份证正面的半身照)";
+            cell.labelCell2.font = [UIFont systemFontOfSize:12];
+            cell.labelCell2.textColor = [UIColor grayColor];
+            cell.imageViewButton.tag  = 1;
+        }else
+        {
+            cell.labelCell.text = @"专业证书证件";
+            cell.labelCell2.text = @"(如 营养师证 ..... )";
+            cell.labelCell2.font = [UIFont systemFontOfSize:12];
+            cell.labelCell2.textColor = [UIColor grayColor];
+            cell.imageViewButton.tag  = 2;
+        }
+
 
         return cell;
 

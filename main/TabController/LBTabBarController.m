@@ -29,6 +29,8 @@
 #import "GoodsViewController.h"
 #import "MarkViewController.h"
 
+#import "PostConmmentViewController.h"
+
 
 @interface LBTabBarController ()<LBTabBarDelegate>
 

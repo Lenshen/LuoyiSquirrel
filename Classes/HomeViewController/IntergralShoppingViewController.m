@@ -9,6 +9,8 @@
 #import "IntergralShoppingViewController.h"
 #import "IntergralShoppingCollectCell.h"
 #import "BYSAlertView.h"
+#import "IntergralSViewController.h"
+#import "PostConmmentViewController.h"
 @interface IntergralShoppingViewController()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) UIView *alphaView;
@@ -36,7 +38,7 @@
 {
     if (!_collectionView) {
         UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc]init];
-        _collectionView = [[UICollectionView alloc]initWithFrame:self.view.frame collectionViewLayout:flowlayout];
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, BYSScreenWidth, BYSScreenHeight-64) collectionViewLayout:flowlayout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = TableviewColor;
@@ -50,7 +52,7 @@
 
         _alphaView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         _alphaView.backgroundColor = [UIColor blackColor];
-        _alphaView.alpha = 0.4;
+        _alphaView.alpha = 0.5;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dissmissAlpha:)];
 
 
@@ -63,7 +65,7 @@
 - (BYSAlertView *)alertView
 {
     if (!_alertView) {
-     _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15, 110, BYSScreenWidth-15*2, 250) titleString:@"温馨提示"  messageSting:@"非常抱歉 , 你的当前积分不足，暂时不能兑换......." buttonTitle:@"去赚积分"];
+     _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15, 110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:@"非常抱歉 , 你的当前积分不足，暂时不能兑换......." buttonTitle:@"去赚积分"];
 
     }
     return _alertView;
@@ -105,7 +107,8 @@
     cell.backgroundColor = [UIColor redColor];
     [cell.convertButton addTarget:self action:@selector(convert:) forControlEvents:UIControlEventTouchUpInside];
     cell.layer.cornerRadius = 10;
-    cell.imageView.layer.cornerRadius = 15;
+    cell.imageView.image = [UIImage imageNamed:@"intergral_shopping_goods"];
+
     cell.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:cell.imageView];
     [cell.contentView addSubview:cell.label];
@@ -134,10 +137,13 @@
 {
     NSLog(@"666666");
 
-    [[UIApplication sharedApplication].keyWindow addSubview:self.alphaView];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+//    [[UIApplication sharedApplication].keyWindow addSubview:self.alphaView];
+//    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
 
-   
+    [self.navigationController pushViewController:[PostConmmentViewController new] animated:YES];
+
+
+
 
 
 

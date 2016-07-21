@@ -12,5 +12,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 @property (strong, nonatomic)UIButton *imageViewButton;
 @property (strong, nonatomic)UILabel *labelCell;
+@property (strong, nonatomic)UILabel *labelCell2;
+
 
 @end

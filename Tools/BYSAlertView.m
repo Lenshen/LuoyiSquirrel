@@ -68,21 +68,21 @@
     label.text = self.titleSting;
     label.font = [UIFont systemFontOfSize:18];
 
-    UILabel *linelabel = [[UILabel alloc]initWithFrame:CGRectMake(15,CGRectGetMaxY(label.frame)+20,BYSScreenWidth-15*4, 1)];
+    UILabel *linelabel = [[UILabel alloc]initWithFrame:CGRectMake(15,CGRectGetMaxY(label.frame),BYSScreenWidth-15*4, 1)];
     linelabel.backgroundColor = NavigationColor;
 
-    UILabel *textlabel = [[UILabel alloc]initWithFrame:CGRectMake(15,CGRectGetMaxY(linelabel.frame)+20,BYSScreenWidth-15*4, 60)];
+    UILabel *textlabel = [[UILabel alloc]initWithFrame:CGRectMake(15,CGRectGetMaxY(linelabel.frame),BYSScreenWidth-15*4, 60)];
     textlabel.numberOfLines = 2;
     textlabel.text = self.messageSting;
     textlabel.textAlignment = NSTextAlignmentCenter;
 
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(CGRectGetMinX(label.frame)-40,CGRectGetMaxY(textlabel.frame)+20,160, 50);
-    button.backgroundColor = NavigationColor;
-    [button setTitle:self.buttonTitle forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.layer.cornerRadius = 5.0;
-    button.layer.masksToBounds = YES;
+    _rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _rightButton.frame = CGRectMake(self.center.x-65-10,CGRectGetMaxY(textlabel.frame)+20,130, 40);
+    _rightButton.backgroundColor = NavigationColor;
+    [_rightButton setTitle:self.buttonTitle forState:UIControlStateNormal];
+    [_rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _rightButton.layer.cornerRadius = 5.0;
+    _rightButton.layer.masksToBounds = YES;
     self.layer.cornerRadius = 10;
     self.layer.masksToBounds = YES;
 
@@ -90,9 +90,37 @@
     [self addSubview:label];
     [self addSubview:linelabel];
     [self addSubview:textlabel];
-    [self addSubview:button];
+    [self addSubview:_rightButton];
 
 
+}
+- (UIView *)alphaView
+{
+    if (!_alphaView) {
+
+        _alphaView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        _alphaView.backgroundColor = [UIColor blackColor];
+        _alphaView.alpha = 0.5;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dissmissAlpha:)];
+
+
+        [_alphaView addGestureRecognizer:tap];
+
+        
+    }
+    return _alphaView;
+}
+
+- (void)dissmissAlpha:(id)sender
+{
+    self.alphaView.hidden = YES;
+    [self.alphaView removeFromSuperview];
+    self.alphaView = nil;
+    self.hidden = YES;
+    [self removeFromSuperview];
+    if (self.chickDissMissButton) {
+        self.chickDissMissButton();
+    }
 }
 
 @end
