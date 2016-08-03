@@ -10,11 +10,13 @@
 #import "PhotoCollectionViewCell.h"
 
 
-@interface PostConmmentViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface PostConmmentViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UILabel *changLabel;
 @property (nonatomic, strong) UILabel *placeHold;
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic,strong) UIImagePickerController *imagePickerController;
+
 
 
 
@@ -42,12 +44,22 @@
     [sureButton setTitle:@"发表评论" forState:UIControlStateNormal];
     sureButton.layer.cornerRadius = 5;
 
+    UILabel *linelabel = [[UILabel alloc]initWithFrame:CGRectMake(0, BYSScreenHeight-10-40-10-20, BYSScreenWidth, 20)];
+    linelabel.backgroundColor = TableviewColor;
+
     [self.view addSubview:sureButton];
+    [self.view addSubview:linelabel];
 
 
 
 
 
+}
+- (NSMutableArray *)photoArrayM{
+    if (!_photoArrayM) {
+        _photoArrayM = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _photoArrayM;
 }
 - (UICollectionView *)collectionView
 {
@@ -55,8 +67,8 @@
         //创建一种布局
         UICollectionViewFlowLayout *flowL = [[UICollectionViewFlowLayout alloc]init];
         //设置每一个item的大小
-        flowL.itemSize = CGSizeMake(80,80);
-        flowL.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        flowL.itemSize = CGSizeMake(BYSScreenWidth/4-10-5,80);
+        flowL.sectionInset = UIEdgeInsetsMake(10, 10, 10,10);
         //列
         flowL.minimumInteritemSpacing = 10;
         //行
@@ -117,11 +129,12 @@
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if (_photoArrayM.count == 0) {
+    
+    if (self.photoArrayM.count == 0) {
         return 0+1;
     }
     else{
-        return _photoArrayM.count+1;
+        return self.photoArrayM.count+1;
     }
 }
 
@@ -129,10 +142,122 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     PhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCollectionViewCell" forIndexPath:indexPath];
 
-    cell.photoV.image = [UIImage imageNamed:@"post_photo"];
+    if (indexPath.row == self.photoArrayM.count) {
+        cell.photoV.image = [UIImage imageNamed:@"post_photo"];
+
+    }else
+    {
+        cell.photoV.image = self.photoArrayM[indexPath.row];
+    }
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == self.photoArrayM.count) {
+
+        [self initHeadImageAlertController];
+
+    }
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    UIImage *image=[info objectForKey:UIImagePickerControllerEditedImage];
+    //    [self.btn setImage:image forState:UIControlStateNormal];
+    [self.photoArrayM addObject:image];
+    //选取完图片之后关闭视图
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.collectionView reloadData];
+}
+
+-(void)initHeadImageAlertController
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"相册或照相获取图片" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                   {
+
+                                       [self openCamera];
+
+                                   }];
+
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+
+                                   {
+
+                                       [self openPhotoLibrary];
+
+                                   }];
+
+    UIAlertAction *archiveAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+
+
+    [alertController addAction:cancelAction];
+    [alertController addAction:deleteAction];
+    [alertController addAction:archiveAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+
+
+
+}
+
+- (void) openCamera
+{
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *impick = [[UIImagePickerController alloc]init];
+        impick.delegate = self;
+        impick.allowsEditing = YES;
+        impick.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:impick animated:YES completion:nil];
+    }
+
+
+}
+
+-(void)openPhotoLibrary
+{
+
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+
+        _imagePickerController = [[UIImagePickerController alloc] init];
+
+        _imagePickerController.delegate = self;
+
+        _imagePickerController.allowsEditing = YES;
+
+        _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+
+        [self presentViewController:_imagePickerController animated:YES completion:^{
+
+            NSLog(@"cccc");
+
+        }];
+
+
+
+
+
+    }else
+
+    {
+
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"你摄像头没开启呢！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:action];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+        
+        
+        
+    }
+    
+    
+    
+}
 
 
 - (void)textViewDidChangeSelection:(UITextView *)textView
@@ -155,6 +280,19 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    if (self.photoArrayM.count >3) {
+
+    _collectionView.frame = CGRectMake(0, CGRectGetMaxY(_textView.frame), BYSScreenWidth, 100+80+10);
+        
+
+    }
+    if (self.photoArrayM.count >= 7) {
+        _collectionView.userInteractionEnabled = NO;
+    }
 }
 
 /*

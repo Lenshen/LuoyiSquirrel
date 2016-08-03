@@ -16,7 +16,7 @@
 #import "IntergralViewController.h"
 #import "IntergralShoppingViewController.h"
 #import "HRAdView.h"
-
+#import "YouSoreViewController.h"
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (strong,nonatomic)UITableView *tableView;
@@ -171,11 +171,12 @@
     NSUInteger i = sender.tag;
     SignInViewController *sign = [SignInViewController new];
     sign.hidesBottomBarWhenPushed = YES;
-    InviteViewController *invite = [InviteViewController new];
+    YouSoreViewController *invite = [YouSoreViewController new];
     invite.hidesBottomBarWhenPushed = YES;
 
     IntergralShoppingViewController *inter = [IntergralShoppingViewController new];
     inter.hidesBottomBarWhenPushed = YES;
+
 
 
 

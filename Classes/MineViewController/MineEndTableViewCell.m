@@ -23,7 +23,7 @@
 {
     _firstLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 15, 80, 30)];
 
-    _endLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.contentView.bounds.size.width-30-100, 0, 100, 50)];
+    _endLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth-30, 50)];
     _endLabel.textAlignment = NSTextAlignmentRight;
 
 

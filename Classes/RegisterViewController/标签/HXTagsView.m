@@ -19,7 +19,7 @@
         self.frame = frame;
         self.backgroundColor = [UIColor whiteColor];
 
-        _tagSpace = 49.0;
+        _tagSpace = 20.0;
         _tagHeight = 32.0;
         _tagOriginX = 10.0;
         _tagOriginY = 10.0;

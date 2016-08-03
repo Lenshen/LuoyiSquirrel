@@ -1,0 +1,44 @@
+﻿p {
+    font-size:.5rem;
+    color:#57657a;
+    width:15rem;
+    padding:0 .5rem;
+    min-height:.8rem;
+    overflow:hidden;
+    padding-top:.45rem;
+    padding-bottom:.45rem;
+    line-height:.8rem
+}
+    p span.fl {
+        display:block;
+        width:6rem;
+        height:100%;
+    }
+    p span.fr {
+        display:block;
+        width:9rem;
+        height:100%;
+        text-align:right;
+    }
+section p:nth-child(odd) {
+      background-color:#eeeeee;
+}
+section p:nth-child(even) {
+         background-color:#ffffff
+}
+.odd {
+    background-color:#eeeeee !important;  
+}
+.even {
+          background-color:#ffffff !important
+}
+.block span{
+    width:15rem !important;
+    text-align:left !important
+}
+.block {
+        padding:.5rem !important;
+}
+    .block span:nth-child(1) {
+        padding-bottom:.5rem;
+    }

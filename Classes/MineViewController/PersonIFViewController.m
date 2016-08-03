@@ -152,7 +152,7 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, -64+20, BYSScreenWidth, BYSScreenHeight-64) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,64, BYSScreenWidth, BYSScreenHeight-64) style:UITableViewStylePlain];
         [self.view addSubview:_tableView];
         _tableView.delegate = self;
         _tableView.dataSource = self;

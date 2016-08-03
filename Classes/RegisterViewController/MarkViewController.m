@@ -48,8 +48,12 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
     if (!cell) {
       cell = [[MarkTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:markReuseIdentifier ];
     }
-    cell.titileArray = @[@"kkkk",@"llllll"];
+    cell.titileArray = @[@"冒险岛",@"反恐精英ol",@"魔域",@"诛仙",@"火影ol",@"问道",@"天龙八部",@"枪神纪",@"英魂之刃",@"勇者大冒险",@"nba 2k",@"上古世纪"];
     [cell.tagsView setTagDelegate:self];
+    CGSize size = cell.tagsView.frame.size;
+    CGFloat height = size.height+10+30+10;
+    self.tableView.rowHeight = height;
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
 

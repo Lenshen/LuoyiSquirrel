@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>商品详情</title>
+    <link href="/css/common.css" rel="stylesheet" />
+    <link href="/css/layout.css" rel="stylesheet" />
+    <link href="/css/assessDetail.css" rel="stylesheet" />
+    <link href="/css/swiper-3.2.7.min.css" rel="stylesheet" />
+    <script src="/js/autoWindow.js"></script>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/swiper-3.2.7.min.js"></script>
+    <script src="/js/common.js"></script>
+</head>
+<body class="container">
+
+    <section>
+        <div class="assess">
+            <div class="userInfo">
+                <img class="fl" src="/img/mine-bg.jpg" />
+                <div class="fr">
+                    <p class="name">昵称：zyx2333</p>
+                    <p class="time">2016-03-05</p>
+                </div>
+            </div>
+
+            <p class="assessContent">
+                哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……
+            </p>
+
+            <div class="imgWrap">
+                <img src="/img/mine-bg.jpg" />
+                <img src="/img/mine-bg.jpg" />
+                <img src="/img/mine-bg.jpg" />
+                <img src="/img/mine-bg.jpg" />
+            </div>
+
+            <ul class="assessList">
+                <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见你好，谢谢你的宝贵意见谢谢你的宝贵意见你好，谢谢你的宝贵意见谢谢你的宝贵意见你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
+                <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
+                <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
+                <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
+            </ul>
+        </div>
+
+    </section>
+
+    <div class="addAssess">
+        <input type="text" placeholder="回复"/>
+        <input type="button" value="发送"/>
+    </div>
+</body>
+<script>
+    $(function () {
+        $('.assess .imgWrap').on('click', 'img', function () {
+            var index = $(this).index();
+            var imgArray = [];
+            var img = $(this).parent().children('img');
+            img.each(function () {
+                imgArray.push($(this).prop('src'));
+            });
+            seeBigImg(imgArray, index);
+        });
+    })
+</script>
+</html>

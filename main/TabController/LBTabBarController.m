@@ -30,6 +30,9 @@
 #import "MarkViewController.h"
 
 #import "PostConmmentViewController.h"
+#import "ContentViewController.h"
+
+
 
 
 @interface LBTabBarController ()<LBTabBarDelegate>
@@ -78,7 +81,7 @@
 {
 
 
-    HomeViewController *HomeVC = [[HomeViewController alloc] init];
+    ContentViewController *HomeVC = [[ContentViewController alloc] init];
     [self setUpOneChildVcWithVc:HomeVC Image:@"tabbar_home" selectedImage:@"tabbar_home_selected" title:@"首页"];
 
     GoodsViewController *FishVC = [[GoodsViewController alloc] init];

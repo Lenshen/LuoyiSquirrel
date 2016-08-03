@@ -1,0 +1,115 @@
+﻿
+.assess {
+    overflow:hidden;
+    width:15rem;
+    padding:0 .5rem;
+}
+    .assess .userInfo {
+        padding:.75rem 0;
+        overflow:hidden;
+    }
+        .assess .userInfo img {
+            width:1.875rem;
+            height:1.875rem;
+            margin-right:.75rem;
+            border-radius:50%;
+        }
+        .assess .userInfo .fr {
+            text-align:left;
+            width:12rem;
+        }
+            .assess .userInfo .fr .name {
+                font-size:.6rem;
+                color:#272636;
+                height:.9375rem;
+                  line-height:.9375rem;
+            }
+             .assess .userInfo .fr .time {
+                font-size:.45rem;
+                color:#999;
+                 height:.9375rem;
+                 line-height:.9375rem;
+            }
+    .assess .assessContent {
+        font-size:.5rem;
+        color:#272636;
+        line-height:.8rem;
+    }
+.imgWrap {
+    height:3.375rem;
+    width:15rem;
+    overflow:hidden;
+    margin:.75rem 0;
+}
+.imgWrap img{
+    width:3.375rem;
+    height:3.375rem;
+    display:block;
+    float:left;
+    margin-right:.5rem;
+    cursor:pointer;
+}
+    .imgWrap img:nth-child(4) {
+        margin-right:0;
+    }
+.assessList {
+    overflow:hidden;
+    background-color:#f3f3f3;
+    padding-bottom:.625rem;
+}
+.assessList li{
+    overflow:hidden;
+    width:14rem;
+    margin:0 auto;
+    min-height:1rem;
+    border-bottom:1px solid #fff;
+    padding:.5rem 0;
+    line-height:1rem;
+}
+    .assessList li span{
+        display:block;
+        float:left;
+        font-size:.55rem;
+        color:#5d699e;
+    }
+        .assessList li  p {
+            color:#272636;
+            font-size:.55rem;
+        }
+.addAssess {
+    position:fixed;
+    bottom:0;
+    width:15rem;
+    padding:0 .5rem;
+    height:2.5rem;
+    background-color:#fff;
+    z-index:9;
+    border-top:.05rem solid #eee;
+    margin:0 auto;
+}
+    .addAssess input[type=text] {
+        width:11.75rem;
+        float:left;
+        height:1.25rem;
+        line-height:1.25rem;
+        color:#cccccc;
+        font-size:.55rem;
+        text-indent:.5rem;
+        border:.05rem solid #52c746;
+        border-radius:.1rem;
+        margin-top:.625rem;
+    }
+    .addAssess input[type=button] {
+        width:2.75rem;
+        float:right;
+        height:1.25rem;
+        line-height:1.25rem;
+        color:#fff;
+        font-size:.55rem;
+        text-align:center;
+        background-color:#52c746;
+        border-radius:.1rem;
+        margin-top:.625rem;
+        border:none;
+        cursor:pointer;
+    } 

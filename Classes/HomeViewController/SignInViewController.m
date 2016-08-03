@@ -137,7 +137,6 @@
             weakSelf.alertView = nil;
         };
         [_alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
-        _alertView.rightButton.backgroundColor = [UIColor clearColor];
 
     }
     return _alertView;

@@ -11,6 +11,7 @@
 #import "BYSAlertView.h"
 #import "IntergralSViewController.h"
 #import "PostConmmentViewController.h"
+#import "GoodsDetialViewController.h"
 @interface IntergralShoppingViewController()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) UIView *alphaView;
@@ -132,7 +133,11 @@
 
     return cell;
 }
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    GoodsDetialViewController *gooddetail = [[GoodsDetialViewController alloc]init];
+    [self.navigationController pushViewController:gooddetail animated:YES];
+}
 - (void)convert:(UIButton *)sender
 {
     NSLog(@"666666");

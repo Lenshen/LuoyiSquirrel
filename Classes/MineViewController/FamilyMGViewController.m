@@ -47,7 +47,7 @@
         flowLayout.minimumInteritemSpacing = 0;
         flowLayout.itemSize = CGSizeMake((BYSScreenWidth-20-20)/3, 150);
         
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, 20, BYSScreenWidth-20-20, BYSScreenHeight-64-20) collectionViewLayout:flowLayout];
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(20, 20+64, BYSScreenWidth-20-20, BYSScreenHeight-64-20) collectionViewLayout:flowLayout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.backgroundColor = [UIColor whiteColor];

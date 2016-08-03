@@ -17,6 +17,7 @@
 @property (strong,nonatomic)UIView *exitView;
 
 
+
 @end
 
 @implementation SettingViewController
@@ -63,7 +64,7 @@
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,10, BYSScreenWidth, rowheight*self.labelArray.count) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,10+64, BYSScreenWidth, rowheight*self.labelArray.count) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [self.view addSubview:_tableView];

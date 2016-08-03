@@ -26,7 +26,7 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
     // Do any additional setup after loading the view.
     self.view.backgroundColor =[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.title = @"商品列表";
+//    self.title = @"商品列表";
     [self.view addSubview:self.tableView];
 
 

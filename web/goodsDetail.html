@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>商品详情</title>
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="css/layout.css" rel="stylesheet" />
+    <link href="css/goodsDetail.css" rel="stylesheet" />
+    <link href="css/swiper-3.2.7.min.css" rel="stylesheet" />
+    <script src="js/autoWindow.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/swiper-3.2.7.min.js"></script>
+</head>
+<body class="container">
+   <div class="swiper-container goodsBanner">
+       <div class="shareGoods"><img src="img/icon/share.png"/></div>
+       <ul class="swiper-wrapper"> 
+           <li class="swiper-slide"><a href="javascript:;"><img src="img/mine-bg.jpg"/></a></li>
+           <li class="swiper-slide"><a href="javascript:;"><img src="img/mine-bg.jpg"/></a></li>
+           <li class="swiper-slide"><a href="javascript:;"><img src="img/mine-bg.jpg"/></a></li>
+           <li class="swiper-slide"><a href="javascript:;"><img src="img/mine-bg.jpg"/></a></li>
+       </ul>
+       <div class="swiper-pagination"></div>
+   </div>
+
+    <section>
+        <div class="goodsTitle">
+            <div class="name fl">
+                <p>
+                    <a href="javascript:;"><span>王老吉</span>&nbsp;&nbsp;<span>凉茶植物饮料</span></a>
+                    <span class="tag">植物饮料</span>
+                </p>
+                <p>宜冷藏不宜冷冻，少量沉淀为植物成分，请放心使用。</p>
+                <p><span>参考价格：</span>￥<span>3.5</span></p>
+            </div>
+            <div class="goodsScore fr">
+                <div class="mark">
+                    75
+                </div>
+            </div>
+        </div>
+
+
+        <ul class="goodsSpec">
+            <li>
+                <span>净</span>
+                <span>500ml</span>
+            </li>
+             <li>
+                <span>净</span>
+                <span>500ml</span>
+            </li>
+             <li>
+                <span>净</span>
+                <span>500ml</span>
+            </li>
+             <li>
+                <span>净</span>
+                <span>500ml</span>
+            </li>
+             <li>
+                <span>净</span>
+                <span>500ml</span>
+            </li>
+             <li>
+                <span>食</span>
+                <span>即饮</span>
+            </li>
+             <li>
+                <span>储</span>
+                <span>阴凉干燥洁净处，避免阳光直射</span>
+            </li>
+        </ul>
+
+
+        <div class="constituent">
+            <p class="title"><span class="fl">营养成分表</span><span class="fr">（每100g或100mL）</span></p>
+            <p class="one">
+                <span class="name">能量</span>
+                <span class="line"></span>
+                <span class="num">141kj</span>
+            </p> 
+             <p class="one">
+                <span class="name">碳水化合物</span>
+                <span class="line"></span>
+                <span class="num">8.3g</span>
+            </p>  
+            <p class="seeMore">  
+            <a href="javascript:;">查看更多</a>    
+            </p>
+        </div>
+
+
+
+        
+       <div class="mixture">
+           <p class="title">配料</p>
+           <div class="list">
+               <span>水</span>
+               <span>小麦粉</span>
+               <span>仙草</span>
+               <span>鸡蛋花</span>
+               <span>布渣叶</span>
+               <span>菊花</span>
+               <span>金银花</span>
+               <span>夏枯草</span>
+               <span>甘草</span>
+           </div>
+       </div>
+
+
+        <p class="sensiMsg">致敏提示</p>
+        <p class="sensitization">麦麸质的谷物及其制品、乳及乳制品</p>
+
+
+        <div class="vender">
+            <span class="fl">厂家信息</span>
+            <span class="fr">></span>
+        </div>
+
+        
+        <div class="assessTitle">
+            <span class="fl">用户评价<span class="num">(105)</span></span>
+            <span class="fr">></span>
+        </div>
+
+        <div class="assess">
+            <div class="userInfo">
+                <img class="fl" src="img/mine-bg.jpg"/>
+                <div class="fr">
+                    <p class="name">昵称：zyx2333</p>
+                    <p class="time">2016-03-05</p>
+                </div>
+            </div>
+
+            <p class="assessContent">
+                哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……
+            </p>
+
+             <p class="seeMore">  
+                 <a href="javascript:;">查看更多</a>    
+            </p>
+        </div>
+
+        <button class="grade">为我打分</button>
+        <button class="errors">数据有误，我要报错</button>
+
+    </section>
+   
+</body>
+    <script>
+        var mySwiper = new Swiper(".swiper-container", {
+            loop: true,
+            preloadImages: false,
+            grabCursor: true,
+            paginationClickable: true,
+            autoplay: 3000,
+            speed: 1000,
+            pagination: '.swiper-pagination',
+        });
+
+        $(function () {
+            window.onload = function () {
+                var $wrap = $('.constituent').find('p.one');
+                var $line = $wrap.find("span.line");
+
+                $line.each(function () {
+                    var $parent = $(this).parent(".one");
+                    var $name = $(this).siblings(".name");
+                    var $num = $(this).siblings(".num");
+                    $(this).width($parent.width() - $name.outerWidth() - parseInt($num.outerWidth()+15));
+                });
+            }
+        })
+    </script>
+</html>
+ 
