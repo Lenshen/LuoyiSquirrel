@@ -79,13 +79,10 @@
             _button.selected = self.select;
             [_button setBackgroundImage: newImage forState:UIControlStateSelected];
             [_button.imageView setContentMode:UIViewContentModeScaleAspectFill];
-            
 
 
-            if (self.select) {
-                _button.layer.borderColor = [UIColor clearColor].CGColor;
 
-            }
+          
 
             _button.tag = i*iTags.count+j;
             [_button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -194,8 +191,18 @@
 }
 
 - (void)buttonAction:(UIButton *)sender {
+
+
     if (_tagDelegate && [_tagDelegate respondsToSelector:@selector(tagsViewButtonAction:button:)]) {
         [_tagDelegate tagsViewButtonAction:self button:sender];
+    }
+    if (sender.selected) {
+        sender.layer.borderColor = NavigationColor.CGColor;
+
+    }else
+    {
+        sender.layer.borderColor = RGB(194, 195, 196).CGColor;
+
     }
 }
 

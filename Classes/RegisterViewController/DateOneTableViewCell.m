@@ -23,18 +23,25 @@
 {
     _liftLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 100, 21)];
 
-    _liftLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 100, 21)];
+    _minTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, BYSScreenWidth-30, 21)];
+    _minTF.textAlignment = NSTextAlignmentCenter;
+    _minTF.placeholder = @"选填";
+    _minTF.font = [UIFont systemFontOfSize:13];
 
     _rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _rightButton.frame = CGRectMake(BYSScreenHeight-10-20, 10, 20, 20);
+    _rightButton.frame = CGRectMake(BYSScreenWidth-10-20, 10, 20, 20);
 
 
 
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, self.contentView.frame.size.height-0.5, BYSScreenWidth-10-10, 0.5)];
+    lineLabel.backgroundColor = RGB(194, 195, 196);
 
 
 
     [self.contentView addSubview:_liftLabel];
     [self.contentView addSubview:_rightButton];
+    [self.contentView addSubview:_minTF];
+    [self.contentView addSubview:lineLabel];
 
 }
 

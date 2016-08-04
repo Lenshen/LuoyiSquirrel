@@ -17,6 +17,7 @@
 #import "IntergralShoppingViewController.h"
 #import "HRAdView.h"
 #import "YouSoreViewController.h"
+#import "PersonIFViewController.h"
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (strong,nonatomic)UITableView *tableView;
@@ -38,6 +39,54 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;
+
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    if (![USER_DEFAULT boolForKey:@"hasSubmit"]) {
+
+        [self showAlert];
+        [USER_DEFAULT setBool:YES forKey:@"hasSubmit"];
+
+
+    }
+
+
+
+}
+
+- (void)showAlert
+{
+    NSString *title = [NSString stringWithFormat:@"温馨提示"];
+    NSString *msg = @"是否立即添加健康信息？";
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:title
+                                                                    message:msg
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+    // titile字号处理
+    NSMutableAttributedString *hogan = [[NSMutableAttributedString alloc] initWithString:title];
+    [hogan addAttribute:NSFontAttributeName
+                  value:[UIFont systemFontOfSize:20.0]
+                  range:NSMakeRange(0, title.length)];
+    [alert setValue:hogan forKey:@"attributedTitle"];
+    //
+
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"添加" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        PersonIFViewController *date = [PersonIFViewController new];
+        date.hidesBottomBarWhenPushed = YES
+        ;
+        [self.navigationController pushViewController:date animated:YES];
+    }];
+    [alert addAction:sureAction];
+
+
+    alert.view.tintColor = NavigationColor;
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"跳过"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+    [alert addAction:cancelAction];
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)viewDidLoad {
@@ -203,6 +252,7 @@
 {
     _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, BYSScreenWidth, 180) delegate:self placeholderImage:nil];
     _cycleScrollView.showPageControl = YES;
+    _cycleScrollView.pageHight = 10;
 
     _cycleScrollView.imageURLStringsGroup = self.netImages;
     _cycleScrollView.autoScrollTimeInterval = 2.0;

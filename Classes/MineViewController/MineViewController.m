@@ -14,6 +14,7 @@
 #import "UIScrollView+ScalableCover.h"
 #import "MyIntergralViewController.h"
 #import "FamilyMGViewController.h"
+#import "DateWriteOneViewController.h"
 
 #define rowheight 44
 static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
@@ -184,6 +185,9 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
     myintergral.hidesBottomBarWhenPushed = YES;
     FamilyMGViewController *family = [FamilyMGViewController new];
     family.hidesBottomBarWhenPushed = YES;
+    DateWriteOneViewController *date = [DateWriteOneViewController new];
+    date.hidesBottomBarWhenPushed = YES;
+
 
 
 
@@ -194,6 +198,9 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
             
             [self.navigationController pushViewController:family animated:YES];
 
+            break;
+        case 2:
+            [self.navigationController pushViewController:date animated:YES];
             break;
         case 3:
             [self.navigationController pushViewController:myintergral animated:YES];

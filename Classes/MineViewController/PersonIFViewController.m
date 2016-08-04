@@ -9,6 +9,7 @@
 #import "PersonIFViewController.h"
 #import "UIView+Extension.h"
 #import "MineEndTableViewCell.h"
+#import "MarkViewController.h"
 
 static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
@@ -93,10 +94,23 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
     self.monthArray = [NSMutableArray array];
     self.dayArray = [NSMutableArray array];
 
+    UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    sureButton.frame = CGRectMake(10,BYSScreenHeight-30-10,BYSScreenWidth-10-10, 30);
+    sureButton.backgroundColor = NavigationColor;
+    [sureButton setTitle:@"下一步" forState:UIControlStateNormal];
+    sureButton.layer.cornerRadius = 5;
+    [sureButton addTarget:self action:@selector(push:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:sureButton];
 
 
 
 
+
+}
+- (void)push:(UIButton *)sender
+{
+    MarkViewController *date = [MarkViewController new];
+    [self.navigationController pushViewController:date animated:YES];
 }
 - (NSArray *)titleArray
 {
@@ -110,10 +124,10 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
 - (UIView *)tableHeadView{
     if (!_tableHeadView) {
-        _tableHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,BYSScreenWidth, 180)];
+        _tableHeadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,BYSScreenWidth, 130)];
 
         _headImageButton = [[UIButton alloc]init];
-        _headImageButton.frame = CGRectMake(BYSScreenWidth/2-40, 74, 80, 80);
+        _headImageButton.frame = CGRectMake(BYSScreenWidth/2-40, 24, 80, 80);
         _headImageButton.layer.borderWidth = 3.0;
         _headImageButton.layer.borderColor = [UIColor colorWithRed:46/255.0 green:205/255.0 blue:143/255.0 alpha:1.0].CGColor;
         _headImageButton.layer.cornerRadius = 40;
@@ -147,6 +161,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 {
     [self initHeadImageAlertController];
 }
+
+
 
 
 - (UITableView *)tableView

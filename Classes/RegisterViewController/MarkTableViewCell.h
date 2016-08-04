@@ -12,7 +12,10 @@
 
 @interface MarkTableViewCell : UITableViewCell
 @property (nonatomic,strong) HXTagsView *tagsView;
-@property (nonatomic,strong) NSArray *titileArray;
+@property (nonatomic,strong) NSString *title;
+@property (nonatomic,strong) NSArray *markArray;
+@property (nonatomic,strong) UILabel *titleLabel;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withArray:(NSArray *)titleArray;
 

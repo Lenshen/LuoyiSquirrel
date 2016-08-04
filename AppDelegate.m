@@ -27,7 +27,7 @@
 #import "LoginViewController.h"
 
 
-#import "MarkViewController.h"
+#import "HomeViewController.h"
 
 
 
@@ -43,13 +43,24 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = [MarkViewController new];
+
 
     [self.window makeKeyAndVisible];
 
+    if (![USER_DEFAULT boolForKey:@"hasSubmit"]) {
+
+
+        self.window.rootViewController = [LoginViewController new];
+        
+    }else
+    {
+            LBTabBarController *tabbarVc = [[LBTabBarController alloc]init];
+            self.window.rootViewController = tabbarVc;
+    }
+
+
     //设置窗体的根控制器为自定义的标签栏控制器
-//    LBTabBarController *tabbarVc = [[LBTabBarController alloc]init];
-//    self.window.rootViewController = tabbarVc;
+
 
 
     [ShareSDK registerApp:@"iosv1101"

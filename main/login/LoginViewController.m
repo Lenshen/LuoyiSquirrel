@@ -8,7 +8,9 @@
 
 #import "LoginViewController.h"
 #import "SDCycleScrollView.h"
+#import "LBTabBarController.h"
 #import "LoginView.h"
+#import "AppDelegate.h"
 
 
 @interface LoginViewController ()<SDCycleScrollViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
@@ -66,8 +68,19 @@
 {
     if (!_loginView) {
         _loginView = [[LoginView alloc]initWithFrame:CGRectMake(30, -500, BYSScreenWidth-30*2, 390)];
+        [_loginView.openSquirrelButton addTarget:self action:@selector(goTabbar:) forControlEvents:UIControlEventTouchUpInside];
+
     }
     return _loginView;
+}
+- (void)goTabbar:(UIButton *)sender
+{
+    
+    LBTabBarController *tabbarVc = [[LBTabBarController alloc]init];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate.window.rootViewController = tabbarVc;
+
+
 }
 - (void)openSquirrel:(UIButton *)sender
 {
@@ -79,8 +92,10 @@
     _effectview.frame = self.view.frame;
     _effectview.alpha = 0;
 
+
     [self.cycleScrollView.cell.imageView addSubview:_effectview];
     _cycleScrollView.userInteractionEnabled = NO;
+    _cycleScrollView.pageHight = 100;
     _closeSquirrelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _closeSquirrelButton.frame = CGRectMake(BYSScreenWidth-10-25,20+10,20, 20);
     [_closeSquirrelButton setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];

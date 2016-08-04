@@ -12,6 +12,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 @property (nonatomic, strong)UILabel *liftLabel;
-@property (nonatomic, strong)UILabel *minLabel;
+@property (nonatomic, strong)UITextField *minTF;
 @property (nonatomic, strong)UIButton *rightButton;
 @end

@@ -106,7 +106,6 @@
 
         [_alphaView addGestureRecognizer:tap];
 
-        
     }
     return _alphaView;
 }
