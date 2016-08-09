@@ -7,6 +7,11 @@
 //
 
 #import "MyIntergralViewController.h"
+#import "IntergralShoppingViewController.h"
+#import "SignInViewController.h"
+#import "InviteViewController.h"
+#import "DateWriteOneViewController.h"
+#import "PersonIFViewController.h"
 #define rowheight 50
 
 
@@ -24,6 +29,7 @@
 @property (nonatomic, strong)UILabel *todayLabel;
 @property (nonatomic, strong)UILabel *todayMinLabel;
 @property (nonatomic, strong)UILabel *titleLabel;
+
 
 
 
@@ -57,17 +63,16 @@
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(BYSScreenWidth/2-50, 40, 100, 20)];
         _titleLabel.text = @"我的积分";
         _titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20];
-;
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.backgroundColor =[UIColor clearColor];
 
         _blackButton = [[UIButton alloc]init];
-        _blackButton.frame = CGRectMake(10, 40, 15, 25);
+        _blackButton.frame = CGRectMake(10, 40, 25, 25);
 
         _blackButton.contentMode = UIViewContentModeScaleAspectFit;
         [_blackButton addTarget:self action:@selector(black:) forControlEvents:UIControlEventTouchUpInside];
-        [_blackButton setBackgroundImage:[UIImage imageNamed:@"black_writer"] forState:UIControlStateNormal];
+        [_blackButton setImage:[UIImage imageNamed:@"black_writer"] forState:UIControlStateNormal];
         
 
 
@@ -208,7 +213,8 @@
 }
 - (void)signButtonChick:(id)sender
 {
-    NSLog(@"77777");
+   [self.navigationController pushViewController:[SignInViewController new] animated:YES];
+
 }
 - (void)black:(id)sender
 {
@@ -269,11 +275,43 @@
     
     
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger index = indexPath.row;
+    IntergralShoppingViewController *inter = [IntergralShoppingViewController new];
+    inter.hidesBottomBarWhenPushed = YES;
+
+    switch (index) {
+        case 0:
+            [self.navigationController pushViewController:inter animated:YES];
+
+            break;
+            case 1:
+
+            [self.navigationController pushViewController:[InviteViewController new] animated:YES];
+            break;
+            case 2:
+            [self.navigationController pushViewController:[DateWriteOneViewController new] animated:YES];
+            break;
+            case 3:
+            [self.navigationController pushViewController:[PersonIFViewController new] animated:YES];
+            break;
+
+        default:
+            break;
+    }
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;
 }
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    self.navigationController.navigationBarHidden = NO;
 
+}
 /*
 #pragma mark - Navigation
 

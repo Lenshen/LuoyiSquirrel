@@ -14,7 +14,7 @@
 </head>
 <body class="container">
    <div class="swiper-container goodsBanner">
-       <div class="shareGoods"><img src="img/icon/share.png"/></div>
+       <button type="button" class="shareGoods" onclick="share()"><img src="img/icon/share.png"/></button>
        <ul class="swiper-wrapper"> 
            <li class="swiper-slide"><a href="javascript:;"><img src="img/mine-bg.jpg"/></a></li>
            <li class="swiper-slide"><a href="javascript:;"><img src="img/mine-bg.jpg"/></a></li>
@@ -87,7 +87,7 @@
                 <span class="num">8.3g</span>
             </p>  
             <p class="seeMore">  
-            <a href="javascript:;">查看更多</a>    
+            <a href="javascript:;" onclick="ingredientsList()">查看更多</a>    
             </p>
         </div>
 
@@ -114,16 +114,16 @@
         <p class="sensitization">麦麸质的谷物及其制品、乳及乳制品</p>
 
 
-        <div class="vender">
+        <button type="button" class="vender" onclick="manufacInfor()">
             <span class="fl">厂家信息</span>
             <span class="fr">></span>
-        </div>
+        </button>
 
         
-        <div class="assessTitle">
+        <button type="button" onclick="userEvaluate()" class="assessTitle">
             <span class="fl">用户评价<span class="num">(105)</span></span>
             <span class="fr">></span>
-        </div>
+        </button>
 
         <div class="assess">
             <div class="userInfo">
@@ -134,22 +134,30 @@
                 </div>
             </div>
 
-            <p class="assessContent">
+            <a class="assessContent" href="javascript:;" onclick="assessDetail()" >
                 哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……
-            </p>
+            </a>
 
              <p class="seeMore">  
-                 <a href="javascript:;">查看更多</a>    
+                 <a href="javascript:;" onclick="evaluateSeeMore()">查看更多</a>    
             </p>
         </div>
 
-        <button class="grade">为我打分</button>
-        <button class="errors">数据有误，我要报错</button>
+        <button class="grade" type="button" onclick="grade()">为我打分</button>
+        <button class="errors" type="button" onclick="errors()">数据有误，我要报错</button>
 
     </section>
    
 </body>
     <script>
+        function share(){};//分享
+        function ingredientsList(){};//营养成分表
+        function manufacInfor(){};//厂家信息
+        function userEvaluate(){};//用户评价
+        function evaluateSeeMore(){};//查看更多评价
+        function grade(){};//为我打分
+        function errors(){};//报错
+        function assessDetail(){}//跳转评论详情页
         var mySwiper = new Swiper(".swiper-container", {
             loop: true,
             preloadImages: false,

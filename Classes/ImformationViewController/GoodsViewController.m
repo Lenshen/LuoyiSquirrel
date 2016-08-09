@@ -7,6 +7,8 @@
 
 #import "GoodsViewController.h"
 #import "GoodsListTableCell.h"
+#import "GetScoreView.h"
+
 static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdntifier";
 #define rowhight 100
 
@@ -15,6 +17,9 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
 @interface GoodsViewController()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong)UITableView *tableView;
+@property (nonatomic, strong) GetScoreView *scoreVIiew;
+@property (nonatomic, strong) UIView *aplaView;
+
 
 
 
@@ -28,8 +33,27 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    self.title = @"商品列表";
     [self.view addSubview:self.tableView];
+    
+    [self getScore];
 
 
+
+}
+- (void)getScore
+{
+    self.aplaView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, BYSScreenHeight)];
+    self.aplaView.backgroundColor = [UIColor blackColor];
+    self.aplaView.alpha = 0.4;
+    [self.view addSubview:self.aplaView];
+    self.aplaView.hidden = YES;
+
+    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dissmiss:)];
+    [self.aplaView addGestureRecognizer:tap];
+
+    _scoreVIiew = [[GetScoreView alloc]initWithFrame:CGRectMake(0, BYSScreenHeight/2.5, BYSScreenWidth, BYSScreenHeight)];
+    [self.view addSubview:_scoreVIiew];
+    _scoreVIiew.backgroundColor = [UIColor whiteColor];
+    _scoreVIiew.hidden = YES;
 }
 - (UITableView *)tableView
 {
@@ -86,8 +110,20 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
     cell.labelCell.text = @"王老吉";
     cell.scoreLabel.attributedText = abs;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell.scoreButton addTarget:self action:@selector(getScore:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
     
+}
+
+- (void)getScore:(UIButton *)sender
+{
+    self.aplaView.hidden = NO;
+    self.scoreVIiew.hidden = NO;
+}
+- (void)dissmiss:(UIButton *)sender
+{
+    self.aplaView.hidden = YES;
+    self.scoreVIiew.hidden = YES;
 }
 
 - (UIColor *)scoreColor:(NSInteger)score

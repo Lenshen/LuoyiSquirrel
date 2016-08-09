@@ -22,13 +22,14 @@
         right:.75rem;
         background-color:rgba(255,255,255,.8);
         z-index:3;
-        border-radius:50%;  
+        border-radius:50%; 
+        border: none
     }
         .goodsBanner .shareGoods img {
               height:.8rem;
               width:.8rem;
               display:block;
-              margin:0.2875rem auto 0;
+              margin:0 auto;
               cursor:pointer;
               padding-right:.1rem
         }
@@ -200,7 +201,7 @@ p.sensitization {
             padding:0 .5rem;
 }
 .vender {
-    width:15rem;
+    width:16rem;
     padding:0 .5rem ;
     background-color:#eeeeee;
     color:#1a1a1a;
@@ -208,18 +209,23 @@ p.sensitization {
     height:1.5rem;
     line-height:1.5rem;
     cursor:pointer;
+    display: block;
+    border: none
 }
 
 .assessTitle {
-    width:15rem;
+    width:16rem;
     padding:0 .5rem ;
     color:#1a1a1a;
     font-size:.6rem;
     height:2rem;
     line-height:2rem;
     border-bottom:1px solid #eee;
+        background-color:#eeeeee;
     margin-top:.3rem;
     cursor:pointer;
+        display: block;
+    border: none
 }
     .assessTitle .fl span.num {
         font-size:.45rem;

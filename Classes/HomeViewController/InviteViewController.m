@@ -11,6 +11,8 @@
 @interface InviteViewController()
 @property (nonatomic,strong) UIImageView *imageView;
 
+@property (nonatomic,strong) UITextField *inviteCodeTF;
+
 
 @end
 
@@ -26,7 +28,25 @@
 
 
 
+    self.inviteCodeTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 20+64, BYSScreenWidth-90-10-10, 40)];
+    self.inviteCodeTF.placeholder = @"  请输入邀请码";
+    self.inviteCodeTF.layer.borderColor = RGB(246, 198, 121).CGColor;
+    self.inviteCodeTF.layer.borderWidth = 1;
+    self.inviteCodeTF.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.inviteCodeTF];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(CGRectGetMaxX(self.inviteCodeTF.frame)+10, 20+64, 80, 40);
+    button.backgroundColor = NavigationColor;
+    [button setTitle:@"兑换" forState:UIControlStateNormal];
+    button.layer.cornerRadius = 5;
+    button.layer.masksToBounds = YES;
+    [self.view addSubview:button];
+
+
+
 }
+
 - (UIImageView *)imageView
 {
     if (!_imageView) {

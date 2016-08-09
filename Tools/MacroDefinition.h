@@ -92,6 +92,9 @@
 
 #define TableviewColor  [UIColor colorWithRed:240/255.0 green:242/255.0 blue:242/255.0 alpha:1.0]
 
+#define RANDOMCOLOR [UIColor colorWithRed:random()%255/255.0 green:random()%255/255.0 blue:random()%255/255.0 alpha:1];
+
+
 
 
 

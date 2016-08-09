@@ -1,8 +1,9 @@
-﻿
+
 .assess {
     overflow:hidden;
     width:15rem;
-    padding:0 .5rem;
+    padding:0 .5rem 1.25rem;
+    border-bottom: 1px solid #ddd;
 }
     .assess .userInfo {
         padding:.75rem 0;
@@ -76,6 +77,15 @@
             color:#272636;
             font-size:.55rem;
         }
+        .assess .click_more{
+            color: #999999;
+            font-size: .45rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        .assess .click_more a{
+            color: #999999;
+        }
 .addAssess {
     position:fixed;
     bottom:0;
@@ -100,7 +110,7 @@
         margin-top:.625rem;
     }
     .addAssess input[type=button] {
-        width:2.75rem;
+        width:15rem;
         float:right;
         height:1.25rem;
         line-height:1.25rem;
@@ -108,9 +118,9 @@
         font-size:.55rem;
         text-align:center;
         background-color:#52c746;
-        border-radius:.1rem;
         -webkit-appearance:none;
         outline:none;
+        border-radius:.1rem;
         margin-top:.625rem;
         border:none;
         cursor:pointer;

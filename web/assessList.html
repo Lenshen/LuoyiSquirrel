@@ -1,12 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>商品详情</title>
+    <title>评论列表</title>
     <link href="css/common.css" rel="stylesheet" />
     <link href="css/layout.css" rel="stylesheet" />
-    <link href="css/assessDetail.css" rel="stylesheet" />
+    <link href="css/assessList.css" rel="stylesheet" />
     <link href="css/swiper-3.2.7.min.css" rel="stylesheet" />
     <script src="js/autoWindow.js"></script>
     <script src="js/jquery-1.10.2.min.js"></script>
@@ -40,19 +40,47 @@
                 <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见你好，谢谢你的宝贵意见谢谢你的宝贵意见你好，谢谢你的宝贵意见谢谢你的宝贵意见你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
                 <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
                 <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
-                <li><span>A123455：</span><p>你好，谢谢你的宝贵意见谢谢你的宝贵意见</p></li>
+                <li class="click_more"><a href="assessDetail.html" onclick="clickMore()">点击加载更多...</a></li>
             </ul>
         </div>
+        
+        <div class="assess">
+            <div class="userInfo">
+                <img class="fl" src="img/mine-bg.jpg" />
+                <div class="fr">
+                    <p class="name">昵称：zyx2333</p>
+                    <p class="time">2016-03-05</p>
+                </div>
+            </div>
 
+            <p class="assessContent">
+                哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……
+            </p>
+        </div>
+
+         <div class="assess">
+            <div class="userInfo">
+                <img class="fl" src="img/mine-bg.jpg" />
+                <div class="fr">
+                    <p class="name">昵称：zyx2333</p>
+                    <p class="time">2016-03-05</p>
+                </div>
+            </div>
+
+            <p class="assessContent">
+                哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……哇，这东西很好啊！！！没见过这么好的……
+            </p>
+        </div>
     </section>
 
     <div class="addAssess">
-        <input type="text" placeholder="回复"/>
-        <input type="button" value="发送"/>
-        
+        <input type="button"  onclick="goAssess()" value="我要评论"/>
     </div>
 </body>
 <script>
+    function goAssess(){}//我要评论
+    function clickMore(){}//加载更多
+
     $(function () {
         $('.assess .imgWrap').on('click', 'img', function () {
             var index = $(this).index();

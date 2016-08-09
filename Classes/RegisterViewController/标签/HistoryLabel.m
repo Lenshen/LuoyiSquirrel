@@ -14,7 +14,6 @@
 #define BOTTOM_MARGIN       10.0f
 
 //random color
-#define RANDOMCOLOR [UIColor colorWithRed:random()%255/255.0 green:random()%255/255.0 blue:random()%255/255.0 alpha:1];
 @interface HistoryLabel()
 {
     UIButton *_button;

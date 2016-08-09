@@ -29,9 +29,16 @@
 @end
 
 @implementation SearchViewController
+
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = YES;
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:YES];
+    self.navigationController.navigationBarHidden = NO;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -74,9 +81,9 @@
 {
     if (!_headView) {
         _headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 64)];
-        _headView.backgroundColor = [UIColor redColor];
+        _headView.backgroundColor = NavigationColor;
         _headButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _headButton.frame = CGRectMake(10, 19+4, BYSScreenWidth-10-10, 35);
+        _headButton.frame = CGRectMake(10, 19+4, BYSScreenWidth-10-10, 30);
         _headButton.backgroundColor = [UIColor redColor];
         [_headButton addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
         [_headButton setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
@@ -136,7 +143,7 @@
 - (void)test:(id)sender
 {
     self.headView.frame = CGRectMake(0, 0, BYSScreenWidth, 60);
-    _headView.backgroundColor = [UIColor redColor];
+    _headView.backgroundColor = NavigationColor;
 
     self.headButton.hidden = YES;
     self.tableView.tableHeaderView = self.searchController.searchBar;
@@ -206,8 +213,9 @@
     NSLog(@"willDismissSearchController");
 
     self.headView.frame = CGRectMake(0, 0, BYSScreenWidth, 64);
-    self.headView.backgroundColor = [UIColor redColor];
+    self.headView.backgroundColor = NavigationColor;
     self.headButton.hidden = NO ;
+    [self.navigationController popToRootViewControllerAnimated:YES];
 
 
 
@@ -245,7 +253,7 @@
 - (void)setSearchBar
 {
 
-    _searchController.searchBar.backgroundColor = [UIColor redColor];
+    _searchController.searchBar.backgroundColor = NavigationColor;
     [[[[ _searchController.searchBar.subviews objectAtIndex:0]subviews] objectAtIndex : 0 ] removeFromSuperview ];
     //2.
     for (UIView *subview in _searchController.searchBar.subviews)
@@ -259,10 +267,13 @@
 }
 
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 
 

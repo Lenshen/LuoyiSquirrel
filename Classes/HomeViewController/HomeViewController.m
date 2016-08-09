@@ -16,8 +16,8 @@
 #import "IntergralViewController.h"
 #import "IntergralShoppingViewController.h"
 #import "HRAdView.h"
-#import "YouSoreViewController.h"
 #import "PersonIFViewController.h"
+#import "MyIntergralViewController.h"
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (strong,nonatomic)UITableView *tableView;
@@ -220,11 +220,14 @@
     NSUInteger i = sender.tag;
     SignInViewController *sign = [SignInViewController new];
     sign.hidesBottomBarWhenPushed = YES;
-    YouSoreViewController *invite = [YouSoreViewController new];
+    InviteViewController *invite = [InviteViewController new];
     invite.hidesBottomBarWhenPushed = YES;
 
-    IntergralShoppingViewController *inter = [IntergralShoppingViewController new];
-    inter.hidesBottomBarWhenPushed = YES;
+//    IntergralShoppingViewController *inter = [IntergralShoppingViewController new];
+//    inter.hidesBottomBarWhenPushed = YES;
+
+    MyIntergralViewController *myintergral = [MyIntergralViewController new];
+    myintergral.hidesBottomBarWhenPushed = YES;
 
 
 
@@ -235,7 +238,7 @@
         [self.navigationController pushViewController:sign animated:YES];
             break;
         case 1:
-        [self.navigationController pushViewController:inter animated:YES];
+        [self.navigationController pushViewController:myintergral animated:YES];
             break;
 
         case 2:

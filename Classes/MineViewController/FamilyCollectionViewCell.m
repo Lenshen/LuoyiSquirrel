@@ -32,7 +32,7 @@
 - (UILabel *)relationLabel
 {
     if (!_relationLabel) {
-        _relationLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(_familyHDView.frame), CGRectGetMaxY(_nameLabel.frame)+5, _familyHDView.frame.size.width, 21)];;
+        _relationLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(_familyHDView.frame), CGRectGetMaxY(_nameLabel.frame)+5, _familyHDView.frame.size.width+20, 21)];;
         _relationLabel.textAlignment = NSTextAlignmentCenter;
         _relationLabel.font =[UIFont systemFontOfSize:15];
 

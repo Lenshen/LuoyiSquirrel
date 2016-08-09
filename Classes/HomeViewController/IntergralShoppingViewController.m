@@ -10,7 +10,6 @@
 #import "IntergralShoppingCollectCell.h"
 #import "BYSAlertView.h"
 #import "IntergralSViewController.h"
-#import "PostConmmentViewController.h"
 #import "GoodsDetialViewController.h"
 @interface IntergralShoppingViewController()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong) UICollectionView *collectionView;
@@ -99,7 +98,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((BYSScreenWidth-15*2-15)/2.0, (BYSScreenWidth-15*2-15)/2.0+30);
+    return CGSizeMake((BYSScreenWidth-15*2-15)/2.0,167.5);
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -145,7 +144,7 @@
 //    [[UIApplication sharedApplication].keyWindow addSubview:self.alphaView];
 //    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
 
-    [self.navigationController pushViewController:[PostConmmentViewController new] animated:YES];
+    [self.navigationController pushViewController:[IntergralSViewController new] animated:YES];
 
 
 

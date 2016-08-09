@@ -84,7 +84,7 @@
     HomeViewController *HomeVC = [[HomeViewController alloc] init];
     [self setUpOneChildVcWithVc:HomeVC Image:@"tabbar_home" selectedImage:@"tabbar_home_selected" title:@"首页"];
 
-    GoodsViewController *FishVC = [[GoodsViewController alloc] init];
+    ImformationViewController *FishVC = [[ImformationViewController alloc] init];
     [self setUpOneChildVcWithVc:FishVC Image:@"tabbar_message_center" selectedImage:@"tabbar_message_center_selected" title:@"资源"];
 
     ResourceViewController *MessageVC = [[ResourceViewController alloc] init];
