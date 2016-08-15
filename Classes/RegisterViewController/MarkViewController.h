@@ -10,4 +10,5 @@
 
 @interface MarkViewController : UIViewController
 
+@property (nonatomic, copy) void (^familyBlock)();
 @end

@@ -9,6 +9,7 @@
 #import "MarkViewController.h"
 #import "MarkTableViewCell.h"
 #import "HXTagsView.h"
+#import "FamilyMGViewController.h"
 static NSString* markReuseIdentifier = @"markReuseIdentifier";
 @interface MarkViewController ()<UITableViewDelegate,UITableViewDataSource,HXTagsViewDelegate>
 @property (nonatomic,strong) UITableView *tableView;
@@ -59,7 +60,13 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
 }
 - (void)submit:(UIButton *)sender
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController pushViewController:[FamilyMGViewController new] animated:YES];
+    if (self.familyBlock) {
+        self.familyBlock();
+
+
+    }
+    
 }
 
 - (NSArray *)titleArray

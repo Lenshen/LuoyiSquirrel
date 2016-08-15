@@ -9,7 +9,7 @@
 #import "AssessDetailViewController.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 
-@interface AssessDetailViewController ()
+@interface AssessDetailViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) UIWebView *webView;
 @property (nonatomic,weak) JSContext * context;
 

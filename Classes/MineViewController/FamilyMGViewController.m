@@ -8,6 +8,8 @@
 
 #import "FamilyMGViewController.h"
 #import "FamilyCollectionViewCell.h"
+#import "PersonIFViewController.h"
+#import "MarkViewController.h"
 
 @interface FamilyMGViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -99,6 +101,14 @@
     return cell;
 
 }
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == self.nameArray.count) {
+        [self.navigationController pushViewController:[PersonIFViewController new] animated:YES];
+}
+
+}
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
@@ -112,6 +122,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = NO;
+
+
+        
+
+    self.nameArray =  @[@"鲍远申",@"鲍林",@"鲍远芝",@"鲍我也不知道了",@"baoyuan"];
+
 }
 /*
 #pragma mark - Navigation

@@ -48,7 +48,7 @@
         UIImageView *imageview = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.center.x-50, 50, 100, 100)];
         imageview.image = [UIImage imageNamed:@"sign_imageButton"];
 
-        _convertButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _convertButton = [UIButton buttonWithType:UIButtonTypeSystem];
         _convertButton.frame = CGRectMake(self.view.center.x-40,CGRectGetMaxY(imageview.frame)-10 ,80,30);
         _convertButton.backgroundColor = NavigationColor;
         _convertButton.layer.cornerRadius = 5;

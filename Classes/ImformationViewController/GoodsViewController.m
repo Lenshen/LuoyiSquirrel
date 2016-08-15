@@ -8,13 +8,13 @@
 #import "GoodsViewController.h"
 #import "GoodsListTableCell.h"
 #import "GetScoreView.h"
-
+#import "YouSoreViewController.h"
 static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdntifier";
 #define rowhight 100
 
 
 
-@interface GoodsViewController()<UITableViewDelegate,UITableViewDataSource>
+@interface GoodsViewController()<UITableViewDelegate,UITableViewDataSource,chickCollectionViewDelegate>
 
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, strong) GetScoreView *scoreVIiew;
@@ -52,6 +52,7 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
 
     _scoreVIiew = [[GetScoreView alloc]initWithFrame:CGRectMake(0, BYSScreenHeight/2.5, BYSScreenWidth, BYSScreenHeight)];
     [self.view addSubview:_scoreVIiew];
+    _scoreVIiew.chickDelegate = self;
     _scoreVIiew.backgroundColor = [UIColor whiteColor];
     _scoreVIiew.hidden = YES;
 }
@@ -113,6 +114,10 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
     [cell.scoreButton addTarget:self action:@selector(getScore:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
     
+}
+- (void)chickCollectionViewDelegate:(NSInteger)tag WithId:(NSInteger)preson_id
+{
+    [self.navigationController pushViewController:[YouSoreViewController new] animated:YES];
 }
 
 - (void)getScore:(UIButton *)sender

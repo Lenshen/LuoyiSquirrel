@@ -7,11 +7,20 @@
 //
 
 #import "InviteViewController.h"
+#import "UIButton+Vertical.h"
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKUI/ShareSDK+SSUI.h>
 
 @interface InviteViewController()
 @property (nonatomic,strong) UIImageView *imageView;
 
 @property (nonatomic,strong) UITextField *inviteCodeTF;
+
+@property (nonatomic,strong)UIButton *shareButton;
+
+
+@property (strong,nonatomic)NSArray *buttonTitle;
+@property (strong,nonatomic)NSArray *buttonImages;
 
 
 @end
@@ -44,7 +53,260 @@
     [self.view addSubview:button];
 
 
+    for (int i = 0; i < self.buttonTitle.count; i++) {
+        _shareButton = [[UIButton alloc]init];
+        _shareButton.tag = i;
+        _shareButton.frame = CGRectMake(i*BYSScreenWidth/4.0,BYSScreenHeight-64,BYSScreenWidth/4.0, 50);
+        [_shareButton setImage:self.buttonImages[i] forState:UIControlStateNormal];
+        _shareButton.backgroundColor = [UIColor clearColor];
+        _shareButton.titleLabel.font = [UIFont systemFontOfSize: 13.0];
 
+        [_shareButton setTitle:self.buttonTitle[i] forState:UIControlStateNormal];
+        [_shareButton setTitleColor:[UIColor blackColor]forState:UIControlStateNormal];
+        [_shareButton verticalImageAndTitle:10];
+        [_shareButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_shareButton addTarget:self action:@selector(shareChick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_shareButton];
+
+
+    }
+    
+
+
+
+
+}
+
+
+- (void)shareChick:(UIButton *)sender
+{
+    //1、创建分享参数
+    NSArray* imageArray = @[[UIImage imageNamed:@"p_y_q"]];
+    //    （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
+    if (imageArray) {
+
+        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+        [shareParams SSDKSetupShareParamsByText:@"分享内容"
+                                         images:imageArray
+                                            url:[NSURL URLWithString:@"http://mob.com"]
+                                          title:@"分享标题"
+                                           type:SSDKContentTypeAuto];
+        if (sender.tag == 0) {
+            //            [ShareSDK share:SSDKPlatformTypeWechat
+            //                 parameters:shareParams
+            //             onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
+            //
+            //
+            //                 switch (state) {
+            //                     case SSDKResponseStateSuccess:
+            //                     {
+            //                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+            //                                                                             message:nil
+            //                                                                            delegate:nil
+            //                                                                   cancelButtonTitle:@"确定"
+            //                                                                   otherButtonTitles:nil];
+            //                         [alertView show];
+            //                         break;
+            //                     }
+            //                     case SSDKResponseStateFail:
+            //                     {
+            //                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享失败"
+            //                                                                             message:[NSString stringWithFormat:@"%@", error]
+            //                                                                            delegate:nil
+            //                                                                   cancelButtonTitle:@"确定"
+            //                                                                   otherButtonTitles:nil];
+            //                         [alertView show];
+            //                         break;
+            //                     }
+            //                     case SSDKResponseStateCancel:
+            //                     {
+            //                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享已取消"
+            //                                                                             message:nil
+            //                                                                            delegate:nil
+            //                                                                   cancelButtonTitle:@"确定"
+            //                                                                   otherButtonTitles:nil];
+            //                         [alertView show];
+            //                         break;
+            //                     }
+            //                     default:
+            //                         break;
+            //                 }
+            //
+            //
+            //
+            //             }];
+
+
+            [ShareSDK getUserInfo:SSDKPlatformTypeQQ onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+                NSLog(@"%@",user);
+
+            }];
+
+        }
+        if (sender.tag == 1) {
+            [ShareSDK share:SSDKPlatformSubTypeWechatTimeline
+                 parameters:shareParams
+             onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
+
+
+                 switch (state) {
+                     case SSDKResponseStateSuccess:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+                                                                             message:nil
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     case SSDKResponseStateFail:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享失败"
+                                                                             message:[NSString stringWithFormat:@"%@", error]
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     case SSDKResponseStateCancel:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享已取消"
+                                                                             message:nil
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     default:
+                         break;
+                 }
+
+
+
+             }];
+
+        }
+
+
+        if (sender.tag == 2) {
+            [ShareSDK share:SSDKPlatformTypeQQ
+                 parameters:shareParams
+             onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
+
+
+                 switch (state) {
+                     case SSDKResponseStateSuccess:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+                                                                             message:nil
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     case SSDKResponseStateFail:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享失败"
+                                                                             message:[NSString stringWithFormat:@"%@", error]
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     case SSDKResponseStateCancel:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享已取消"
+                                                                             message:nil
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     default:
+                         break;
+                 }
+
+
+
+             }];
+
+        }
+        if (sender.tag == 3) {
+
+            [ShareSDK share:SSDKPlatformTypeSinaWeibo
+                 parameters:shareParams
+             onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
+
+
+                 switch (state) {
+                     case SSDKResponseStateSuccess:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+                                                                             message:nil
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     case SSDKResponseStateFail:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享失败"
+                                                                             message:[NSString stringWithFormat:@"%@", error]
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     case SSDKResponseStateCancel:
+                     {
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享已取消"
+                                                                             message:nil
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                         break;
+                     }
+                     default:
+                         break;
+                 }
+                 
+                 
+                 
+             }];
+        }
+        
+        
+        
+    }
+}
+-(NSArray *)buttonImages{
+
+    if (!_buttonImages) {
+        _buttonImages = @[[UIImage imageNamed:@"wei_xin"],
+                          [UIImage imageNamed:@"p_y_q"],
+                          [UIImage imageNamed:@"qq"],
+                          [UIImage imageNamed:@"wei_bo"]
+
+
+                          ];
+    }
+    return _buttonImages;
+}
+-(NSArray *)buttonTitle{
+
+    if (!_buttonTitle) {
+        _buttonTitle = @[@"微信好友",@"微信朋友圈",@"QQ",@"微博"];
+    }
+    return _buttonTitle;
 }
 
 - (UIImageView *)imageView

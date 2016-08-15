@@ -8,91 +8,99 @@
 
 #ifndef MacroDefinition_h
 #define MacroDefinition_h
-#define SERVERSAPI  @"www.tatahai.net"
-
-//------------------------------api---------------------------------//
-#define APP_AUTHOTIZD_API @"http://"SERVERSAPI"/api/authorized/app"
-
-#define APP_USER_API   @"http://"SERVERSAPI"/api/authorized/user"
-
-#define APP_MOBILEVERIFY @"http://"SERVERSAPI"/api/MobileVerifyCode/reg"
-
-#define APP_MOBILEVERIFYRESETWD @"http://"SERVERSAPI"/api/MobileVerifyCode/resetpwd"
-
-#define JUDGE_MOBILEEXIST @"http://"SERVERSAPI"/api/user/checkmobile"
-
-#define JUDGE_CODETURE @"http://"SERVERSAPI"/api/MobileVerifyCode/verify"
-
-#define APP_REGISTER  @"http://"SERVERSAPI"/api/user/reg"
-
-#define APP_ADDRESS_GET @"http://"SERVERSAPI"/api/address/get"
-
-#define APP_ADDRESS_DELETE @"http://"SERVERSAPI"/api/address/delete"
-
-#define APP_USER_GET @"http://"SERVERSAPI"/api/user/get"
-
-#define APP_USER_UNLOAD_AVATAR  @"http://"SERVERSAPI"/api/upload/avatar"
-
-#define APP_USER_FINDPASSWORD  @"http://"SERVERSAPI"/api/user/findpassword"
-
-#define APP_USER_PASSWORD  @"http://"SERVERSAPI"/api/user/password"
-
-#define APP_GOOD_SEARCH  @"http://"SERVERSAPI"/api/goods/search"
-
-#define APP_USER_SIGOUT  @"http://"SERVERSAPI"/api/user/signout"
-
-#define APP_USER_UPDATE  @"http://"SERVERSAPI"/api/user/update"
-
-#define APP_ADDRESS_ADD  @"http://"SERVERSAPI"/api/address/add"
-
-#define APP_ADDRESS_UPDATE @"http://"SERVERSAPI"/api/address/update"
-
-#define APP_USER_GETMESSAGE  @"http://"SERVERSAPI"/api/user/get_msg"
-
-#define APP_USER_READMESSAGE  @"http://"SERVERSAPI"/api/user/read_msg"
-
-
-#define APP_USER_ADDINQUIRE  @"http://"SERVERSAPI"/api/user/addinquire"
-
-#define APP_CART_GETALL @"http://"SERVERSAPI"/api/cart/getall"
-
-#define APP_FAVORITE_LIST @"http://"SERVERSAPI"/api/favorite/list"
-
-#define APP_FAVORITE_REMOVE @"http://"SERVERSAPI"/api/favorite/remove"
-
-#define APP_CART_REMOVE @"http://"SERVERSAPI"/api/cart/remove"
-
-#define APP_GET_VERSION @"http://"SERVERSAPI"/api/config/version"
-
-#define APP_CHANGE_GoodsCounts @"http://"SERVERSAPI"/api/cart/add"
-
-#define APP_GOODPRICE_UPDATE @"http://"SERVERSAPI"/api/cart/update"
-
-#define APP_ORDER_QUERYEXPRESS @"http://"SERVERSAPI"/api/order/queryexpress"
-
-#define APP_GOODS_SKU @"http://"SERVERSAPI"/api/goods/skusinfo"
-
-
-
-
-
-
-
-
-
-
+#define TESTSERVERSAPI  @"192.168.0.103:555"
 
 //-------------------获取设备大小-------------------------
-
-
-
 //NavBar高度
 #define NavigationBar_HEIGHT 44
-#define NavigationColor  [UIColor colorWithRed:76.0/255.0 green:205.0/255.0 blue:61.0/255.0 alpha:1.0]
 
-#define TableviewColor  [UIColor colorWithRed:240/255.0 green:242/255.0 blue:242/255.0 alpha:1.0]
+//发送手机验证码（注册或登录)
+#define APP_member_send @"http://"TESTSERVERSAPI"/api/member/send"
 
-#define RANDOMCOLOR [UIColor colorWithRed:random()%255/255.0 green:random()%255/255.0 blue:random()%255/255.0 alpha:1];
+//获取token
+#define APP_member_getToken @"http://"TESTSERVERSAPI"/api/member/getToken"
+
+//获取邀请码
+//获取用户默认的基本信息
+//设置基本信息为默认
+//删除一个基本信息，不会删除默认基本信息
+//兑换邀请码
+//签到
+//获取签到信息
+//获取积分信息
+
+#define APP_member_service   @"http://"TESTSERVERSAPI"/api/member/service"
+
+//增加基本信息
+#define APP_member_addInfo @"http://"TESTSERVERSAPI"/api/member/addinfo"
+
+//修改基本信息
+#define APP_member_changeInfo @"http://"TESTSERVERSAPI"/api/member/changeInfo"
+
+//获取用户默认的基本信息
+#define APP_member_changeInfo @"http://"TESTSERVERSAPI"/api/member/changeInfo"
+
+//获取首页轮播广告
+#define APP_home_getAdvert @"http://"TESTSERVERSAPI"/api/home/getAdvert"
+
+
+
+
+
+
+#define JUDGE_MOBILEEXIST @"http://"TESTSERVERSAPI"/api/user/checkmobile"
+
+#define JUDGE_CODETURE @"http://"TESTSERVERSAPI"/api/MobileVerifyCode/verify"
+
+#define APP_REGISTER  @"http://"TESTSERVERSAPI"/api/user/reg"
+
+#define APP_ADDRESS_GET @"http://"TESTSERVERSAPI"/api/address/get"
+
+#define APP_ADDRESS_DELETE @"http://"TESTSERVERSAPI"/api/address/delete"
+
+
+#define APP_USER_UNLOAD_AVATAR  @"http://"TESTSERVERSAPI"/api/upload/avatar"
+
+#define APP_USER_FINDPASSWORD  @"http://"TESTSERVERSAPI"/api/user/findpassword"
+#define APP_USER_PASSWORD  @"http://"TESTSERVERSAPI"/api/user/password"
+
+#define APP_GOOD_SEARCH  @"http://"TESTSERVERSAPI"/api/goods/search"
+
+#define APP_USER_SIGOUT  @"http://"TESTSERVERSAPI"/api/user/signout"
+
+#define APP_USER_UPDATE  @"http://"TESTSERVERSAPI"/api/user/update"
+
+#define APP_ADDRESS_ADD  @"http://"TESTSERVERSAPI"/api/address/add"
+
+#define APP_ADDRESS_UPDATE @"http://"TESTSERVERSAPI"/api/address/update"
+
+#define APP_USER_GETMESSAGE  @"http://"TESTSERVERSAPI"/api/user/get_msg"
+
+#define APP_USER_READMESSAGE  @"http://"TESTSERVERSAPI"/api/user/read_msg"
+
+
+#define APP_USER_ADDINQUIRE  @"http://"TESTSERVERSAPI"/api/user/addinquire"
+
+#define APP_CART_GETALL @"http://"TESTSERVERSAPI"/api/cart/getall"
+
+#define APP_FAVORITE_LIST @"http://"TESTSERVERSAPI"/api/favorite/list"
+
+#define APP_FAVORITE_REMOVE @"http://"TESTSERVERSAPI"/api/favorite/remove"
+
+#define APP_CART_REMOVE @"http://"TESTSERVERSAPI"/api/cart/remove"
+
+#define APP_GET_VERSION @"http://"TESTSERVERSAPI"/api/config/version"
+
+#define APP_CHANGE_GoodsCounts @"http://"TESTSERVERSAPI"/api/cart/add"
+
+#define APP_GOODPRICE_UPDATE @"http://"TESTSERVERSAPI"/api/cart/update"
+
+
+
+
+
+
+
 
 
 
@@ -101,10 +109,19 @@
 
 //获取屏幕 宽度、高度
 
+
 #define BYSScreenWidth  [UIScreen mainScreen].bounds.size.width
 #define BYSScreenHeight [UIScreen mainScreen].bounds.size.height
 
-#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]
+
+#define NavigationColor  [UIColor colorWithRed:70/255.0 green:190/255.0 blue:57/255.0 alpha:1]
+#define TableviewColor  [UIColor colorWithRed:214/255.0 green:214/255.0 blue:214/255.0 alpha:1]
+
+#define RANDOMCOLOR [UIColor colorWithRed:random()%255/255.0 green:random()%255/255.0 blue:random()%255/255.0 alpha:1];
+
+
+
+#define windowColor  [UIColor colorWithRed:236 green:236 blue:236 alpha:0.2]
 
 #define VERSION_CURRENT [[[UIDevice currentDevice] systemVersion] floatValue];
 
@@ -280,7 +297,7 @@ description:__VA_ARGS__];                             \
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 //带有RGBA的颜色设置
-#define RGBA_COLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
+#define COLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
 
 // 获取RGB颜色
 #define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]

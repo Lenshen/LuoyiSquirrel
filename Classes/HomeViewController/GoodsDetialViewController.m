@@ -120,6 +120,10 @@
 
 
     };
+    _context[@"userEvaluate"]=^
+    {
+        [self.navigationController pushViewController:[AssessListViewController new] animated:YES];
+    };
 
     
 }

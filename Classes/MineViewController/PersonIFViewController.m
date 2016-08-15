@@ -10,6 +10,8 @@
 #import "UIView+Extension.h"
 #import "MineEndTableViewCell.h"
 #import "MarkViewController.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 
 static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
@@ -109,6 +111,13 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 }
 - (void)push:(UIButton *)sender
 {
+
+    [BYSHttpTool POST:APP_member_addInfo Parameters:[BYSHttpParameter get_APP_member_addInfo_jsonStr:@"1" nick_name:self.ncik_nameString birthday:self.dateString sex:@"1" height:self.height_String weight: self.weight_String] Success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
+
+    } Failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
     MarkViewController *date = [MarkViewController new];
     [self.navigationController pushViewController:date animated:YES];
 }
@@ -217,7 +226,7 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
             cell.endLabel.text = [NSString stringWithFormat:@"%@cm",self.height_String];
             break;
         case 3:
-            cell.endLabel.text = [NSString stringWithFormat:@"%@kg",self.height_String];
+            cell.endLabel.text = [NSString stringWithFormat:@"%@kg",self.weight_String];
             break;
 
         default:
@@ -259,15 +268,15 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
             break;
 
         case 2:
+            
             [self pickview:2];
             _sureButton.hidden = NO;
             _canceButtonl.hidden = NO;
             _viewp.hidden = NO;
             _pickview.hidden = NO;
             _alphaView.hidden = NO;
+            [self getHeightDateDataSource];
 
-
-            [self getWeightDateDataSource];
 
 
             [self.view addSubview:self.pickview];
@@ -283,7 +292,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
             _alphaView.hidden = NO;
 
 
-            [self getHeightDateDataSource];
+            [self getWeightDateDataSource];
+
 
 
             [self.view addSubview:self.pickview];
@@ -615,9 +625,9 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
         [self.pickview removeFromSuperview];
 
+        self.height_String = [self.heightArray objectAtIndex:[self.pickview selectedRowInComponent:0]];
+        NSLog(@"%@",self.height_String);
 
-        self.weight_String = [self.weightArray objectAtIndex:[self.pickview selectedRowInComponent:0]];
-        NSLog(@"%@",self.weight_String);
         [self.tableView reloadData];
 
         self.pickview = nil;
@@ -633,11 +643,11 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
         _alphaView.hidden = YES;
 
         [self.pickview removeFromSuperview];
-        self.pickview = nil;
 
 
-        self.height_String = [self.heightArray objectAtIndex:[self.pickview selectedRowInComponent:0]];
-        NSLog(@"%@",self.height_String);
+
+        self.weight_String = [self.weightArray objectAtIndex:[self.pickview selectedRowInComponent:0]];
+        NSLog(@"%@",self.weight_String);
         [self.tableView reloadData];
 
         self.pickview = nil;
@@ -674,18 +684,18 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
 }
 
-- (void)getHeightDateDataSource{
+- (void)getWeightDateDataSource{
     for (int i = 40; i <= 150; i++) {
-        [self.heightArray addObject:[NSString stringWithFormat:@"%d",i]];
+        [self.weightArray addObject:[NSString stringWithFormat:@"%d",i]];
     }
 
 
     [self.pickview reloadAllComponents];
 }
 
-- (void)getWeightDateDataSource{
+- (void)getHeightDateDataSource{
     for (int i = 150; i <= 300; i++) {
-        [self.weightArray addObject:[NSString stringWithFormat:@"%d",i]];
+        [self.heightArray addObject:[NSString stringWithFormat:@"%d",i]];
     }
 
 
@@ -718,11 +728,11 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
     }else if(self.pickview.tag == 2)
     {
-        return self.weightArray.count;
+        return self.heightArray.count;
     }
     else if(self.pickview.tag == 3)
     {
-        return self.heightArray.count;
+        return self.weightArray.count;
     }
     else
         return 0;
@@ -761,7 +771,7 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
         if(component == 0)
         {
-            return [self.weightArray objectAtIndex:row];
+            return [self.heightArray objectAtIndex:row];
 
         }
         else
@@ -773,7 +783,7 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
         if(component == 0)
         {
-            return [self.heightArray objectAtIndex:row];
+            return [self.weightArray objectAtIndex:row];
 
         }
         else

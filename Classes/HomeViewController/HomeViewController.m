@@ -18,6 +18,8 @@
 #import "HRAdView.h"
 #import "PersonIFViewController.h"
 #import "MyIntergralViewController.h"
+#import "BYSHttpTool.h"
+
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (strong,nonatomic)UITableView *tableView;
@@ -47,15 +49,28 @@
     if (![USER_DEFAULT boolForKey:@"hasSubmit"]) {
 
         [self showAlert];
-        [USER_DEFAULT setBool:YES forKey:@"hasSubmit"];
+//        [USER_DEFAULT setBool:YES forKey:@"hasSubmit"];
 
 
     }
 
 
 
+
+
 }
 
+- (NSString*)dictionaryToJson:(NSDictionary *)dic
+
+{
+
+    NSError *parseError = nil;
+
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+}
 - (void)showAlert
 {
     NSString *title = [NSString stringWithFormat:@"温馨提示"];

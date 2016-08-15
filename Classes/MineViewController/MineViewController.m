@@ -28,6 +28,8 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 @property (nonatomic, strong)UIButton *headImageButton;
 @property (nonatomic, strong)UIImageView *sexImageView;
 @property (nonatomic, strong)UIImageView *tableHeadViewImage;
+@property (nonatomic, strong)UILabel *nick_name;
+@property (nonatomic, strong)UILabel *gradeLabel;
 
 
 
@@ -88,16 +90,47 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 
 
         _headImageButton = [[UIButton alloc]init];
-        _headImageButton.frame = CGRectMake(BYSScreenWidth/2-40, 74, 80, 80);
+        _headImageButton.frame = CGRectMake(BYSScreenWidth/2-40, 64, 80, 80);
         _headImageButton.layer.borderWidth = 3.0;
         _headImageButton.layer.borderColor = [UIColor colorWithRed:46/255.0 green:205/255.0 blue:143/255.0 alpha:1.0].CGColor;
         _headImageButton.layer.cornerRadius = 40;
         _headImageButton.layer.masksToBounds = YES;
         [_headImageButton addTarget:self action:@selector(personIFChick:) forControlEvents:UIControlEventTouchUpInside];
-        
 
         _headImageButton.contentMode = UIViewContentModeScaleAspectFit;
         [_headImageButton setBackgroundImage:[UIImage imageNamed:@"headimage"] forState:UIControlStateNormal];
+
+        _nick_name = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_headImageButton.frame)+10, BYSScreenWidth, 21)];
+        _nick_name.textColor = [UIColor whiteColor];
+        _nick_name.textAlignment = NSTextAlignmentCenter;
+        _nick_name.text = @"zyx23333";
+
+        UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(BYSScreenWidth/2,CGRectGetMaxY(_nick_name.frame)+5, 1, 17)];
+        lineLabel.backgroundColor = [UIColor whiteColor];
+
+
+        UILabel *gradeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_nick_name.frame)+3, BYSScreenWidth/2-10, 21)];
+        gradeLabel.text = @"等级";
+        gradeLabel.textColor = [UIColor whiteColor];
+        gradeLabel.font = [UIFont systemFontOfSize:12];
+        gradeLabel.textAlignment = NSTextAlignmentRight;
+
+
+
+         _gradeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineLabel.frame)+10,CGRectGetMaxY(_nick_name.frame)+3, BYSScreenWidth/2-5, 21)];
+        _gradeLabel.text = @"幼儿园";
+        _gradeLabel.textColor = [UIColor whiteColor];
+        _gradeLabel.font = [UIFont systemFontOfSize:12];
+        _gradeLabel.textAlignment = NSTextAlignmentLeft;
+
+
+
+
+
+
+
+
+
 
         _sexImageView = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_headImageButton.frame)-25,CGRectGetMaxY(_headImageButton.frame)-25, 25, 25)];
         _sexImageView.image = [UIImage imageNamed:@"female"];
@@ -106,10 +139,13 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 
 
         [_tableHeadView addSubview:_tableHeadViewImage];
-
+        [_tableHeadView addSubview:gradeLabel];
+        [_tableHeadView addSubview:lineLabel];
+        [_tableHeadView addSubview:_gradeLabel];
         [_tableHeadView addSubview:_settingButton];
         [_tableHeadView addSubview:_headImageButton];
         [_tableHeadView addSubview:_sexImageView];
+        [_tableHeadView addSubview:_nick_name];
 
 
 

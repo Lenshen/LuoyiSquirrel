@@ -13,7 +13,7 @@
 
 #define DateOneFont [UIFont systemFontOfSize:13]
 
-@interface DateWriteOneViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
+@interface DateWriteOneViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, strong)UIView *tableFootView;
@@ -27,6 +27,8 @@
 
 @property (nonatomic, strong) UIButton *yuanButton;
 @property (nonatomic, strong) UIButton *kgButton;
+
+@property (nonatomic, strong) DateOneTableViewCell *cell;
 
 
 
@@ -216,6 +218,7 @@
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    [super touchesBegan:touches withEvent:UIEventTypeTouches];
     [_textView resignFirstResponder];
 }
 
@@ -229,45 +232,54 @@
 
     NSInteger index = indexPath.row;
 
-    DateOneTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DateOneTableViewCell" forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[DateOneTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DateOneTableViewCell"];
+     _cell = [tableView dequeueReusableCellWithIdentifier:@"DateOneTableViewCell" forIndexPath:indexPath];
+    if (!_cell) {
+        _cell = [[DateOneTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DateOneTableViewCell"];
     }
-    cell.liftLabel.text = self.liftTitleArray[indexPath.row];
-    cell.liftLabel.font = DateOnebigFont;
+    _cell.liftLabel.text = self.liftTitleArray[indexPath.row];
+    _cell.liftLabel.font = DateOnebigFont;
 
     NSString *str = @"必填";
     NSAttributedString  *attribute =[[NSAttributedString alloc]initWithString:str attributes:@{NSForegroundColorAttributeName:[UIColor redColor]}];
 
-
+    _cell.minTF.delegate = self;
 
 
     switch (index) {
         case 0:
-              [cell.rightButton setImage:[UIImage imageNamed:@"sao_yi_sao"] forState:UIControlStateNormal];
+              _cell.minTF.userInteractionEnabled = NO;
+              [_cell.rightButton setImage:[UIImage imageNamed:@"sao_yi_sao"] forState:UIControlStateNormal];
             break;
         case 1:
-            cell.minTF.attributedPlaceholder = attribute;
+            _cell.minTF.attributedPlaceholder = attribute;
             break;
 
         case 3:
-            [cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
-            cell.minTF.attributedPlaceholder = attribute;
+            _cell.minTF.userInteractionEnabled = NO;
+
+            [_cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
+            _cell.minTF.attributedPlaceholder = attribute;
 
             break;
         case 4:
-            [cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
+            [_cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
+            _cell.minTF.userInteractionEnabled = NO;
+
             break;
         case 7:
-            [cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
+            _cell.minTF.userInteractionEnabled = NO;
+
+            [_cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
             break;
         case 9:
-            [cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
-            cell.minTF.attributedPlaceholder = attribute;
+            _cell.minTF.userInteractionEnabled = NO;
+
+            [_cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
+            _cell.minTF.attributedPlaceholder = attribute;
 
             break;
         case 13:
-            [cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
+            [_cell.rightButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateNormal];
             break;
 //        case 0:
 //            [cell.rightButton setImage:[UIImage imageNamed:@"sao_yi_sao"] forState:UIControlStateNormal];
@@ -280,9 +292,19 @@
 
 
 
-    return cell;
+    return _cell;
 }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
 
+
+
+
+    [textField resignFirstResponder];
+
+
+    return YES;
+}
 
 - (void)textViewDidChangeSelection:(UITextView *)textView
 {
@@ -301,8 +323,10 @@
     
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     [_textView resignFirstResponder];
 }
 - (void)didReceiveMemoryWarning {

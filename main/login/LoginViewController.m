@@ -11,6 +11,8 @@
 #import "LBTabBarController.h"
 #import "LoginView.h"
 #import "AppDelegate.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 
 
 @interface LoginViewController ()<SDCycleScrollViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
@@ -79,6 +81,19 @@
     LBTabBarController *tabbarVc = [[LBTabBarController alloc]init];
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.window.rootViewController = tabbarVc;
+
+//    [BYSHttpTool GET:APP_member_getToken Parameters:[BYSHttpParameter get_APP_member_getToken:_codeTextField.text] Success:^(id responseObject) {
+//
+//        NSLog(@"%@",responseObject);
+//        [USER_DEFAULT setObject:responseObject[@"data"] forKey:@"token"];
+//
+//
+//
+//    } Failure:^(NSError *error) {
+//
+//        NSLog(@"%@",error);
+//        
+//    }];
 
 
 }
@@ -215,6 +230,21 @@
             self.loginView.codeTF.textColor = [UIColor grayColor];
             self.loginView.codeTF.font = [UIFont systemFontOfSize:15];
             self.loginView.codeTF.textAlignment = NSTextAlignmentCenter;
+
+            [BYSHttpTool GET:APP_member_send Parameters:[BYSHttpParameter get_APP_member_send] Success:^(id responseObject) {
+
+                NSLog(@"%@",responseObject);
+
+
+
+            } Failure:^(NSError *error) {
+
+                NSLog(@"%@",error);
+
+            }];
+
+
+
             
             
             
@@ -239,11 +269,17 @@
 - (void)limitMobile:(UITextField *)textField
 {
 
+
+
     if (textField.tag == 0 && textField.text.length >= 11) {
 
         [self.loginView.mobileTF resignFirstResponder];
 
+
+
     }
+
+
 }
 
 /*
