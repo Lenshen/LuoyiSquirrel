@@ -12,6 +12,9 @@
 
 @interface ContentViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *contentArrayM;
+@property (nonatomic, strong) NSArray *contentArray;
+
 @end
 
 @implementation ContentViewController
@@ -24,6 +27,13 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
 
+}
+- (NSMutableArray *)contentArrayM
+{
+    if (!_contentArrayM) {
+        _contentArrayM = [[NSMutableArray alloc]init];
+    }
+    return _contentArrayM;
 }
 - (UITableView *)tableView
 {
@@ -41,6 +51,7 @@
         sureButton.backgroundColor = NavigationColor;
         [sureButton setTitle:@"添加一个含量" forState:UIControlStateNormal];
         sureButton.layer.cornerRadius = 5;
+        [sureButton addTarget:self action:@selector(addContent:) forControlEvents:UIControlEventTouchUpInside];
         [footView addSubview:sureButton];
 
         _tableView.tableFooterView = footView;
@@ -50,9 +61,19 @@
     }
     return _tableView;
 }
+- (void)addContent:(UIButton *)sender
+{
+
+    [self.contentArrayM addObject:@"dd"];
+    self.contentArray = [self.contentArrayM copy];
+    [self.tableView reloadData];
+
+
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.contentArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

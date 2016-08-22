@@ -10,6 +10,8 @@
 #define MacroDefinition_h
 #define TESTSERVERSAPI  @"192.168.0.103:555"
 
+#define DESKEY @"4D53B979"
+
 //-------------------获取设备大小-------------------------
 //NavBar高度
 #define NavigationBar_HEIGHT 44
@@ -28,6 +30,8 @@
 //签到
 //获取签到信息
 //获取积分信息
+//获取用户认证信息
+//兑换积分商品
 
 #define APP_member_service   @"http://"TESTSERVERSAPI"/api/member/service"
 
@@ -43,28 +47,43 @@
 //获取首页轮播广告
 #define APP_home_getAdvert @"http://"TESTSERVERSAPI"/api/home/getAdvert"
 
+//第三方登录（获取token）
+
+#define APP_member_getTokenByOpenID @"http://"TESTSERVERSAPI"/api/member/GetTokenByOpenID"
+
+//修改用户认证地址
+
+#define APP_member_setAddress @"http://"TESTSERVERSAPI"/api/member/setAddress"
+
+//用户上传认证图片
+
+#define APP_member_certification @"http://"TESTSERVERSAPI"/api/member/certification"
+
+//修改成员标签
+
+#define APP_tags_updataTags @"http://"TESTSERVERSAPI"/api/tags/UpdateTags"
+
+//获取商品分类
+
+#define APP_goods_service @"http://"TESTSERVERSAPI"/api/goods/service"
+
+//获取商品分页列表
+
+#define APP_goods_GetPage  @"http://"TESTSERVERSAPI"/ api/goods/GetPage"
+
+//获取积分商城列表
+
+#define APP_goods_getPointGoods @"http://"TESTSERVERSAPI"/api/goods/GetPointGoods"
+
+//为一个商品添加含量
+
+#define APP_goods_addCMPNution  @"http://"TESTSERVERSAPI"/api/goods/AddCmptNution"
+
+//为一个商品添加配料（原料)
+
+#define APP_goods_addMaterial  @"http://"TESTSERVERSAPI"/api/goods/AddMaterial"
 
 
-
-
-
-#define JUDGE_MOBILEEXIST @"http://"TESTSERVERSAPI"/api/user/checkmobile"
-
-#define JUDGE_CODETURE @"http://"TESTSERVERSAPI"/api/MobileVerifyCode/verify"
-
-#define APP_REGISTER  @"http://"TESTSERVERSAPI"/api/user/reg"
-
-#define APP_ADDRESS_GET @"http://"TESTSERVERSAPI"/api/address/get"
-
-#define APP_ADDRESS_DELETE @"http://"TESTSERVERSAPI"/api/address/delete"
-
-
-#define APP_USER_UNLOAD_AVATAR  @"http://"TESTSERVERSAPI"/api/upload/avatar"
-
-#define APP_USER_FINDPASSWORD  @"http://"TESTSERVERSAPI"/api/user/findpassword"
-#define APP_USER_PASSWORD  @"http://"TESTSERVERSAPI"/api/user/password"
-
-#define APP_GOOD_SEARCH  @"http://"TESTSERVERSAPI"/api/goods/search"
 
 #define APP_USER_SIGOUT  @"http://"TESTSERVERSAPI"/api/user/signout"
 
@@ -115,7 +134,7 @@
 
 
 #define NavigationColor  [UIColor colorWithRed:70/255.0 green:190/255.0 blue:57/255.0 alpha:1]
-#define TableviewColor  [UIColor colorWithRed:214/255.0 green:214/255.0 blue:214/255.0 alpha:1]
+#define TableviewColor  [UIColor colorWithRed:232/255.0 green:234/255.0 blue:235/255.0 alpha:1]
 
 #define RANDOMCOLOR [UIColor colorWithRed:random()%255/255.0 green:random()%255/255.0 blue:random()%255/255.0 alpha:1];
 

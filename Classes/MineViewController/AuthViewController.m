@@ -9,13 +9,30 @@
 #import "AuthViewController.h"
 #import "MineEndTableViewCell.h"
 #import "AutoTableCell.h"
+
+typedef  NS_ENUM(NSInteger,getOphoto)
+{
+
+     imageViewButton,
+    imageViewButton2,
+
+};
 static NSString *AutoCellString = @"autoCellString";
 static NSString *AutoCellimageString = @"AutoCellimageString";
 
-@interface AuthViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface AuthViewController ()<UITableViewDelegate,UITableViewDataSource,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+
 @property (strong,nonatomic)UITableView *tableView;
 @property (strong,nonatomic)NSArray *firstLabelTitleA;
 @property (strong,nonatomic)UIView *footview;
+
+@property (nonatomic)getOphoto getOphoto;
+@property (strong, nonatomic)UIButton *imageViewButton;
+@property (strong, nonatomic)UIButton *imageViewButton2;
+
+@property (nonatomic,strong) UIImagePickerController *imagePickerController;
+@property (nonatomic, strong) AutoTableCell *cell;
+
 @end
 
 
@@ -30,7 +47,6 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     self.view.backgroundColor = TableviewColor;
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = self.footview;
-
 
 
 }
@@ -106,27 +122,51 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 2 || indexPath.row == 3) {
-        AutoTableCell *cell = [tableView dequeueReusableCellWithIdentifier:AutoCellimageString];
-        if (!cell) {
-            cell = [[AutoTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCellimageString];
+        _cell = [tableView dequeueReusableCellWithIdentifier:AutoCellimageString];
+        if (!_cell) {
+            _cell = [[AutoTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCellimageString];
         }
         if (indexPath.row == 2) {
-            cell.labelCell.text = @"真实头像";
-            cell.labelCell2.text = @"(请上传手持身份证正面的半身照)";
-            cell.labelCell2.font = [UIFont systemFontOfSize:12];
-            cell.labelCell2.textColor = [UIColor grayColor];
-            cell.imageViewButton.tag  = 1;
+            _cell.labelCell.text = @"真实头像";
+            _cell.labelCell2.text = @"(请上传手持身份证正面的半身照)";
+            _cell.labelCell2.font = [UIFont systemFontOfSize:12];
+            _cell.labelCell2.textColor = [UIColor grayColor];
+
+            _imageViewButton = [[UIButton alloc]initWithFrame:CGRectMake(BYSScreenWidth-10-120,30,120, 75)];
+            _imageViewButton.layer.borderWidth = 0.5;
+            _imageViewButton.layer.borderColor = NavigationColor.CGColor;
+            _imageViewButton.layer.cornerRadius = 15;
+            _imageViewButton.layer.masksToBounds = YES;
+            _imageViewButton.tag = 0;
+
+            [_cell.contentView addSubview:_imageViewButton];
+            [_imageViewButton addTarget:self action:@selector(getOphoto:) forControlEvents:UIControlEventTouchUpInside];
+
+
+
         }else
         {
-            cell.labelCell.text = @"专业证书证件";
-            cell.labelCell2.text = @"(如 营养师证 ..... )";
-            cell.labelCell2.font = [UIFont systemFontOfSize:12];
-            cell.labelCell2.textColor = [UIColor grayColor];
-            cell.imageViewButton.tag  = 2;
+            _cell.labelCell.text = @"专业证书证件";
+            _cell.labelCell2.text = @"(如 营养师证 ..... )";
+            _cell.labelCell2.font = [UIFont systemFontOfSize:12];
+            _cell.labelCell2.textColor = [UIColor grayColor];
+
+            _imageViewButton2 = [[UIButton alloc]initWithFrame:CGRectMake(BYSScreenWidth-10-120,30,120, 75)];
+            _imageViewButton2.layer.borderWidth = 0.5;
+            _imageViewButton2.layer.borderColor = NavigationColor.CGColor;
+            _imageViewButton2.layer.cornerRadius = 15;
+            _imageViewButton2.layer.masksToBounds = YES;
+            _imageViewButton2.tag = 1;
+            [_cell.contentView addSubview:_imageViewButton2];
+
+
+            [_imageViewButton2 addTarget:self action:@selector(getOphoto:) forControlEvents:UIControlEventTouchUpInside];
+
+
         }
 
 
-        return cell;
+        return _cell;
 
     }else
     {
@@ -156,6 +196,142 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)getOphoto:(UIButton *)sender
+{
+    [self initHeadImageAlertController:sender.tag];
+    self.getOphoto = sender.tag;
 
+}
+
+-(void)initHeadImageAlertController:(NSInteger )tag
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"相册或照相获取图片" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                   {
+
+                                       [self openCamera];
+
+                                   }];
+
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+
+                                   {
+
+                                       [self openPhotoLibrary];
+
+                                   }];
+
+    UIAlertAction *archiveAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+
+
+    [alertController addAction:cancelAction];
+    [alertController addAction:deleteAction];
+    [alertController addAction:archiveAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+
+
+
+}
+
+- (void) openCamera
+{
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *impick = [[UIImagePickerController alloc]init];
+        impick.delegate = self;
+        impick.allowsEditing = YES;
+        impick.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:impick animated:YES completion:nil];
+    }
+
+
+}
+
+-(void)openPhotoLibrary
+{
+
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+
+        _imagePickerController = [[UIImagePickerController alloc] init];
+
+        _imagePickerController.delegate = self;
+
+        _imagePickerController.allowsEditing = YES;
+
+        _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+
+        [self presentViewController:_imagePickerController animated:YES completion:^{
+
+            NSLog(@"cccc");
+
+        }];
+
+
+
+
+
+    }else
+
+    {
+
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"你摄像头没开启呢！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:action];
+        [self presentViewController:alertController animated:YES completion:nil];
+
+
+
+
+    }
+
+
+
+}
+
+
+
+//imagepickerdelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    //    [self.headImage setBackgroundImage:editingInfo[UIImagePickerControllerEditedImage] forState:UIControlStateNormal];
+    NSLog(@"%@",editingInfo);
+    [picker dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"选照片");
+    }];}
+
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    if (self.getOphoto == 0) {
+
+        [_imageViewButton setBackgroundImage:image forState:UIControlStateNormal];
+
+   }else
+   {
+       [_imageViewButton2 setBackgroundImage:image forState:UIControlStateNormal];
+   }
+
+
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    [self base64:image];
+    
+    
+}
+
+
+-(void)base64:(UIImage *)image
+{
+    NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
+    NSString *imageStr = [imagedata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    //    self.imageStr = imageStr;
+    
+}
 
 @end

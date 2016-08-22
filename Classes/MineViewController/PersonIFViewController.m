@@ -12,6 +12,7 @@
 #import "MarkViewController.h"
 #import "BYSHttpTool.h"
 #import "BYSHttpParameter.h"
+#import "DES.h"
 
 static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
@@ -112,7 +113,15 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 - (void)push:(UIButton *)sender
 {
 
-    [BYSHttpTool POST:APP_member_addInfo Parameters:[BYSHttpParameter get_APP_member_addInfo_jsonStr:@"1" nick_name:self.ncik_nameString birthday:self.dateString sex:@"1" height:self.height_String weight: self.weight_String] Success:^(id responseObject) {
+    NSString *str =[BYSHttpParameter get_APP_member_addInfo_jsonStr:@"1" nick_name:@"bao" birthday:@"1995" sex:@"1" height:@"187" weight:@"45"];
+    NSLog(@"%@-------%@",str,[DES encryptWithContent:str type:kCCEncrypt key:DESKEY] );
+
+//
+//    NSLog(@"deCrype---%@",[DES decryptUseDES:@"lMEZOu4Q9ayhWJslHIchs6bkGrvNCp/zptKCJ4UpGQEe1tSnTM6799mTseH2Io4/sdUNHJShwGbLxfaAm9p8kLt+BaIF+KssQnCmUhvvaJBCS91Nv+hyMSaBwRWHRWqSOWEm+3EyD8nhhTBl/bLg9QYGX8Re7S8BoqX5+I5N+0rADeAN2ru/zYDXlGZ5ofcWPglmgqPqasMweFbCUjMXkwOr1eVSTctB1ZXgYWXb3IdACxu79gxKOnXtJomgaDnWmKRGDmSp3TKIrVs7wRBNEXu/11THBbCDjY7lPTiwAcp8wudJhW4P7LKYekqRUwP6rjwfli+A0bTBoPri396sKQ==" key:@"4D53B979"]);
+
+    //[BYSHttpParameter get_APP_member_addInfo_jsonStr:@"1" nick_name:self.ncik_nameString birthday:self.dateString sex:@"1" height:self.height_String weight: self.weight_String];
+
+    [BYSHttpTool POST:APP_member_addInfo Parameters:@"CeS8XzDxReNU97swSAs6o/Cj8/5Um4Dr55m501yO9SF/lXqsBgbK4ZSwACHX5KTGXWNUmFeBbIPfDWfTQS+me2pEmDxf4t8JUZFqnbrZE1IvyRsljlSySV1jVJhXgWyDruF7l77dkuX0IM7a+FOKyj9yQWt+m8oiUZFqnbrZE1IQH2ajv6tsj8+RnC2IjmKP0FGwQKUZRXXlMZNBy+JXO/rTF0ECq+RYlmuHvgHwoqXTwbdGOhZoG9SGYT2xQ5ohSYBVv99m05U5FEBAbjktlSbHfqXRj+BgXWNUmFeBbIPseWEMKRaL7HMQW7mg79Htcp/3BzcetVtiUpsqxkdnS19R6hIYS18Bb2n3vzxdFEL1HsV0tBOzGGCeK99CLJlI+7FGaSCzgJfhFM1Ylc4/PSJO2nw944FlLsRMRwgyfH3UGFzCBJDkYBQp6R6pcPK/KCqabI9rcb8KUt+6in2H3GgbOh3/+NNSsLjWwYZX35Mbugv6kZCM0y9WUUNiDIm14BltcPjUnFL3JOmnpwgXalNW2dz6KVGm64OQL18nuU544E7RapfPWl5dkBil/5oPQdu+YaJvsY0ZtAF57W7qhef/xRmai/OCQgbc9uJihGAPx/AMfHl0K11jVJhXgWyDhnFLLFJsbNHgmAOjY8IuF0KsQhmJr4Yl" Success:^(id responseObject) {
         NSLog(@"%@",responseObject);
 
     } Failure:^(NSError *error) {

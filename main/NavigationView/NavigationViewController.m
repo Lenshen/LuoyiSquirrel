@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
-    self.interactivePopGestureRecognizer.enabled = NO;
+    self.interactivePopGestureRecognizer.enabled = YES;
 
     self.navigationBar.barTintColor = NavigationColor;
     

@@ -114,6 +114,10 @@
 
     [[UIApplication sharedApplication].keyWindow addSubview:self.alertView.alphaView];
     [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+    [UIView animateWithDuration:0.7 animations:^{
+
+        self.alertView.frame = CGRectMake(15, 110, BYSScreenWidth-15*2, 180);
+    }];
 
 
 
@@ -131,7 +135,7 @@
 - (BYSAlertView *)alertView
 {
     if (!_alertView) {
-        _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15, 110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:@"签到成功" buttonTitle:@"确定"];
+        _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15,-110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:@"签到成功" buttonTitle:@"确定"];
         __weak typeof (self) weakSelf = self;
         _alertView.chickDissMissButton = ^{
             weakSelf.alertView = nil;

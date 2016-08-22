@@ -9,11 +9,24 @@
 #import "DateWriteOneViewController.h"
 #import "DateOneTableViewCell.h"
 #import "DateWriteTwoViewController.h"
+#import "SubLBXScanViewController.h"
+//#import "MyQRViewController.h"
+#import "LBXScanView.h"
+#import <objc/message.h>
+#import "SearchViewController.h"
+#import "LBXScanResult.h"
+#import "LBXScanWrapper.h"
+#import "GoodsViewController.h"
+#import "MarkViewController.h"
+
+#import "ContentViewController.h"
+
+
 #define DateOnebigFont [UIFont systemFontOfSize:15]
 
 #define DateOneFont [UIFont systemFontOfSize:13]
 
-@interface DateWriteOneViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
+@interface DateWriteOneViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, strong)UIView *tableFootView;
@@ -29,6 +42,12 @@
 @property (nonatomic, strong) UIButton *kgButton;
 
 @property (nonatomic, strong) DateOneTableViewCell *cell;
+
+@property (nonatomic,strong) UIImagePickerController *imagePickerController;
+@property (nonatomic,strong) NSMutableArray *photoImageMArray;
+@property (nonatomic,strong) UILabel *titleLabelTwo;
+@property (nonatomic,strong) UIImageView *photoImageView;
+
 
 
 
@@ -105,10 +124,10 @@
 
 
 
-        UILabel *titleLabelTwo = [[UILabel alloc]initWithFrame:CGRectMake(10,CGRectGetMaxY(_textView.frame)+20, 100, 21)];
-        titleLabelTwo.text = @"上传照片";
-        titleLabelTwo.textAlignment = NSTextAlignmentLeft;
-        titleLabelTwo.font = DateOnebigFont;
+        _titleLabelTwo = [[UILabel alloc]initWithFrame:CGRectMake(10,CGRectGetMaxY(_textView.frame)+20, 100, 21)];
+        _titleLabelTwo.text = @"上传照片";
+        _titleLabelTwo.textAlignment = NSTextAlignmentLeft;
+        _titleLabelTwo.font = DateOnebigFont;
 
 
 
@@ -116,6 +135,7 @@
         UIButton *photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         photoButton.frame = CGRectMake(BYSScreenWidth-10-50, CGRectGetMaxY(_textView.frame)+10, 50, 50);
         [photoButton setBackgroundImage:[UIImage imageNamed:@"post_photo"] forState:UIControlStateNormal];
+        [photoButton addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
 
         UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(photoButton.frame)+10, BYSScreenWidth-10-10, 0.7)];
         lineLabel.backgroundColor = RGB(194, 195, 196);
@@ -178,7 +198,7 @@
 
         [_tableFootView addSubview:titleLabel];
         [_tableFootView addSubview:_textView];
-        [_tableFootView addSubview:titleLabelTwo];
+        [_tableFootView addSubview:_titleLabelTwo];
         [_tableFootView addSubview:photoButton];
         [_tableFootView addSubview:lineLabel];
         [_tableFootView addSubview:titleLabelThree];
@@ -196,7 +216,7 @@
 }
 - (void)push:(UIButton *)sender
 {
-    [self.navigationController pushViewController:[DateWriteTwoViewController new] animated:YES];
+    [self.navigationController pushViewController:[ContentViewController new] animated:YES];
 }
 - (void)yuan:(UIButton *)sender
 {
@@ -216,11 +236,7 @@
     sender.layer.borderColor = [UIColor clearColor].CGColor;
 
 }
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [super touchesBegan:touches withEvent:UIEventTypeTouches];
-    [_textView resignFirstResponder];
-}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -249,6 +265,7 @@
         case 0:
               _cell.minTF.userInteractionEnabled = NO;
               [_cell.rightButton setImage:[UIImage imageNamed:@"sao_yi_sao"] forState:UIControlStateNormal];
+            _cell.rightButton.userInteractionEnabled = NO;
             break;
         case 1:
             _cell.minTF.attributedPlaceholder = attribute;
@@ -289,7 +306,7 @@
         default:
             break;
     }
-
+    _cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
 
     return _cell;
@@ -326,17 +343,229 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    NSInteger index = indexPath.row;
     [_textView resignFirstResponder];
+
+    switch (index) {
+        case 0:
+            [self openScanner];
+
+            break;
+
+        default:
+            break;
+    }
+
+    
+}
+
+- (void)openScanner
+{
+
+
+    //创建参数对象
+    LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
+
+    //矩形区域中心上移，默认中心点为屏幕中心点
+    style.centerUpOffset = 44;
+
+    //扫码框周围4个角的类型,设置为外挂式
+    style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
+
+    //扫码框周围4个角绘制的线条宽度
+    style.photoframeLineW = 6;
+
+    //扫码框周围4个角的宽度
+    style.photoframeAngleW = 24;
+
+    //扫码框周围4个角的高度
+    style.photoframeAngleH = 24;
+
+    //扫码框内 动画类型 --线条上下移动
+    style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
+
+    //线条上下移动图片
+    style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
+
+    //SubLBXScanViewController继承自LBXScanViewController
+    //添加一些扫码或相册结果处理
+    SubLBXScanViewController *vc = [SubLBXScanViewController new];
+    vc.style = style;
+
+    vc.isQQSimulator = YES;
+    vc.isVideoZoom = YES;
+
+    //    [self.navigationController pushViewController:vc animated:YES];
+    [self presentViewController:vc animated:YES completion:nil];
+    
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark viewWillAppear
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = NO;
+
+
+
+}
+
+- (void)takePhoto:(UIButton *)sender
+{
+    [self initHeadImageAlertController];
+}
+
+-(void)initHeadImageAlertController
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"相册或照相获取图片" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                   {
+
+                                       [self openCamera];
+
+                                   }];
+
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+
+                                   {
+
+                                       [self openPhotoLibrary];
+
+                                   }];
+
+    UIAlertAction *archiveAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+
+
+    [alertController addAction:cancelAction];
+    [alertController addAction:deleteAction];
+    [alertController addAction:archiveAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+
+
+
+}
+
+- (void) openCamera
+{
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *impick = [[UIImagePickerController alloc]init];
+        impick.delegate = self;
+        impick.allowsEditing = YES;
+        impick.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:impick animated:YES completion:nil];
+    }
+
+
+}
+
+-(void)openPhotoLibrary
+{
+
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+
+        _imagePickerController = [[UIImagePickerController alloc] init];
+
+        _imagePickerController.delegate = self;
+
+        _imagePickerController.allowsEditing = YES;
+
+        _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+
+        [self presentViewController:_imagePickerController animated:YES completion:^{
+
+            NSLog(@"cccc");
+
+        }];
+
+
+
+
+
+    }else
+
+    {
+
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"你摄像头没开启呢！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:action];
+        [self presentViewController:alertController animated:YES completion:nil];
+
+
+
+
+    }
+
+
+
+}
+
+
+
+//imagepickerdelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    //    [self.headImage setBackgroundImage:editingInfo[UIImagePickerControllerEditedImage] forState:UIControlStateNormal];
+    NSLog(@"%@",editingInfo);
+    [picker dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"选照片");
+    }];}
+
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+//    if (self.getOphoto == 0) {
+//
+//        [_imageViewButton setBackgroundImage:image forState:UIControlStateNormal];
+//
+//    }else
+//    {
+//        [_imageViewButton2 setBackgroundImage:image forState:UIControlStateNormal];
+//    }
+    [self.photoImageMArray addObject:image];
+
+    if (_photoImageMArray.count != 0) {
+        for (int i = 0; i < _photoImageMArray.count; i++) {
+            _photoImageView = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.titleLabelTwo.frame)+10+i*60,CGRectGetMaxY(_textView.frame)+10, 50,50)];
+            _photoImageView.image = _photoImageMArray[i];
+            [self.tableFootView addSubview:_photoImageView];
+
+        }
+    }
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    [self base64:image];
+    
+    
+}
+- (NSMutableArray *)photoImageMArray
+{
+    if (!_photoImageMArray) {
+        _photoImageMArray = [NSMutableArray arrayWithCapacity:4];
+
+    }
+    return _photoImageMArray;
+}
+
+
+-(void)base64:(UIImage *)image
+{
+    NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
+    NSString *imageStr = [imagedata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    //    self.imageStr = imageStr;
+    
 }
 
 /*

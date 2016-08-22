@@ -9,6 +9,7 @@
 #import "GoodsListTableCell.h"
 #import "GetScoreView.h"
 #import "YouSoreViewController.h"
+#import "GoodsDetialViewController.h"
 static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdntifier";
 #define rowhight 100
 
@@ -92,6 +93,7 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
 
     NSString *scoreString = [NSString stringWithFormat:@"%ld 分",score];
     NSMutableAttributedString *abs = [[NSMutableAttributedString alloc]initWithString:scoreString];
+    
 
 
 
@@ -114,6 +116,10 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
     [cell.scoreButton addTarget:self action:@selector(getScore:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
     
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.navigationController pushViewController:[GoodsDetialViewController new] animated:YES];
 }
 - (void)chickCollectionViewDelegate:(NSInteger)tag WithId:(NSInteger)preson_id
 {

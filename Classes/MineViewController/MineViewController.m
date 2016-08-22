@@ -15,6 +15,7 @@
 #import "MyIntergralViewController.h"
 #import "FamilyMGViewController.h"
 #import "DateWriteOneViewController.h"
+#import "MessageViewController.h"
 
 #define rowheight 44
 static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
@@ -223,6 +224,10 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
     family.hidesBottomBarWhenPushed = YES;
     DateWriteOneViewController *date = [DateWriteOneViewController new];
     date.hidesBottomBarWhenPushed = YES;
+    MessageViewController *message = [MessageViewController new];
+    message.hidesBottomBarWhenPushed = YES;
+
+
 
 
 
@@ -240,6 +245,9 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
             break;
         case 3:
             [self.navigationController pushViewController:myintergral animated:YES];
+            break;
+        case 4:
+            [self.navigationController pushViewController:message animated:YES];
             break;
         case 5:
             [self.navigationController pushViewController:autovc animated:YES];

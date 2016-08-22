@@ -11,6 +11,8 @@
 @interface AutoTableCell : UITableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 @property (strong, nonatomic)UIButton *imageViewButton;
+@property (strong, nonatomic)UIButton *imageViewButton2;
+
 @property (strong, nonatomic)UILabel *labelCell;
 @property (strong, nonatomic)UILabel *labelCell2;
 

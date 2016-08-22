@@ -22,6 +22,8 @@
 @property (strong,nonatomic)NSArray *buttonTitle;
 @property (strong,nonatomic)NSArray *buttonImages;
 
+@property (strong,nonatomic)UILabel *myInviteCode;
+
 
 @end
 
@@ -53,6 +55,8 @@
     [self.view addSubview:button];
 
 
+
+
     for (int i = 0; i < self.buttonTitle.count; i++) {
         _shareButton = [[UIButton alloc]init];
         _shareButton.tag = i;
@@ -70,6 +74,19 @@
 
 
     }
+
+    _myInviteCode = [[UILabel alloc]initWithFrame:CGRectMake(0,BYSScreenHeight/2+110, BYSScreenWidth, 21)];
+
+    NSString *str = @"我的邀请码: 5GJADKFA";
+    NSMutableAttributedString *mutaAttributedString = [[NSMutableAttributedString alloc]initWithString:str];
+    [mutaAttributedString addAttribute:NSForegroundColorAttributeName value:RGB(107, 104, 94) range:NSMakeRange(0, 6)];
+     [mutaAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, 6)];
+    [mutaAttributedString addAttribute:NSForegroundColorAttributeName value:RGB(63, 198, 228) range:NSMakeRange(7,8)];
+    [mutaAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30 weight:18] range:NSMakeRange(7,8)];
+    _myInviteCode.attributedText = mutaAttributedString;
+    _myInviteCode.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_myInviteCode];
+
     
 
 
@@ -77,7 +94,10 @@
 
 }
 
-
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [_inviteCodeTF resignFirstResponder];
+}
 - (void)shareChick:(UIButton *)sender
 {
     //1、创建分享参数

@@ -25,12 +25,13 @@
 //人人SDK头文件
 #import <RennSDK/RennSDK.h>
 #import "LoginViewController.h"
-
-
 #import "HomeViewController.h"
 
 
+#import <Bugly/Bugly.h>
 
+
+static   NSString *buglyAppID = @"900048104";
 @interface AppDelegate ()
 
 
@@ -118,6 +119,13 @@
                  break;
          }
      }];
+
+
+
+//bug反馈信息代码注册
+[Bugly startWithAppId:buglyAppID];
+
+
     return YES;
 }
 

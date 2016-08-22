@@ -72,7 +72,7 @@
     table.delegate = self;
     table.dataSource = self;
     table.backgroundColor = [UIColor clearColor];
-    [self addSubview:table];
+    [self addSubview:table];  
     _lzTableView = table;
 }
 

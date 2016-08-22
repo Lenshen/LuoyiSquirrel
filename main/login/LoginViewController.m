@@ -82,18 +82,18 @@
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.window.rootViewController = tabbarVc;
 
-//    [BYSHttpTool GET:APP_member_getToken Parameters:[BYSHttpParameter get_APP_member_getToken:_codeTextField.text] Success:^(id responseObject) {
-//
-//        NSLog(@"%@",responseObject);
-//        [USER_DEFAULT setObject:responseObject[@"data"] forKey:@"token"];
-//
-//
-//
-//    } Failure:^(NSError *error) {
-//
-//        NSLog(@"%@",error);
-//        
-//    }];
+    [BYSHttpTool GET:APP_member_getToken Parameters:[BYSHttpParameter get_APP_member_getToken:_codeTextField.text] Success:^(id responseObject) {
+
+        NSLog(@"%@",responseObject);
+        [USER_DEFAULT setObject:responseObject[@"data"] forKey:@"token"];
+
+
+
+    } Failure:^(NSError *error) {
+
+        NSLog(@"%@",error);
+        
+    }];
 
 
 }

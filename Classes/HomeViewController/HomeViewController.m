@@ -49,7 +49,7 @@
     if (![USER_DEFAULT boolForKey:@"hasSubmit"]) {
 
         [self showAlert];
-//        [USER_DEFAULT setBool:YES forKey:@"hasSubmit"];
+        [USER_DEFAULT setBool:YES forKey:@"hasSubmit"];
 
 
     }
@@ -392,7 +392,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 150;
+    return 180;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -403,6 +403,7 @@
     }
     cell.imageViewCell.image = [UIImage imageNamed:@"test"];
     cell.linelabel.backgroundColor = [UIColor whiteColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)didReceiveMemoryWarning {

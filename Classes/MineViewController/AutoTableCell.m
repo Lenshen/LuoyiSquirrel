@@ -21,11 +21,7 @@
 - (void)configUI
 {
 
-    _imageViewButton = [[UIButton alloc]initWithFrame:CGRectMake(BYSScreenWidth-10-120,30,120, 75)];
-    _imageViewButton.layer.borderWidth = 0.5;
-    _imageViewButton.layer.borderColor = NavigationColor.CGColor;
-    _imageViewButton.layer.cornerRadius = 15;
-    _imageViewButton.layer.masksToBounds = YES;
+   
 
 
     _labelCell = [[UILabel alloc]initWithFrame:CGRectMake(10, 40, 200, 20)];
@@ -41,6 +37,7 @@
 //    [self.contentView addSubview:lineLabel];
 
     [self.contentView addSubview:_imageViewButton];
+    [self.contentView addSubview:_imageViewButton2];
     [self.contentView addSubview:_labelCell];
     [self.contentView addSubview:_labelCell2];
 

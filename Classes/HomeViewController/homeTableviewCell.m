@@ -21,6 +21,7 @@
 - (void)configUI
 {
    _imageViewCell = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 180-10)];
+
     _linelabel = [[UILabel alloc]initWithFrame:CGRectMake(0,180-10, BYSScreenWidth, 10)];
 
     [self.contentView addSubview:_imageViewCell];

@@ -23,8 +23,9 @@
 {
     _liftLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 100, 21)];
 
-    _minTF = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, BYSScreenWidth-30, 21)];
+    _minTF = [[UITextField alloc]initWithFrame:CGRectMake(BYSScreenWidth/2-75, 10,150, 21)];
     _minTF.textAlignment = NSTextAlignmentCenter;
+//    _minTF.backgroundColor = [UIColor redColor];
     _minTF.placeholder = @"选填";
     _minTF.font = [UIFont systemFontOfSize:13];
 
@@ -43,6 +44,10 @@
     [self.contentView addSubview:_minTF];
     [self.contentView addSubview:lineLabel];
 
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [_minTF resignFirstResponder];
 }
 
 @end
