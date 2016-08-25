@@ -35,11 +35,17 @@
     // Do any additional setup after loading the view.
     NSString *mainPath = [[NSBundle mainBundle]bundlePath]
     ;
+    NSLog(@"%@",[USER_DEFAULT objectForKey:@"token"]);
+
     NSString *htmlString = @"/web/goodsDetail.html";
+
     NSString *path = [mainPath stringByAppendingString:htmlString];
 
 
     NSURLRequest *request   = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",[path stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]]];
+//    NSURLRequest *request   = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",htmlString]]];
+//    NSString *path = [mainPath stringByAppendingString:htmlString];
+
     self.webView.delegate = self;
 
     [self.webView loadRequest:request];

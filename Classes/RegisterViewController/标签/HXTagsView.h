@@ -43,6 +43,8 @@
 @property (nonatomic) BOOL select;
 @property (nonatomic,strong) UIButton *button;
 
+@property (nonatomic, strong)NSArray *tag_idArray;
+
 /**
  *  设置标签数据和代理
  *

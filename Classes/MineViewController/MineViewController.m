@@ -16,6 +16,8 @@
 #import "FamilyMGViewController.h"
 #import "DateWriteOneViewController.h"
 #import "MessageViewController.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 
 #define rowheight 44
 static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
@@ -58,6 +60,19 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 {
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = YES;
+    if ([USER_DEFAULT objectForKey:@"nick_name"]) {
+        self.nick_name.text = [USER_DEFAULT objectForKey:@"nick_name"];
+    }
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter get_user_info] Success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
+        NSDictionary *dic = responseObject[@"data"];
+
+        [USER_DEFAULT setObject:dic[@"nick_name"] forKey:@"nick_name"];
+
+
+    } Failure:^(NSError *error) {
+
+    }];
 }
 
 - (NSArray *)lableArray

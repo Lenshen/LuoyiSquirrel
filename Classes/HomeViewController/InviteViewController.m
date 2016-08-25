@@ -10,6 +10,8 @@
 #import "UIButton+Vertical.h"
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
+#import "BYSHttpParameter.h"
+#import "BYSHttpTool.h"
 
 @interface InviteViewController()
 @property (nonatomic,strong) UIImageView *imageView;
@@ -24,6 +26,8 @@
 
 @property (strong,nonatomic)UILabel *myInviteCode;
 
+@property (copy, nonatomic)NSString *codeString;
+
 
 @end
 
@@ -32,6 +36,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter get_app_get_code] Success:^(id responseObject) {
+
+
+        NSLog(@"%@",responseObject);
+        self.codeString = responseObject[@"data"];
+        [self getMutableStri:self.codeString];
+
+    } Failure:^(NSError *error) {
+
+    }];
     self.view.backgroundColor =[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"邀请";
@@ -53,6 +68,7 @@
     button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
     [self.view addSubview:button];
+    [button addTarget:self action:@selector(exchangCode:) forControlEvents:UIControlEventTouchUpInside];
 
 
 
@@ -77,13 +93,7 @@
 
     _myInviteCode = [[UILabel alloc]initWithFrame:CGRectMake(0,BYSScreenHeight/2+110, BYSScreenWidth, 21)];
 
-    NSString *str = @"我的邀请码: 5GJADKFA";
-    NSMutableAttributedString *mutaAttributedString = [[NSMutableAttributedString alloc]initWithString:str];
-    [mutaAttributedString addAttribute:NSForegroundColorAttributeName value:RGB(107, 104, 94) range:NSMakeRange(0, 6)];
-     [mutaAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, 6)];
-    [mutaAttributedString addAttribute:NSForegroundColorAttributeName value:RGB(63, 198, 228) range:NSMakeRange(7,8)];
-    [mutaAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30 weight:18] range:NSMakeRange(7,8)];
-    _myInviteCode.attributedText = mutaAttributedString;
+
     _myInviteCode.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_myInviteCode];
 
@@ -93,7 +103,28 @@
 
 
 }
+- (void)exchangCode:(UIButton *)sender
+{
+    [self.inviteCodeTF resignFirstResponder];
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_exchange_code:self.inviteCodeTF.text] Success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
 
+    } Failure:^(NSError *error) {
+
+    }];
+}
+- (void)getMutableStri:(NSString *)code
+{
+    NSString *str = [NSString stringWithFormat:@"我的邀请码: %@",code] ;
+
+
+    NSMutableAttributedString *mutaAttributedString = [[NSMutableAttributedString alloc]initWithString:str];
+    [mutaAttributedString addAttribute:NSForegroundColorAttributeName value:RGB(107, 104, 94) range:NSMakeRange(0, 6)];
+    [mutaAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, 6)];
+    [mutaAttributedString addAttribute:NSForegroundColorAttributeName value:RGB(63, 198, 228) range:NSMakeRange(7,8)];
+    [mutaAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30 weight:18] range:NSMakeRange(7,8)];
+    _myInviteCode.attributedText = mutaAttributedString;
+}
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [_inviteCodeTF resignFirstResponder];

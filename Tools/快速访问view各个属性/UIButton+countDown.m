@@ -7,8 +7,11 @@
 //
 
 #import "UIButton+countDown.h"
+#import <objc/runtime.h>
 
 @implementation UIButton (countDown)
+static char strAddrKey = 'a';
+
 
 - (void)startWithTime:(NSInteger)timeLine title:(NSString *)title countDownTitle:(NSString *)subTitle mainColor:(UIColor *)mColor countColor:(UIColor *)color{
 
@@ -57,5 +60,13 @@
     [self setBackgroundImage:[UIImage imageNamed:@"登陆按钮框"] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 
+}
+- (NSString *)tag_id
+{
+    return objc_getAssociatedObject(self,&strAddrKey);
+}
+- (void)setTag_id:(NSString *)tag_id
+{
+    objc_setAssociatedObject(self, &strAddrKey, tag_id, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 @end

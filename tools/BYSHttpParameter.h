@@ -61,7 +61,19 @@
 + (NSDictionary *)api_getAdvert_spaceCode:(NSString *)spaceCode;
 
 
++ (NSString *)api_tags_getlist_tags;
 
++ (NSString *)api_comment_addCommentWithGoods_id:(NSString *)goods_id content:(NSString *)content comment_images:(NSArray *)base64ImageArray;
+
++ (NSString *)api_tags_updateTaglist_tagsWithTags:(NSArray *)tags;
+
++ (NSString *)get_user_info;
+
++ (NSString *)api_get_certification;
+
++ (NSString *)api_member_certificationWithBase64Str:(NSString *)base64 type:(NSString *)type;
+
++ (NSString *)api_goods_getCmptNution;
 
 
 

@@ -32,6 +32,7 @@
 //获取积分信息
 //获取用户认证信息
 //兑换积分商品
+//获取商品类型选项
 
 #define APP_member_service   @"http://"TESTSERVERSAPI"/api/member/service"
 
@@ -84,10 +85,10 @@
 #define APP_goods_addMaterial  @"http://"TESTSERVERSAPI"/api/goods/AddMaterial"
 
 
+//获取成员标签
+#define APP_tags_getlist  @"http://"TESTSERVERSAPI"/api/tags/getlist"
 
-#define APP_USER_SIGOUT  @"http://"TESTSERVERSAPI"/api/user/signout"
-
-#define APP_USER_UPDATE  @"http://"TESTSERVERSAPI"/api/user/update"
+#define APP_goods_getCmptNution  @"http://"TESTSERVERSAPI"/api/goods/GetCmptNution"
 
 #define APP_ADDRESS_ADD  @"http://"TESTSERVERSAPI"/api/address/add"
 
@@ -104,15 +105,22 @@
 
 #define APP_FAVORITE_LIST @"http://"TESTSERVERSAPI"/api/favorite/list"
 
-#define APP_FAVORITE_REMOVE @"http://"TESTSERVERSAPI"/api/favorite/remove"
+//添加商品评价
+#define APP_comment_addComment @"http://"TESTSERVERSAPI"/api/comment/addComment"
 
-#define APP_CART_REMOVE @"http://"TESTSERVERSAPI"/api/cart/remove"
+//获取兑换纪录
 
-#define APP_GET_VERSION @"http://"TESTSERVERSAPI"/api/config/version"
+#define APP_goods_getExchangePage @"http://"TESTSERVERSAPI"/api/goods/GetExchangePage"
+//获取松鼠日报
 
-#define APP_CHANGE_GoodsCounts @"http://"TESTSERVERSAPI"/api/cart/add"
+#define APP_home_getDaily @"http://"TESTSERVERSAPI"/api/home/getDaily"
 
-#define APP_GOODPRICE_UPDATE @"http://"TESTSERVERSAPI"/api/cart/update"
+//获取消息
+#define APP_home_getMessage @"http://"TESTSERVERSAPI"/api/home/getMessage"
+
+//评分
+#define APP_goods_graded @"http://"TESTSERVERSAPI"/api/goods/graded"
+
 
 
 

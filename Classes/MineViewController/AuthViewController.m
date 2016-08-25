@@ -9,6 +9,10 @@
 #import "AuthViewController.h"
 #import "MineEndTableViewCell.h"
 #import "AutoTableCell.h"
+#import "BYSHttpParameter.h"
+#import "BYSHttpTool.h"
+#import "AutoModel.h"
+#import "UIButton+WebCache.h"
 
 typedef  NS_ENUM(NSInteger,getOphoto)
 {
@@ -32,6 +36,13 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 
 @property (nonatomic,strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) AutoTableCell *cell;
+@property (nonatomic, strong) AutoModel *model;
+
+
+@property (nonatomic, copy) NSString *base64One;
+@property (nonatomic, copy) NSString *base64Two;
+@property (nonatomic) BOOL isHave;
+
 
 @end
 
@@ -47,6 +58,8 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     self.view.backgroundColor = TableviewColor;
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = self.footview;
+
+
 
 
 }
@@ -68,7 +81,14 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     return _footview;
 }
 
+- (AutoModel *)model
+{
 
+    if (!_model) {
+        _model = [AutoModel new];
+    }
+    return _model;
+}
 - (NSArray *)firstLabelTitleA
 {
     if (!_firstLabelTitleA) {
@@ -143,6 +163,16 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
             [_imageViewButton addTarget:self action:@selector(getOphoto:) forControlEvents:UIControlEventTouchUpInside];
 
 
+            if ([USER_DEFAULT objectForKey:@"id_care_image"]) {
+                [_imageViewButton sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"id_care_image"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"test"]];
+                NSLog(@"%@",[USER_DEFAULT objectForKey:@"id_care_image"]);
+                
+            }else
+            {
+            [_imageViewButton setBackgroundImage:[UIImage imageNamed:@"id_card"] forState:UIControlStateNormal];
+            }
+
+
 
         }else
         {
@@ -161,6 +191,15 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 
 
             [_imageViewButton2 addTarget:self action:@selector(getOphoto:) forControlEvents:UIControlEventTouchUpInside];
+            
+            if ([USER_DEFAULT objectForKey:@"id_care_image"]) {
+                [_imageViewButton2 sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"certification"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"test"]];
+
+            }else
+            {
+                [_imageViewButton2 setBackgroundImage:[UIImage imageNamed:@"other_id_card"] forState:UIControlStateNormal];
+            }
+
 
 
         }
@@ -187,6 +226,27 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     // Called when the view is about to made visible. Default does nothing
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+
+
+
+
+
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_get_certification] Success:^(id responseObject) {
+
+        NSDictionary *dic = responseObject[@"data"];
+        self.model = [self.model initWithDictionary:dic error:nil];
+        NSLog(@"%@------%@-------%@",self.model,responseObject,dic);
+        [USER_DEFAULT setObject:self.model.id_card forKey:@"id_care_image"];
+        [USER_DEFAULT setObject:self.model.certification forKey:@"certification"];
+
+
+
+
+
+    } Failure:^(NSError *error) {
+        
+    }];
+
 
     //去除导航栏下方的横线
 
@@ -310,28 +370,58 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     if (self.getOphoto == 0) {
 
         [_imageViewButton setBackgroundImage:image forState:UIControlStateNormal];
+        self.base64One =  [self base64:image];
+        [BYSHttpTool POST:APP_member_certification Parameters:[BYSHttpParameter api_member_certificationWithBase64Str:self.base64One type:@"1"] Success:^(id responseObject) {
+
+
+            NSLog(@"%@",responseObject);
+
+
+
+
+        } Failure:^(NSError *error) {
+            
+        }];
+
 
    }else
    {
        [_imageViewButton2 setBackgroundImage:image forState:UIControlStateNormal];
+       self.base64Two =  [self base64:image];
+       [BYSHttpTool POST:APP_member_certification Parameters:[BYSHttpParameter api_member_certificationWithBase64Str:self.base64Two type:@"0"] Success:^(id responseObject) {
+
+
+           NSLog(@"%@",responseObject);
+
+
+       } Failure:^(NSError *error) {
+           
+       }];
+
    }
 
 
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     
-    [self base64:image];
-    
+
     
 }
 
 
--(void)base64:(UIImage *)image
+-(NSString *)base64:(UIImage *)image
 {
     NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
     NSString *imageStr = [imagedata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     //    self.imageStr = imageStr;
+    return imageStr;
     
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+
+
 }
 
 @end

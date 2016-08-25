@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "HXTagsView.h"
+#import "markCellModel.h"
 
 
 @interface MarkTableViewCell : UITableViewCell
 @property (nonatomic,strong) HXTagsView *tagsView;
-@property (nonatomic,strong) NSString *title;
-@property (nonatomic,strong) NSArray *markArray;
+//@property (nonatomic,strong) NSString *title;
+//@property (nonatomic,strong) NSArray *markArray;
+//@property (nonatomic,strong) NSArray *tag_idArray;
+@property (nonatomic,strong) markCellModel *model;
+
+
 @property (nonatomic,strong) UILabel *titleLabel;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;

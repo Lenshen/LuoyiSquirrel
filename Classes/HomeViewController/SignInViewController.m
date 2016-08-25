@@ -8,6 +8,8 @@
 
 #import "SignInViewController.h"
 #import "BYSAlertView.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 @interface SignInViewController()
 @property (nonatomic,strong) UIImageView *imageView;
 @property (nonatomic,strong) UIButton *convertButton;
@@ -15,6 +17,7 @@
 @property (nonatomic,strong) UILabel *signLabel;
 @property (nonatomic,assign) NSInteger signInteger;
 @property (nonatomic,strong) BYSAlertView *alertView;
+
 
 
 
@@ -32,7 +35,8 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"签到";
     [self.view addSubview:self.imageView];
-    
+
+
 
 
     
@@ -120,6 +124,18 @@
     }];
 
 
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_sign_in] Success:^(id responseObject) {
+
+
+        NSLog(@"%@",responseObject);
+//        self.codeString = responseObject[@"data"];
+//        [self getMutableStri:self.codeString];
+
+    } Failure:^(NSError *error) {
+        
+    }];
+
+
 
 
 
@@ -130,6 +146,17 @@
     [super viewWillAppear:animated];
 
     //去除导航栏下方的横线
+
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_get_sign] Success:^(id responseObject) {
+
+
+        NSLog(@"%@",responseObject);
+        //        self.codeString = responseObject[@"data"];
+        //        [self getMutableStri:self.codeString];
+
+    } Failure:^(NSError *error) {
+        
+    }];
  
 }
 - (BYSAlertView *)alertView

@@ -19,6 +19,8 @@
 #import "PersonIFViewController.h"
 #import "MyIntergralViewController.h"
 #import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
+#import "AdvertModel.h"
 
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -32,6 +34,8 @@
 @property (strong,nonatomic)UILabel *timeLabel;
 @property (strong,nonatomic)UILabel *dayLabel;
 @property (strong,nonatomic)UIButton *headButton;
+@property (strong,nonatomic)AdvertModel *model;
+
 
 @property (strong,nonatomic)SDCycleScrollView *cycleScrollView;
 
@@ -41,6 +45,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;
+
 
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -122,12 +127,40 @@
     NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(reloop) userInfo:nil repeats:YES];
     [timer fire];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-
+    [self getcycleImage];
 
 
 }
+- (AdvertModel *)model
+{
+    if (!_model) {
+        _model = [[AdvertModel alloc]init];
+    }
+    return _model;
+}
+- (void)getcycleImage
+{
+    [BYSHttpTool GET:APP_home_getAdvert Parameters:[BYSHttpParameter api_getAdvert_spaceCode:@"center"] Success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
+        NSMutableArray *mutoArray = [NSMutableArray new];
+        NSArray *array = responseObject[@"data"];
+        for (NSDictionary *dic in array) {
+          self.model = [self.model initWithDictionary:dic error:nil];
+            [mutoArray addObject:self.model.image];
 
 
+      }
+        self.netImages = [mutoArray copy];
+        NSLog(@"%@",self.netImages);
+
+        self.cycleScrollView.imageURLStringsGroup = self.netImages;
+
+
+
+    } Failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
 
 #pragma  mark dingshi
 - (void)reloop
@@ -156,12 +189,7 @@
 -(NSArray *)netImages{
 
     if (!_netImages) {
-        _netImages =  @[
-                        @"http://d.hiphotos.baidu.com/zhidao/pic/item/72f082025aafa40f507b2e99aa64034f78f01930.jpg",
-                        @"http://b.hiphotos.baidu.com/zhidao/pic/item/4b90f603738da9770889666fb151f8198718e3d4.jpg",
-                        @"http://g.hiphotos.baidu.com/zhidao/pic/item/f2deb48f8c5494ee4e84ef5d2cf5e0fe98257ed4.jpg",
-                        @"http://d.hiphotos.baidu.com/zhidao/pic/item/9922720e0cf3d7ca104edf32f31fbe096b63a93e.jpg"
-                        ];
+        _netImages = [NSArray new];
     }
     return _netImages;
 }
@@ -272,7 +300,6 @@
     _cycleScrollView.showPageControl = YES;
     _cycleScrollView.pageHight = 10;
 
-    _cycleScrollView.imageURLStringsGroup = self.netImages;
     _cycleScrollView.autoScrollTimeInterval = 2.0;
 
     _cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleToFill;

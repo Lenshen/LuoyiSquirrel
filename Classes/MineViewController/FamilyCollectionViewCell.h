@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MemberIFModel.h"
 
 @interface FamilyCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView *familyHDView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *relationLabel;
+
+@property (nonatomic, strong) MemberIFModel *model;
 
 @end

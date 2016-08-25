@@ -67,7 +67,13 @@
 //  6.获取用户基本信息列表
 + (NSString *)get_app_list
 {
-    NSDictionary *dic = @{@"method":@"get_member_list"};
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"method":@"get_member_list"};
+    return [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
+
++ (NSString *)get_user_info
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"method":@"get_user_info"};
     return [DES encryptWithContent:[self dictionaryToJson:dic]];
 }
 
@@ -130,6 +136,46 @@
     return  dic;
 }
 
++ (NSString *)api_get_certification
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"method":@"get_certification"};
+    return  [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
+
+
++ (NSString *)api_member_certificationWithBase64Str:(NSString *)base64 type:(NSString *)type
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"image":base64,@"type":type};
+    return  [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
+
+
+
+
++ (NSString *)api_home_addGoddsWithGood_id:(NSString *)goods_id
+                                  bar_code:(NSString *)bar_code
+                                      name:(NSString *)name
+                                brand_name:(NSString *)brand_name
+                            goods_class_id:(NSString *)goods_class_id
+                           approval_number:(NSString *)approval_number
+                                     alias:(NSString *)alias
+                                     price:(NSString *)price
+                               price_units:(NSString *)price_units
+                               goods_image:(NSString *)goods_image
+                                shelf_life:(NSString *)shelf_life
+                                     saved:(NSString *)saved
+                                  property:(NSString *)property
+                                    flavor:(NSString *)flavor
+                                   content:(NSString *)content
+                                 packaging:(NSString *)packaging
+                          machining_method:(NSString *)machining_method
+                             edible_method:(NSString *)edible_method
+
+
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"goods_id":goods_id,@"bar_code":bar_code,@"name":name,@"brand_name":brand_name,@"goods_class_id":goods_class_id,@"approval_number":approval_number,@"alias":alias,@"price":price,@"price_units":price_units,@"goods_image":goods_image,@"shelf_life":shelf_life,@"saved":saved,@"property":property,@"flavor":flavor,@"content":content,@"packaging":packaging,@"machining_method":machining_method,@"edible_method":edible_method};
+    return  [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
 
 
 
@@ -147,6 +193,26 @@
 
 
 
+
+
+
+
+
+
+
+//获取成员标签
+
++ (NSString *)api_tags_updateTaglist_tagsWithTags:(NSArray *)tags
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"member_id":@"0",@"tags":tags};
+    return [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
+
++ (NSString *)api_tags_getlist_tags
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"member_id":@"0"};
+    return [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
 
 
 
@@ -194,6 +260,16 @@
     return  [DES encryptWithContent:[self dictionaryToJson:dic]];
 }
 
+
+
+
+
+//
++ (NSString *)api_comment_addCommentWithGoods_id:(NSString *)goods_id content:(NSString *)content comment_images:(NSArray *)base64ImageArray
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"goods_id":goods_id,@"content":content,@"comment_images":base64ImageArray};
+    return  [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
 
 
 

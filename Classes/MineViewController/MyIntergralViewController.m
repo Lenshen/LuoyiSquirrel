@@ -12,6 +12,8 @@
 #import "InviteViewController.h"
 #import "DateWriteOneViewController.h"
 #import "PersonIFViewController.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 #define rowheight 50
 
 
@@ -30,6 +32,9 @@
 @property (nonatomic, strong)UILabel *todayMinLabel;
 @property (nonatomic, strong)UILabel *titleLabel;
 
+@property (nonatomic, copy)NSString *todayPoint;
+@property (nonatomic, copy)NSString *allPoint;
+
 
 
 
@@ -45,10 +50,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.title = @"设置";
+//    self.title = @"设置";
     [self.view addSubview:self.tableView];
-    self.tableView.tableHeaderView = self.tableHeadView;
     self.tableView.tableFooterView = [UIView new];
+
 
 
 }
@@ -98,14 +103,14 @@
         UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(BYSScreenWidth/2-0.5,CGRectGetMaxY(_headImageButton.frame)+20, 1, 50)];
         lineLabel.backgroundColor = [UIColor whiteColor];
 
-        NSString *str = @"510";
+        NSString *str =@"510";
 
         CGSize size = [str sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:40]}];
 
         _scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(lineLabel.frame)-size.width-40,CGRectGetMinY(lineLabel.frame)-10,size.width, size.height)];
-        _scoreLabel.text = str;
+        _scoreLabel.text = self.todayPoint;
         _scoreLabel.font = [UIFont systemFontOfSize:40];
-        _scoreLabel.textAlignment = NSTextAlignmentLeft;
+        _scoreLabel.textAlignment = NSTextAlignmentRight;
         _scoreLabel.textColor = [UIColor whiteColor];
         _scoreLabel.backgroundColor =[UIColor clearColor];
 
@@ -122,12 +127,12 @@
 
 
 
-        NSString *str3 = @"12";
+//        NSString *str3 = @"12";
 
-        CGSize size3 = [str3 sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:40]}];
+        CGSize size3 = [self.allPoint sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:40]}];
 
         _todayLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineLabel.frame)+40,CGRectGetMinY(lineLabel.frame)-10,size3.width, size3.height)];
-        _todayLabel.text = str3;
+        _todayLabel.text = self.allPoint;
         _todayLabel.font = [UIFont systemFontOfSize:40];
         _todayLabel.textAlignment = NSTextAlignmentLeft;
         _todayLabel.textColor = [UIColor whiteColor];
@@ -306,7 +311,34 @@
 {
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.alpha = 0;
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_get_point] Success:^(id responseObject) {
+
+
+        NSLog(@"%@",responseObject);
+        //        self.codeString = responseObject[@"data"];
+        //        [self getMutableStri:self.codeString];
+        NSDictionary *dic = responseObject[@"data"];
+
+        NSNumber *number1 =  dic[@"TodayPoint"];
+        NSNumber *number2 =  dic[@"AllPoint"];
+
+        self.todayPoint = [NSString stringWithFormat:@"%@",number1];
+        self.allPoint = [NSString stringWithFormat:@"%@",number2];
+        self.tableView.tableHeaderView = self.tableHeadView;
+
+        [self.tableView reloadData];
+
+    } Failure:^(NSError *error) {
+        
+    }];
+
+
+
+
+
+
 }
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];

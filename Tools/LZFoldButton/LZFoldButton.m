@@ -30,7 +30,7 @@
         _showSize = frame.size;
         _dataArray = dataArray;
         _lzTitleChanged = YES;
-        _lzHeight = 200;
+        _lzHeight = 44*dataArray.count;
         [self setUI];
     }
     
@@ -71,6 +71,7 @@
     UITableView *table = [[UITableView alloc]initWithFrame:CGRectMake(0, _showSize.height, _showSize.width, 0) style:UITableViewStylePlain];
     table.delegate = self;
     table.dataSource = self;
+    table.rowHeight = 44;
     table.backgroundColor = [UIColor clearColor];
     [self addSubview:table];  
     _lzTableView = table;
@@ -99,7 +100,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     id obj = [_dataArray objectAtIndex:indexPath.row];
-    
+    [_lzButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+
     if (self.lzDelegate && [self.lzDelegate respondsToSelector:@selector(LZFoldButton:didSelectObject:)]) {
         
         [self.lzDelegate LZFoldButton:self didSelectObject:obj];
@@ -172,8 +174,7 @@
         case LZFoldButtonTypeRight:{
             
             //需要在外部修改标题背景色的时候将此代码注释
-            self.lzButton.titleLabel.backgroundColor = self.lzButton.backgroundColor;
-            self.lzButton.imageView.backgroundColor = self.lzButton.backgroundColor;
+
             
             CGSize titleSize = self.lzButton.titleLabel.bounds.size;
             CGSize imageSize = self.lzButton.imageView.bounds.size;
@@ -181,9 +182,11 @@
             
             [self.lzButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
             [self.lzButton setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-            
-            [self.lzButton setImageEdgeInsets:UIEdgeInsetsMake(0,titleSize.width + interval, 0, -(titleSize.width + interval))];
-            [self.lzButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -(imageSize.width + interval), 0, imageSize.width + interval)];
+
+
+            [self.lzButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -(imageSize.width + interval-25), 0, imageSize.width + interval-25)];
+            [self.lzButton setImageEdgeInsets:UIEdgeInsetsMake(0,titleSize.width + interval+10, 0, -(titleSize.width + interval+10))];
+
         }
             break;
             

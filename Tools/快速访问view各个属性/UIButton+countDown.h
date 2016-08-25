@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UIButton (countDown)
+@property (nonatomic, copy) NSString *tag_id;
+
 - (void)startWithTime:(NSInteger)timeLine title:(NSString *)title countDownTitle:(NSString *)subTitle mainColor:(UIColor *)mColor countColor:(UIColor *)color;
 -(void)canSelectButton;
 -(void)canNotSelectButton;

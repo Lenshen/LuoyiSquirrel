@@ -8,6 +8,8 @@
 
 #import "PostConmmentViewController.h"
 #import "PhotoCollectionViewCell.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 
 
 @interface PostConmmentViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
@@ -22,6 +24,8 @@
 
 
 @property (nonatomic, strong)NSMutableArray *photoArrayM;
+@property (nonatomic, strong)NSMutableArray *baseArrayM;
+
 
 @end
 
@@ -43,6 +47,7 @@
     sureButton.backgroundColor = NavigationColor;
     [sureButton setTitle:@"发表评论" forState:UIControlStateNormal];
     sureButton.layer.cornerRadius = 5;
+    [sureButton addTarget:self action:@selector(postcomment:) forControlEvents:UIControlEventTouchUpInside];
 
     UILabel *linelabel = [[UILabel alloc]initWithFrame:CGRectMake(0, BYSScreenHeight-10-40-10-20, BYSScreenWidth, 20)];
     linelabel.backgroundColor = TableviewColor;
@@ -55,11 +60,29 @@
 
 
 }
+- (void)postcomment:(UIButton *)sender
+{
+//    [BYSHttpTool POST:APP_comment_addComment Parameters:[BYSHttpParameter api_comment_addCommentWithGoods_id:(NSString *)goods_id content:(NSString *)content comment_images:(NSArray *)base64ImageArray] Success:^(id responseObject) {
+//
+//
+//        NSLog(@"%@",responseObject);
+//
+//
+//    } Failure:^(NSError *error) {
+//        
+//    }];
+}
 - (NSMutableArray *)photoArrayM{
     if (!_photoArrayM) {
         _photoArrayM = [NSMutableArray arrayWithCapacity:0];
     }
     return _photoArrayM;
+}
+- (NSMutableArray *)baseArrayM{
+    if (!_baseArrayM) {
+        _baseArrayM = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _baseArrayM;
 }
 - (UICollectionView *)collectionView
 {
@@ -165,9 +188,19 @@
     UIImage *image=[info objectForKey:UIImagePickerControllerEditedImage];
     //    [self.btn setImage:image forState:UIControlStateNormal];
     [self.photoArrayM addObject:image];
+    [self.baseArrayM addObject:[self base64:image]];
     //选取完图片之后关闭视图
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.collectionView reloadData];
+}
+
+-(NSString *)base64:(UIImage *)image
+{
+    NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
+    NSString *imageStr = [imagedata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    //    self.imageStr = imageStr;
+    return imageStr;
+
 }
 
 -(void)initHeadImageAlertController

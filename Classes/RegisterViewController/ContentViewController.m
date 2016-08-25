@@ -8,12 +8,19 @@
 
 #import "ContentViewController.h"
 #import "ContentTableViewCell.h"
-#define rowhight 50
+#import "BYSHttpParameter.h"
+#import "BYSHttpTool.h"
+#import "contentModel.h"
+#define rowhight 280
 
 @interface ContentViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *contentArrayM;
 @property (nonatomic, strong) NSArray *contentArray;
+@property (nonatomic, strong) contentModel *model;
+@property (nonatomic, strong) NSArray *cmptArray;
+
+
 
 @end
 
@@ -26,7 +33,29 @@
     self.title = @"含量";
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
+     NSMutableArray *mutaArray = [NSMutableArray new];
+    [BYSHttpTool POST:APP_goods_getCmptNution Parameters:[BYSHttpParameter api_goods_getCmptNution] Success:^(id responseObject) {
+        NSArray *array = responseObject[@"data"];
+        for (NSDictionary *dic in array) {
+            self.model  = [self.model initWithDictionary:dic error:nil];
+            [mutaArray addObject:self.model];
+        }
+        self.cmptArray = [mutaArray copy];
 
+        NSLog(@"%@",responseObject);
+
+       
+    } Failure:^(NSError *error) {
+        
+    }];
+
+}
+- (contentModel *)model
+{
+    if (!_model) {
+        _model = [contentModel new];
+    }
+    return _model;
 }
 - (NSMutableArray *)contentArrayM
 {

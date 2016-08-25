@@ -40,4 +40,8 @@
     }
     return _relationLabel;
 }
+- (void)setModel:(MemberIFModel *)model
+{
+    self.nameLabel.text = model.nick_name;
+}
 @end

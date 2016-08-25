@@ -10,12 +10,20 @@
 #import "MarkTableViewCell.h"
 #import "HXTagsView.h"
 #import "FamilyMGViewController.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
+#import "markCellModel.h"
+#import "UIButton+countDown.h"
 static NSString* markReuseIdentifier = @"markReuseIdentifier";
 @interface MarkViewController ()<UITableViewDelegate,UITableViewDataSource,HXTagsViewDelegate>
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSArray *markArray;
+@property (nonatomic,strong) NSArray *tag_idArray;
+
 @property (nonatomic,strong) NSArray *titleArray;
 @property (nonatomic,strong) UIView *tableviewFootView;
+@property (nonatomic,strong) NSMutableArray *tagMutoArray;
+@property (nonatomic,strong) markCellModel *model;
 
 @end
 
@@ -24,8 +32,8 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.view addSubview:self.tableView];
-    self.tableView.tableFooterView = self.tableviewFootView;
+
+
 
     
 }
@@ -60,7 +68,17 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
 }
 - (void)submit:(UIButton *)sender
 {
+    [BYSHttpTool POST:APP_tags_updataTags Parameters:[BYSHttpParameter api_tags_updateTaglist_tagsWithTags:self.tagMutoArray] Success:^(id responseObject) {
+
+        NSLog(@"%@",responseObject);
+        
+    } Failure:^(NSError *error) {
+        NSLog(@"%@",error);
+
+    }];
+
     [self.navigationController pushViewController:[FamilyMGViewController new] animated:YES];
+
     if (self.familyBlock) {
         self.familyBlock();
 
@@ -72,17 +90,41 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
 - (NSArray *)titleArray
 {
     if (!_titleArray) {
-     _titleArray = @[@"常见慢性病",@"特殊人群",@"食物过敏",@"每日活动量"];
+        _titleArray = [NSArray array];
     }
     return _titleArray;
 }
 - (NSArray *)markArray
 {
     if (!_markArray) {
-        _markArray = @[@[@"高血压",@"高血脂",@"高血糖",@"胃肠病"],@[@"孕妇",@"哺乳妇女",@"吸烟人群"],@[@"鱼海鲜过敏",@"蛋过敏",@"乳制品过敏",@"食用菌过敏",@"豆制品过敏",@"花生过敏",@"芒果过敏",@"坚果过敏",@"菠萝过敏",@"麦谷类过敏",@"花粉过敏",@"其他过敏"],@[@"轻度活动量（日常办公,上学,偶然锻炼）",@"中度锻炼（走路,考察,野外）",@"大活动量（体力劳动,运动员,军人,消防员）"]];
+        _markArray = [NSArray array];
+
     }
 
     return _markArray;
+}
+- (NSMutableArray *)tagMutoArray
+{
+    if (!_tagMutoArray) {
+        _tagMutoArray = [NSMutableArray array];
+    }
+    return _tagMutoArray;
+}
+- (markCellModel *)model
+{
+    if (!_model) {
+        _model = [[markCellModel alloc]init];
+    }
+    return _model;
+}
+- (NSArray *)tag_idArray
+{
+    if (!_tag_idArray) {
+        _tag_idArray = [NSArray array];
+
+    }
+
+    return _tag_idArray;
 }
 - (UITableView *)tableView
 {
@@ -101,7 +143,8 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.markArray.count;
+    return self.titleArray.count;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,8 +153,12 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
     if (!cell) {
       cell = [[MarkTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:markReuseIdentifier ];
     }
-    cell.markArray = self.markArray[indexPath.row];
-    cell.title = self.titleArray[indexPath.row];
+    self.model.markArray = self.markArray[indexPath.row];
+    self.model.title = self.titleArray[indexPath.row];
+    self.model.tag_idArray = self.tag_idArray[indexPath.row];
+    cell.model = self.model;
+
+
     [cell.tagsView setTagDelegate:self];
     CGSize size = cell.tagsView.frame.size;
     CGFloat height = size.height+30;
@@ -140,16 +187,91 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
     //    [self.navigationController pushViewController:vc animated:NO];
 
         sender.selected = !sender.selected ;
+    NSLog(@"%@",sender.tag_id);
 
-   
+    if(sender.selected)
+    {
+        [self.tagMutoArray addObject:sender.tag_id];
+
+    }else
+    {
+        [self.tagMutoArray removeObject:sender.tag_id];
+    }
+
+
+    NSLog(@"%@",self.tagMutoArray);
 
 
 
 
 
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    NSMutableArray *tag_classArrayM = [[NSMutableArray alloc]init];
+    NSMutableArray *tag_classArrayM3 = [[NSMutableArray alloc]init];
+    NSMutableArray *tag_classArrayM6 = [[NSMutableArray alloc]init];
 
 
 
+
+    [BYSHttpTool POST:APP_tags_getlist Parameters:[BYSHttpParameter api_tags_getlist_tags] Success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
+        NSArray *responseArray = [NSArray array];
+
+        NSDictionary *contentDic = [[NSDictionary alloc]init];
+
+        NSArray *array = [NSArray array];
+
+        NSDictionary *contentDic2 = [[NSDictionary alloc]init];
+
+
+        responseArray = responseObject[@"data"];
+
+
+        for (int i = 0; i < responseArray.count; i++) {
+            NSMutableArray *tag_classArrayM2 = [[NSMutableArray alloc]init];
+            NSMutableArray *tag_classArrayM5 = [[NSMutableArray alloc]init];
+
+
+            contentDic  = (NSDictionary *)responseArray[i];
+            [tag_classArrayM addObject:contentDic[@"tag_class"]];
+
+            array = contentDic[@"tag_values"];
+            NSLog(@"%@", array);
+            for (int j = 0 ; j < array.count; j++) {
+
+                contentDic2 = array[j];
+                [tag_classArrayM2 addObject:contentDic2[@"tag_name"]];
+                [tag_classArrayM5 addObject:contentDic2[@"tag_id"]];
+
+            }
+            [tag_classArrayM3 addObject:tag_classArrayM2];
+            [tag_classArrayM6 addObject:tag_classArrayM5];
+
+
+
+
+
+        }
+        self.titleArray = [tag_classArrayM copy];
+        self.markArray = [tag_classArrayM3 copy];
+        self.tag_idArray = [tag_classArrayM6 copy];
+
+
+        [self.tableView reloadData];
+
+
+    } Failure:^(NSError *error) {
+        NSLog(@"%@",error);
+        
+    }];
+
+    [self.view addSubview:self.tableView];
+
+
+    self.tableView.tableFooterView = self.tableviewFootView;
 }
 
 /*

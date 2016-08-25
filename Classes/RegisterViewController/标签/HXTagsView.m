@@ -6,7 +6,8 @@
 //  Copyright © 2015年 IT小子. All rights reserved.
 
 #import "HXTagsView.h"
-
+#import <objc/runtime.h>
+#import "UIButton+countDown.h"
 @implementation HXTagsView {
     NSArray *disposeAry;
 }
@@ -39,15 +40,20 @@
 
 //设置标签数据和代理
 - (void)setTagAry:(NSArray *)tagAry delegate:(id)delegate {
+
     _tagDelegate = delegate;
+    
     [self disposeTags:tagAry];
     
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     //遍历标签数组,将标签显示在界面上,并给每个标签打上tag加以区分
     for (NSArray *iTags in disposeAry) {
+
+
+
         NSUInteger i = [disposeAry indexOfObject:iTags];
-        
+
         for (NSDictionary *tagDic in iTags) {
             NSUInteger j = [iTags indexOfObject:tagDic];
             
@@ -57,6 +63,11 @@
             
             _button = [UIButton buttonWithType:UIButtonTypeCustom];
              _button.frame = CGRectMake(originX, _tagOriginY+i*(_tagHeight+_tagVerticalSpace), _buttonWith, _tagHeight);
+
+            _button.tag_id = _tag_idArray [j];
+
+
+            NSLog(@"%@",_button.tag_id);
             _button.layer.borderColor = _borderColor.CGColor;
             _button.layer.borderWidth = _borderWidth;
             _button.layer.masksToBounds = _masksToBounds;

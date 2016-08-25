@@ -23,10 +23,10 @@
 {
 
   
-    _lifeButton = [[LZFoldButton alloc]initWithFrame:CGRectMake(10, 10, 170, 30) dataArray:nil];
+    _lifeButton = [[LZFoldButton alloc]initWithFrame:CGRectMake(10, 10, 170, 30) dataArray:@[@"酒精度(%)",@"能量(kJ)",@"蛋白质(g)",@"碳水化合物(g)"]];
 
     _lifeButton.lzFontSize = 12;
-    _lifeButton.lzHeight = 300;
+//    _lifeButton.lzHeight = 200;
     _lifeButton.layer.borderWidth = 0.7;
     _lifeButton.layer.borderColor = RGB(193, 193, 193).CGColor;
    
