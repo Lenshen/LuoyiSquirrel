@@ -103,12 +103,12 @@
         UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(BYSScreenWidth/2-0.5,CGRectGetMaxY(_headImageButton.frame)+20, 1, 50)];
         lineLabel.backgroundColor = [UIColor whiteColor];
 
-        NSString *str =@"510";
+        NSString *str =@"0000";
 
         CGSize size = [str sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:40]}];
 
         _scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(lineLabel.frame)-size.width-40,CGRectGetMinY(lineLabel.frame)-10,size.width, size.height)];
-        _scoreLabel.text = self.todayPoint;
+        _scoreLabel.text = @"0";
         _scoreLabel.font = [UIFont systemFontOfSize:40];
         _scoreLabel.textAlignment = NSTextAlignmentRight;
         _scoreLabel.textColor = [UIColor whiteColor];
@@ -127,21 +127,22 @@
 
 
 
-//        NSString *str3 = @"12";
+        NSString *str3 = @"0000";
 
-        CGSize size3 = [self.allPoint sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:40]}];
+        CGSize size3 = [str3 sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:40]}];
 
         _todayLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineLabel.frame)+40,CGRectGetMinY(lineLabel.frame)-10,size3.width, size3.height)];
-        _todayLabel.text = self.allPoint;
+        _todayLabel.text = @"0";
         _todayLabel.font = [UIFont systemFontOfSize:40];
         _todayLabel.textAlignment = NSTextAlignmentLeft;
+//        _todayLabel.backgroundColor = [UIColor redColor];
         _todayLabel.textColor = [UIColor whiteColor];
-        _todayLabel.backgroundColor =[UIColor clearColor];
+//        _todayLabel.backgroundColor =[UIColor clearColor];
 
         NSString *str4 =@"今天获得";
 
         CGSize size4 = [str4 sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11]}];
-        _todayMinLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_todayLabel.frame)-size4.width,CGRectGetMaxY(_todayLabel.frame)+1, size4.width, 20)];
+        _todayMinLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(_todayLabel.frame),CGRectGetMaxY(_todayLabel.frame)+1, size4.width, 20)];
         _todayMinLabel.text = str4;
         _todayMinLabel.font = [UIFont systemFontOfSize:11];
         _todayMinLabel.textAlignment = NSTextAlignmentLeft;
@@ -324,7 +325,10 @@
 
         self.todayPoint = [NSString stringWithFormat:@"%@",number1];
         self.allPoint = [NSString stringWithFormat:@"%@",number2];
-        self.tableView.tableHeaderView = self.tableHeadView;
+        _scoreLabel.text = self.allPoint;
+        _todayLabel.text = self.todayPoint;
+
+
 
         [self.tableView reloadData];
 
@@ -333,6 +337,8 @@
     }];
 
 
+
+    self.tableView.tableHeaderView = self.tableHeadView;
 
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "IntergralSViewController.h"
+#import "UIImageView+WebCache.h"
 
 @interface IntergralSViewController ()
 @property (nonatomic, strong)UIView *headView;
@@ -87,11 +88,11 @@
         _goodsImageView.layer.masksToBounds = YES;
         //        imageview.contentMode = UIViewContentModeBottom;
 
-        _goodsImageView.image = [UIImage imageNamed:@"intergral_shopping_goods"];
+        [_goodsImageView sd_setImageWithURL:[NSURL URLWithString:self.image]];
 
 
         _goodsNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_goodsImageView.frame)+20, CGRectGetMinY(_goodsImageView.frame)+10, 100, 10)];
-        _goodsNameLabel.text = @"王老吉";
+        _goodsNameLabel.text = @"王lao吉";
 
 
         NSString *str =  @"消费金额";
@@ -101,9 +102,9 @@
         coutLabel.text = str;
 
 
-        NSString *mutostring =  @" 20000";
-        NSMutableAttributedString *mutableAttributes = [[NSMutableAttributedString alloc]initWithString:mutostring];
-        [mutableAttributes addAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} range:NSMakeRange(0, 4)];
+//        NSString *mutostring =  @" 20000";
+        NSMutableAttributedString *mutableAttributes = [[NSMutableAttributedString alloc]initWithString:self.count];
+        [mutableAttributes addAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} range:NSMakeRange(0, self.count.length)];
         NSTextAttachment *attachment = [[NSTextAttachment alloc]init];
         attachment.image = [UIImage imageNamed:@"intergral_shopping"];
         attachment.bounds = CGRectMake(0, 0, 15, 15);
@@ -182,6 +183,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+
+    _goodsNameLabel.text = self.goodsName;
+
 
 
 }

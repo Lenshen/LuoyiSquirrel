@@ -13,6 +13,8 @@
 #import "BYSHttpTool.h"
 #import "AutoModel.h"
 #import "UIButton+WebCache.h"
+#import "MineEndTableViewCell.h"
+#import "BYSAlertView.h"
 
 typedef  NS_ENUM(NSInteger,getOphoto)
 {
@@ -24,24 +26,38 @@ typedef  NS_ENUM(NSInteger,getOphoto)
 static NSString *AutoCellString = @"autoCellString";
 static NSString *AutoCellimageString = @"AutoCellimageString";
 
-@interface AuthViewController ()<UITableViewDelegate,UITableViewDataSource,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface AuthViewController ()<UITableViewDelegate,UITableViewDataSource,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate>
 
 @property (strong,nonatomic)UITableView *tableView;
 @property (strong,nonatomic)NSArray *firstLabelTitleA;
+
+
+@property (strong,nonatomic)NSArray *endLabelTitle;
+
 @property (strong,nonatomic)UIView *footview;
 
 @property (nonatomic)getOphoto getOphoto;
 @property (strong, nonatomic)UIButton *imageViewButton;
 @property (strong, nonatomic)UIButton *imageViewButton2;
 
+@property (strong, nonatomic)UIButton *postDateButton;
+
+
 @property (nonatomic,strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) AutoTableCell *cell;
+@property (nonatomic, strong) MineEndTableViewCell *cell2;
 @property (nonatomic, strong) AutoModel *model;
 
 
 @property (nonatomic, copy) NSString *base64One;
 @property (nonatomic, copy) NSString *base64Two;
+
+@property (nonatomic, copy) NSString *mobileStr;
+@property (nonatomic, copy) NSString *addressStr;
+
+
 @property (nonatomic) BOOL isHave;
+@property (nonatomic,strong) BYSAlertView *alertView;
 
 
 @end
@@ -56,13 +72,77 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"认证";
     self.view.backgroundColor = TableviewColor;
-    [self.view addSubview:self.tableView];
-    self.tableView.tableFooterView = self.footview;
+
 
 
 
 
 }
+
+- (void)viewWillAppear:(BOOL)animated{
+
+    // Called when the view is about to made visible. Default does nothing
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+
+
+
+    [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = self.footview;
+
+    _postDateButton = [[UIButton alloc]initWithFrame:CGRectMake(10,BYSScreenHeight-10-30,BYSScreenWidth-10-10, 30)];
+    _postDateButton.backgroundColor = NavigationColor;
+    [_postDateButton setTitle:@"提交" forState:UIControlStateNormal];
+    _postDateButton.layer.cornerRadius = 5;
+    [_postDateButton addTarget:self action:@selector(postData:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_postDateButton];
+    NSMutableArray *mutoArray = [NSMutableArray new];
+
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_get_certification] Success:^(id responseObject) {
+
+        NSDictionary *dic = responseObject[@"data"];
+        self.model = [self.model initWithDictionary:dic error:nil];
+        NSLog(@"%@------%@-------%@",self.model,responseObject,dic);
+        [USER_DEFAULT setObject:self.model.id_card forKey:@"id_care_image"];
+        [USER_DEFAULT setObject:self.model.certification
+                         forKey:@"certification"];
+
+        [mutoArray addObject:self.model.mobile];
+        [mutoArray addObject:self.model.address];
+        [mutoArray addObject:@""];
+        [mutoArray addObject:@""];
+
+
+        self.addressStr = self.model.address;
+        self.mobileStr = self.model.mobile;
+
+
+        self.endLabelTitle = [mutoArray copy];
+        [self.tableView reloadData];
+
+
+
+
+    } Failure:^(NSError *error) {
+        
+    }];
+    
+    
+    //去除导航栏下方的横线
+    
+}
+
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+
+    
+}
+
+#pragma mark 初始化空间
+
 - (UIView *)footview
 {
     if (!_footview) {
@@ -75,11 +155,16 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor grayColor];
         label.font = [UIFont systemFontOfSize:12];
+//
+
+
         [_footview addSubview:label];
         [_footview addSubview:lineLabel];
     }
     return _footview;
 }
+
+
 
 - (AutoModel *)model
 {
@@ -109,6 +194,11 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     }
     return _tableView;
 }
+
+
+
+
+#pragma mark tableviewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -141,11 +231,16 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
+
+
     if (indexPath.row == 2 || indexPath.row == 3) {
         _cell = [tableView dequeueReusableCellWithIdentifier:AutoCellimageString];
         if (!_cell) {
             _cell = [[AutoTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCellimageString];
         }
+        _cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         if (indexPath.row == 2) {
             _cell.labelCell.text = @"真实头像";
             _cell.labelCell2.text = @"(请上传手持身份证正面的半身照)";
@@ -209,53 +304,49 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 
     }else
     {
-    MineEndTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:AutoCellString];
-    if (!cell) {
-        cell = [[MineEndTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCellString];
+   _cell2 = [tableView dequeueReusableCellWithIdentifier:AutoCellString];
+    if (!_cell2) {
+        _cell2 = [[MineEndTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCellString];
     }
-    cell.firstLabel.text = self.firstLabelTitleA[indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    _cell2.firstLabel.text = self.firstLabelTitleA[indexPath.row];
+    _cell2.textfield.tag = indexPath.row;
+    _cell2.textfield.text = self.endLabelTitle[indexPath.row];
+    _cell2.textfield.delegate = self;
+    _cell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    _cell2.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    return _cell2;
+    }
+
     
-    return cell;
+}
+
+
+#pragma mark  textFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"%ld",textField.tag);
+
+    if (textField.tag == 0) {
+        self.mobileStr = textField.text;
+    }else
+    {
+        self.addressStr = textField.text;
     }
-}
-
-
-- (void)viewWillAppear:(BOOL)animated{
-
-    // Called when the view is about to made visible. Default does nothing
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-
-
-
-
-
-    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_get_certification] Success:^(id responseObject) {
-
-        NSDictionary *dic = responseObject[@"data"];
-        self.model = [self.model initWithDictionary:dic error:nil];
-        NSLog(@"%@------%@-------%@",self.model,responseObject,dic);
-        [USER_DEFAULT setObject:self.model.id_card forKey:@"id_care_image"];
-        [USER_DEFAULT setObject:self.model.certification forKey:@"certification"];
-
-
-
-
-
-    } Failure:^(NSError *error) {
-        
-    }];
-
-
-    //去除导航栏下方的横线
 
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+
+    [textField resignFirstResponder];
+    return YES;
 }
+
+
+#pragma mark 图片
 - (void)getOphoto:(UIButton *)sender
 {
     [self initHeadImageAlertController:sender.tag];
@@ -407,7 +498,11 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
 
     
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 
+    [_cell2.textfield resignFirstResponder];
+}
 
 -(NSString *)base64:(UIImage *)image
 {
@@ -417,11 +512,76 @@ static NSString *AutoCellimageString = @"AutoCellimageString";
     return imageStr;
     
 }
-- (void)viewWillDisappear:(BOOL)animated
+
+
+#pragma mark 提交数据
+
+- (void)postData:(UIButton *)sender
 {
-    [super viewWillDisappear:YES];
 
 
+    [BYSHttpTool POST:APP_member_setAddress Parameters:[BYSHttpParameter api_member_setAddressWithAddress:self.addressStr mobile:self.mobileStr] Success:^(id responseObject) {
+
+        NSLog(@"%@",responseObject);
+
+        [self setAlertUI:@"上传成功"];
+
+
+
+    } Failure:^(NSError *error) {
+
+        NSLog(@"%@",error);
+        
+    }];
+}
+
+
+
+#pragma mark 提示框
+
+- (void)setAlertUI:(NSString *)message
+{
+
+
+    _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15,-110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:message buttonTitle:@"确定"];
+    __weak typeof (self) weakSelf = self;
+    _alertView.chickDissMissButton = ^{
+        weakSelf.alertView = nil;
+    };
+
+    [_alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+
+
+
+
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView.alphaView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+
+    
+    [UIView animateWithDuration:0.7 animations:^{
+    
+     self.alertView.frame = CGRectMake(15, 110, BYSScreenWidth-15*2, 180);
+    }];
+
+}
+- (void)dismiss:(id)sender
+{
+
+    self.alertView.alphaView.hidden = YES;
+    [self.alertView.alphaView removeFromSuperview];
+    self.alertView.alphaView = nil;
+    self.alertView.hidden = YES;
+    [self.alertView removeFromSuperview];
+    self.alertView = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+    NSLog(@"666666");
+    
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -71,9 +71,22 @@
     return [DES encryptWithContent:[self dictionaryToJson:dic]];
 }
 
++ (NSString *)get_goods_gradedWithGoods_id:(NSString *)goods_id
+                                 member_id:(NSString *)member_id
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"goods_id":goods_id,@"member_id":member_id};
+    return [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
+
 + (NSString *)get_user_info
 {
     NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"method":@"get_user_info"};
+    return [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
+
++ (NSString *)get_home_getMessage
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"]};
     return [DES encryptWithContent:[self dictionaryToJson:dic]];
 }
 
@@ -181,9 +194,24 @@
 
 
 
++ (NSString *)api_goods_getPageWithindex:(NSNumber *)index
+                                    size:(NSNumber *)size
+                                 type_id:(NSNumber *)type_id
+                                    sort:(NSNumber *)sort
+
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"index":index,@"size":size,@"type_id":type_id,@"sort":sort};
+
+    return  [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
 
 
 
++ (NSString *)api_class_list
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"method":@"get_class_list"};
+    return [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
 
 
 
@@ -263,7 +291,6 @@
 
 
 
-
 //
 + (NSString *)api_comment_addCommentWithGoods_id:(NSString *)goods_id content:(NSString *)content comment_images:(NSArray *)base64ImageArray
 {
@@ -273,7 +300,11 @@
 
 
 
-
++ (NSString *)api_member_setAddressWithAddress:(NSString *)address mobile:(NSString *)mobile
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"],@"address":address,@"mobile":mobile};
+    return  [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
 
 
 
@@ -306,6 +337,7 @@
     NSError *parseError = nil;
 
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    NSLog(@"%@",[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
 
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     

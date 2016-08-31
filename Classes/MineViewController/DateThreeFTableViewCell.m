@@ -73,6 +73,10 @@
 
 
 }
-
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.dealersTF resignFirstResponder];
+    [self.dealersAdrressTF resignFirstResponder];
+}
 
 @end

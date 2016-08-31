@@ -34,6 +34,9 @@
 
     [self configUI];
 
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"跳过" style:UIBarButtonItemStylePlain target:self action:@selector(push:)];
+
+    self.navigationItem.rightBarButtonItem = item;
 
     UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
     sureButton.frame = CGRectMake(10,BYSScreenHeight-30-10,BYSScreenWidth-10-10, 30);
@@ -112,6 +115,7 @@
     
 
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = NO;

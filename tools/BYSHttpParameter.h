@@ -75,7 +75,22 @@
 
 + (NSString *)api_goods_getCmptNution;
 
++ (NSString *)get_home_getMessage;
+
++ (NSString *)api_class_list;
 
 
++ (NSString *)get_goods_gradedWithGoods_id:(NSString *)goods_id
+                                 member_id:(NSString *)member_id;
 
+
++ (NSString *)api_goods_getPageWithindex:(NSNumber *)index
+                                    size:(NSNumber *)size
+                                 type_id:(NSNumber *)type_id
+                                    sort:(NSNumber *)sort;
+
++ (NSString *)api_goods_getPointGoods_index:(NSString *)index size:(NSString *)size sort:(NSString *)sort;
+
+
++ (NSString *)api_member_setAddressWithAddress:(NSString *)address mobile:(NSString *)mobile;
 @end

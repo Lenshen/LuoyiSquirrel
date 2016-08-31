@@ -10,4 +10,6 @@
 
 @interface MessageDetailViewController : UIViewController
 
+@property (nonatomic, copy) NSString *urlString;
+
 @end

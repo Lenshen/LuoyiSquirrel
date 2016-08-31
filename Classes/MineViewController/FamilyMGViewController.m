@@ -160,7 +160,11 @@
        NSArray *array = responseObject[@"data"];
        for (NSDictionary *dic in array) {
            self.model = [_model initWithDictionary:dic error:nil];
+
+
            [arrayM addObject:self.model];
+
+           
        }
        self.relationArray = [arrayM copy];
        [self.collectionView reloadData];

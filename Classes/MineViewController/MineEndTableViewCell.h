@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UILabel *firstLabel;
 @property (nonatomic, strong) UILabel *lineLabel;
 
+@property (nonatomic, strong) UITextField *textfield;
+
 
 @property (nonatomic, strong) UILabel *endLabel;
 @end

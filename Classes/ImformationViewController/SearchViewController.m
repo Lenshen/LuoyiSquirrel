@@ -5,7 +5,6 @@
 //  Created by 远深 on 16/7/12.
 //  Copyright © 2016年 LuoyiSquirrel. All rights reserved.
 //
-
 #import "SearchViewController.h"
 @interface SearchViewController()<UITableViewDelegate,UITableViewDataSource,UISearchControllerDelegate,UISearchResultsUpdating,UIScrollViewDelegate>
 
@@ -34,6 +33,7 @@
 {
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = YES;
+
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -116,7 +116,8 @@
         _searchController.hidesNavigationBarDuringPresentation = YES;
 
         _searchController.searchBar.frame = CGRectMake(0,0, self.searchController.searchBar.frame.size.width, 44.0);
-         _searchController.searchBar.placeholder = @"搜索";
+//        _searchController.searchBar =
+//         _searchController.searchBar.placeholder = @"搜索";
 
 
         

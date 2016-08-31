@@ -21,6 +21,7 @@
 #import "BYSHttpTool.h"
 #import "BYSHttpParameter.h"
 #import "AdvertModel.h"
+#import "AdvertViewController.h"
 
 
 @interface HomeViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -29,6 +30,8 @@
 @property (nonatomic, strong)UIView *homeIFView;
 
 @property (strong,nonatomic)NSArray *netImages;
+@property (strong,nonatomic)NSArray *urls;
+
 @property (strong,nonatomic)NSArray *buttonImages;
 @property (strong,nonatomic)NSArray *buttonTitle;
 @property (strong,nonatomic)UILabel *timeLabel;
@@ -143,14 +146,19 @@
     [BYSHttpTool GET:APP_home_getAdvert Parameters:[BYSHttpParameter api_getAdvert_spaceCode:@"center"] Success:^(id responseObject) {
         NSLog(@"%@",responseObject);
         NSMutableArray *mutoArray = [NSMutableArray new];
+        NSMutableArray *mutoUrlArray = [NSMutableArray new];
+
         NSArray *array = responseObject[@"data"];
         for (NSDictionary *dic in array) {
           self.model = [self.model initWithDictionary:dic error:nil];
             [mutoArray addObject:self.model.image];
+            [mutoUrlArray addObject:self.model.url];
+
 
 
       }
         self.netImages = [mutoArray copy];
+        self.urls = [mutoUrlArray copy];
         NSLog(@"%@",self.netImages);
 
         self.cycleScrollView.imageURLStringsGroup = self.netImages;
@@ -409,7 +417,16 @@
     return _homeIFView;
 }
 
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
+{
+    NSLog(@"%ld",index);
+    AdvertViewController *advert = [AdvertViewController new];
+    advert.urlString = self.urls[index];
+    advert.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:advert animated:YES];
 
+
+}
 
 #pragma mark tabledelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

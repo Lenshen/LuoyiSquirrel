@@ -10,6 +10,8 @@
 #import "PhotoCollectionViewCell.h"
 #import "BYSHttpTool.h"
 #import "BYSHttpParameter.h"
+#import "SVProgressHUD.h"
+#import "BYSAlertView.h"
 
 
 @interface PostConmmentViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
@@ -18,6 +20,11 @@
 @property (nonatomic, strong) UILabel *placeHold;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic,strong) UIImagePickerController *imagePickerController;
+@property (nonatomic,strong) BYSAlertView *alertView;
+
+@property (nonatomic,copy) NSString *alertViewMessage;
+
+
 
 
 
@@ -62,15 +69,22 @@
 }
 - (void)postcomment:(UIButton *)sender
 {
-//    [BYSHttpTool POST:APP_comment_addComment Parameters:[BYSHttpParameter api_comment_addCommentWithGoods_id:(NSString *)goods_id content:(NSString *)content comment_images:(NSArray *)base64ImageArray] Success:^(id responseObject) {
-//
-//
-//        NSLog(@"%@",responseObject);
-//
-//
-//    } Failure:^(NSError *error) {
-//        
-//    }];
+    [SVProgressHUD show];
+
+    [BYSHttpTool POST:APP_comment_addComment Parameters:[BYSHttpParameter api_comment_addCommentWithGoods_id:@"0" content:self.textView.text comment_images:self.baseArrayM] Success:^(id responseObject) {
+
+        [SVProgressHUD dismiss];
+        self.alertViewMessage = responseObject[@"message"];
+
+        [self setAlertUI:self.alertViewMessage];
+
+        NSLog(@"%@",responseObject);
+
+
+    } Failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+
+    }];
 }
 - (NSMutableArray *)photoArrayM{
     if (!_photoArrayM) {
@@ -328,6 +342,45 @@
     }
 }
 
+
+
+- (void)setAlertUI:(NSString *)message
+{
+
+
+    _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15,-110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:message buttonTitle:@"确定"];
+    __weak typeof (self) weakSelf = self;
+    _alertView.chickDissMissButton = ^{
+        weakSelf.alertView = nil;
+    };
+
+    [_alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView.alphaView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+
+
+
+    [UIView animateWithDuration:0.7 animations:^{
+
+        self.alertView.frame = CGRectMake(15, 110, BYSScreenWidth-15*2, 180);
+    }];
+}
+
+- (void)dismiss:(id)sender
+{
+
+    self.alertView.alphaView.hidden = YES;
+    [self.alertView.alphaView removeFromSuperview];
+    self.alertView.alphaView = nil;
+    self.alertView.hidden = YES;
+    [self.alertView removeFromSuperview];
+    self.alertView = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+    NSLog(@"666666");
+    
+    
+}
 /*
 #pragma mark - Navigation
 

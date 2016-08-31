@@ -36,6 +36,10 @@
 
 #define APP_member_service   @"http://"TESTSERVERSAPI"/api/member/service"
 
+
+#define APP_goods_service   @"http://"TESTSERVERSAPI"/api/goods/service"
+
+
 //增加基本信息
 #define APP_member_addInfo @"http://"TESTSERVERSAPI"/api/member/addinfo"
 
@@ -70,7 +74,7 @@
 
 //获取商品分页列表
 
-#define APP_goods_GetPage  @"http://"TESTSERVERSAPI"/ api/goods/GetPage"
+#define APP_goods_GetPage  @"http://"TESTSERVERSAPI"/api/goods/GetPage"
 
 //获取积分商城列表
 
@@ -121,6 +125,8 @@
 //评分
 #define APP_goods_graded @"http://"TESTSERVERSAPI"/api/goods/graded"
 
+//修改用户认证
+#define APP_member_setAddress @"http://"TESTSERVERSAPI"/api/member/setAddress"
 
 
 

@@ -10,4 +10,8 @@
 
 @interface IntergralSViewController : UIViewController
 
+@property (nonatomic, copy) NSString *image;
+@property (nonatomic, copy) NSString *goodsName;
+@property (nonatomic, copy) NSString *count;
+
 @end

@@ -393,7 +393,7 @@
     // Called when the view is about to made visible. Default does nothing
     [super viewWillAppear:animated];
 
-    //去除导航栏下方的横线
+    //去q除导航栏下方的横线
 
 }
 

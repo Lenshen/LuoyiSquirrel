@@ -20,6 +20,9 @@
 
 
 
+@property (nonatomic,strong) NSString *times;
+@property (nonatomic,strong) NSString *serialTimes;
+
 
 
 
@@ -103,33 +106,20 @@
 - (void)sign:(UIButton *)sender
 {
 
-    self.signInteger ++;
-    NSString *str = [NSString stringWithFormat:@"你已连续签到 %ld 天",self.signInteger];
 
 
-    NSMutableAttributedString *mutaAttribute = [[NSMutableAttributedString alloc]initWithString:str];
-    [mutaAttribute addAttributes:@{NSForegroundColorAttributeName:NavigationColor} range:NSMakeRange(7, self.signSting.length)];
 
-    [mutaAttribute addAttributes:@{NSUnderlineStyleAttributeName:@"1"} range:NSMakeRange(7, self.signSting.length)];
-    _signLabel.textColor = [UIColor grayColor];
-
-
-    _signLabel.attributedText = mutaAttribute;
-
-    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView.alphaView];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
-    [UIView animateWithDuration:0.7 animations:^{
-
-        self.alertView.frame = CGRectMake(15, 110, BYSScreenWidth-15*2, 180);
-    }];
 
 
     [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter api_sign_in] Success:^(id responseObject) {
 
 
         NSLog(@"%@",responseObject);
-//        self.codeString = responseObject[@"data"];
+        NSString *str = responseObject[@"message"];
 //        [self getMutableStri:self.codeString];
+
+
+        [self setAlertUI:str];
 
     } Failure:^(NSError *error) {
         
@@ -140,6 +130,7 @@
 
 
 }
+
 - (void)viewWillAppear:(BOOL)animated{
 
     // Called when the view is about to made visible. Default does nothing
@@ -154,24 +145,62 @@
         //        self.codeString = responseObject[@"data"];
         //        [self getMutableStri:self.codeString];
 
+
+        NSDictionary *dic = responseObject[@"data"];
+        self.times = dic[@"Times"];
+        self.serialTimes = [NSString stringWithFormat:@"%@",dic[@"SerialTimes"]] ;
+
+
+
+
+
+
+        NSString *str = [NSString stringWithFormat:@"你已连续签到 %@ 天",self.serialTimes];
+
+        NSLog(@"%ld",self.serialTimes.length);
+
+        NSMutableAttributedString *mutaAttribute = [[NSMutableAttributedString alloc]initWithString:str];
+        [mutaAttribute addAttributes:@{NSForegroundColorAttributeName:NavigationColor} range:NSMakeRange(7,self.serialTimes.length)];
+
+        [mutaAttribute addAttributes:@{NSUnderlineStyleAttributeName:@"1"} range:NSMakeRange(7, self.serialTimes.length)];
+        _signLabel.textColor = [UIColor grayColor];
+
+
+        _signLabel.attributedText = mutaAttribute;
+
     } Failure:^(NSError *error) {
         
     }];
+
  
 }
-- (BYSAlertView *)alertView
-{
-    if (!_alertView) {
-        _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15,-110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:@"签到成功" buttonTitle:@"确定"];
-        __weak typeof (self) weakSelf = self;
-        _alertView.chickDissMissButton = ^{
-            weakSelf.alertView = nil;
-        };
-        [_alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
 
-    }
-    return _alertView;
+- (void)setAlertUI:(NSString *)str
+{
+
+    _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15,-110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:str buttonTitle:@"确定"];
+    __weak typeof (self) weakSelf = self;
+    _alertView.chickDissMissButton = ^{
+        weakSelf.alertView = nil;
+    };
+    [_alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+
+
+
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView.alphaView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+
+
+
+
+    [UIView animateWithDuration:0.7 animations:^{
+
+        self.alertView.frame = CGRectMake(15, 110, BYSScreenWidth-15*2, 180);
+    }];
 }
+
+
+
 - (void)dismiss:(id)sender
 {
 

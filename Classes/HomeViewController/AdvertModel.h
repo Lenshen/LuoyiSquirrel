@@ -11,5 +11,6 @@
 @interface AdvertModel : JSONModel
 
 @property (nonatomic, strong) NSString *image;
+@property (nonatomic, strong) NSString *url;
 
 @end

@@ -47,7 +47,6 @@
 
 +(void)GET:(NSString *)URLString Parameters:(id)parameters Success:(void (^)(id))success Failure:(void (^)(NSError *))failure
 {
-    
      dispatch_async(dispatch_get_global_queue(0, 0), ^{
          AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
          mgr.requestSerializer.timeoutInterval = 30;
@@ -56,6 +55,7 @@
              if (success) {
         dispatch_async(dispatch_get_main_queue(), ^{
              success(responseObject);
+
         });
                 
              }

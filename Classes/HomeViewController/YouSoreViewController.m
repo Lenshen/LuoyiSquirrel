@@ -11,13 +11,21 @@
 #import "UIButton+Vertical.h"
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
+#import "ScoreModel.h"
 
 @interface YouSoreViewController ()
 @property (nonatomic,strong)TriangleView *triangleView;
 @property (nonatomic,strong)UIImageView *minImageView;
 @property (nonatomic,strong)UILabel *scoreLabel;
-@property (nonatomic,strong)UIButton *shareButton;
 
+@property (nonatomic,strong)UILabel *labelTip;
+@property (nonatomic,strong)UILabel *labelBaseText;
+
+
+@property (nonatomic,strong)UIButton *shareButton;
+@property (nonatomic, strong)ScoreModel *model;
 
 @property (strong,nonatomic)NSArray *buttonTitle;
 @property (strong,nonatomic)NSArray *buttonImages;
@@ -33,11 +41,32 @@
 //    _triangleView = [[TriangleView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
 //    [self.view addSubview:self.triangleView];
     self.view.backgroundColor =[UIColor whiteColor];
+    [BYSHttpTool POST:APP_goods_graded Parameters:[BYSHttpParameter get_goods_gradedWithGoods_id:@"0" member_id:@"0"] Success:^(id responseObject) {
+        NSDictionary *dic = responseObject[@"data"];
+        self.model = [self.model initWithDictionary:dic error:nil];
+        self.scoreLabel.text = self.model.user_score;
+        self.labelTip.text = self.model.remark;
+        self.labelBaseText.text = self.model.goods_score;
+
+        NSLog(@"%@",responseObject);
+
+
+    } Failure:^(NSError *error) {
+        
+    }];
+
 
     [self configUI];
 
 
 
+}
+- (ScoreModel *)model
+{
+    if (!_model) {
+        _model = [ScoreModel new];
+    }
+    return _model;
 }
 -(NSArray *)buttonImages{
 
@@ -83,6 +112,7 @@
 
      _scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(label.frame), CGRectGetMaxY(label.frame)+15, 110, 40)];
     _scoreLabel.text = @"60.1";
+    _scoreLabel.textAlignment = NSTextAlignmentCenter;
     _scoreLabel.font = [UIFont systemFontOfSize:50];
 
     [self.view addSubview:_scoreLabel];
@@ -92,14 +122,14 @@
     labelText.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:labelText];
 
-    UILabel *labelTip = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(bigImageView.frame)+10, BYSScreenWidth, 21)];
-    labelTip.text = @"建议:别老吃薯片,来点小面包吧";
-    labelTip.textColor = [UIColor grayColor];
-    labelTip.font = [UIFont systemFontOfSize:14];
-    labelTip.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:labelTip];
+    _labelTip = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(bigImageView.frame)+10, BYSScreenWidth, 21)];
+    _labelTip.text = @"建议:别老吃薯片,来点小面包吧";
+    _labelTip.textColor = [UIColor grayColor];
+    _labelTip.font = [UIFont systemFontOfSize:14];
+    _labelTip.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_labelTip];
 
-    UILabel *labelBase = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(bigImageView.frame)-10, CGRectGetMaxY(labelTip.frame)+10, 180+10, 21)];
+    UILabel *labelBase = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(bigImageView.frame)-10, CGRectGetMaxY(_labelTip.frame)+10, 180+10, 21)];
     labelBase.text = @"本商品基础分数";
     labelBase.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:labelBase];
@@ -113,13 +143,13 @@
     [self.view addSubview:viewGray];
 
 
-    UILabel *labelBaseText= [[UILabel alloc]initWithFrame:CGRectMake(0,10,BYSScreenWidth, 40)];
-    labelBaseText.text = @"60.1";
-    labelBaseText.textColor = [UIColor grayColor];
-    labelBaseText.textAlignment = NSTextAlignmentCenter;
-    labelBaseText.font = [UIFont systemFontOfSize:45];
+   _labelBaseText= [[UILabel alloc]initWithFrame:CGRectMake(0,10,BYSScreenWidth, 40)];
+    _labelBaseText.text = @"60.1";
+    _labelBaseText.textColor = [UIColor grayColor];
+    _labelBaseText.textAlignment = NSTextAlignmentCenter;
+    _labelBaseText.font = [UIFont systemFontOfSize:45];
 
-    [viewGray addSubview:labelBaseText];
+    [viewGray addSubview:_labelBaseText];
 
     UIView *shareView = [[UIView alloc]initWithFrame:CGRectMake(10, BYSScreenHeight-64-10, BYSScreenWidth-10-10, 50)];
     shareView.backgroundColor = [UIColor redColor];

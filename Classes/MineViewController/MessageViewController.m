@@ -9,6 +9,9 @@
 #import "MessageViewController.h"
 #import "MessageTableViewCell.h"
 #import "MessageDetailViewController.h"
+#import "BYSHttpParameter.h"
+#import "BYSHttpTool.h"
+#import "MessageModel.h"
 
 typedef  NS_ENUM(NSInteger , MessageType)
 {
@@ -19,10 +22,16 @@ typedef  NS_ENUM(NSInteger , MessageType)
 @interface MessageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic) MessageType messageType;
 @property (nonatomic, strong)UITableView *tableView;
+@property (nonatomic, strong)MessageModel *model;
+@property (nonatomic, strong)NSArray *messageArray;
+
+@property (nonatomic, strong)NSMutableArray *mutoArray;
 
 
+@property (nonatomic)BOOL has_image;
 
 
+@property (nonatomic, copy)NSString *urlSting;
 @property (nonatomic, strong)UIImageView *cellImageView;
 
 @end
@@ -37,7 +46,38 @@ typedef  NS_ENUM(NSInteger , MessageType)
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
+    NSMutableArray *mutoArray = [[NSMutableArray alloc]init];
+    [BYSHttpTool POST:APP_home_getMessage Parameters:[BYSHttpParameter get_home_getMessage  ] Success:^(id responseObject) {
+
+        NSArray *array = responseObject[@"data"];
+        NSLog(@"%@---------%@",responseObject,array);
+        for (NSDictionary *dic in array) {
+
+            self.model = [[MessageModel alloc]initWithDictionary:dic error:nil];
+            [mutoArray addObject:self.model];
+
+
+        }
+        self.messageArray = [mutoArray copy];
+        [self.tableView reloadData];
+
+
+
+
+    } Failure:^(NSError *error) {
+        
+    }];
+
+
 }
+- (NSMutableArray *)mutoArray
+{
+    if (!_mutoArray) {
+        _mutoArray = [NSMutableArray new];
+    }
+    return _mutoArray;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
@@ -51,6 +91,7 @@ typedef  NS_ENUM(NSInteger , MessageType)
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = 120;
+        _tableView.backgroundColor = TableviewColor;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[MessageTableViewCell class] forCellReuseIdentifier:@"MessageTableViewCell"];
 
@@ -60,7 +101,7 @@ typedef  NS_ENUM(NSInteger , MessageType)
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.messageArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,8 +111,11 @@ typedef  NS_ENUM(NSInteger , MessageType)
         cell = [[MessageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MessageTableViewCell"];
 
     }
+    self.model = self.messageArray[indexPath.row];
+    self.has_image = self.model.has_image;
 
-    if (indexPath.row%2==0) {
+
+    if (!_has_image) {
         cell.leftImageView.image = [UIImage imageNamed:@"system_message"];
         _tableView.rowHeight = 120;
 
@@ -89,8 +133,11 @@ typedef  NS_ENUM(NSInteger , MessageType)
         _tableView.rowHeight = 120+120;
 
     }
+    cell.titleLable.text = self.model.type;
+    cell.messageLabel.text = self.model.text;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = TableviewColor;
+    self.urlSting = self.model.url;
     
     return cell;
 }

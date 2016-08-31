@@ -9,8 +9,10 @@
 #import "ImformationViewController.h"
 #import "ResourceModel.h"
 #import "ResourceCollectionViewCell.h"
-#import "SearchViewController.h"
+#import "SearchTwoViewController.h"
 #import "GoodsViewController.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 
 @interface ImformationViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,OpenGoodsDelegate>
 @property (nonatomic, strong)UICollectionView *collectionView;
@@ -35,6 +37,16 @@
     [self.view addSubview:self.collectionView];
 
 
+    [BYSHttpTool POST:APP_goods_service Parameters:[BYSHttpParameter api_class_list] Success:^(id responseObject) {
+
+
+        NSLog(@"%@",responseObject);
+        
+    } Failure:^(NSError *error) {
+        
+    }];
+
+
 
 }
 - (UIView *)naviView
@@ -53,7 +65,7 @@
 }
 - (void)pushSearch:(UIButton *)sender
 {
-    SearchViewController *search = [SearchViewController new];
+    SearchTwoViewController *search = [SearchTwoViewController new];
     search.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:search animated:YES];
 }

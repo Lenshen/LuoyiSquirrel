@@ -26,18 +26,19 @@
     _endLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth-30, 50)];
     _endLabel.textAlignment = NSTextAlignmentRight;
 
+    _textfield = [[UITextField alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_firstLabel.frame), 15,200, 30)];
+    _textfield.textAlignment = NSTextAlignmentCenter;
 
-//    _lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,self.contentView.frame.size.height-1, BYSScreenWidth, 1)];
-//    _lineLabel.backgroundColor = TableviewColor;
-//
-//
-//    [self.contentView addSubview:_lineLabel];
     [self.contentView addSubview:_endLabel];
+    [self.contentView addSubview:_textfield];
     [self.contentView addSubview:_firstLabel];
 
 
 }
-
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [_textfield resignFirstResponder];
+}
 
 
 @end

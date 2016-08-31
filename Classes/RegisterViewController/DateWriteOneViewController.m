@@ -20,6 +20,7 @@
 #import "MarkViewController.h"
 
 #import "ContentViewController.h"
+#import "DateWriteThreeViewController.h"
 
 
 #define DateOnebigFont [UIFont systemFontOfSize:15]
@@ -216,7 +217,8 @@
 }
 - (void)push:(UIButton *)sender
 {
-    [self.navigationController pushViewController:[ContentViewController new] animated:YES];
+//    [self.navigationController pushViewController:[ContentViewController new] animated:YES];
+     [self.navigationController pushViewController:[ContentViewController new] animated:YES];
 }
 - (void)yuan:(UIButton *)sender
 {

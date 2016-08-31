@@ -11,10 +11,24 @@
 #import "BYSAlertView.h"
 #import "IntergralSViewController.h"
 #import "GoodsDetialViewController.h"
+#import "BYSHttpParameter.h"
+#import "BYSHttpTool.h"
+#import "IntergralShopModel.h"
+#import "UIImageView+WebCache.h"
 @interface IntergralShoppingViewController()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) UIView *alphaView;
+@property (nonatomic,strong) IntergralShopModel *model;
 @property (nonatomic,strong) BYSAlertView *alertView;
+
+
+@property (nonatomic, strong) NSArray *modelArray;
+
+
+
+
+
 
 
 @end
@@ -31,6 +45,30 @@
     [self.view addSubview:self.collectionView];
 
 
+     NSMutableArray *mutoArray = [NSMutableArray new];
+    [BYSHttpTool POST:APP_goods_getPointGoods Parameters:[BYSHttpParameter api_goods_getPointGoods_index:@"1" size:@"10" sort:@"1"] Success:^(id responseObject) {
+
+
+
+        NSArray *array = responseObject[@"data"];
+        for (NSDictionary *dic in array) {
+
+            self.model = [[IntergralShopModel alloc]initWithDictionary:dic error:nil];
+            NSLog(@"%@",responseObject);
+
+            [mutoArray addObject:self.model];
+        }
+
+        self.modelArray = [mutoArray copy];
+        [self.collectionView reloadData];
+
+
+
+    } Failure:^(NSError *error) {
+        
+    }];
+
+    
 
 
 }
@@ -89,7 +127,7 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 100;
+    return self.modelArray.count;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
@@ -107,27 +145,34 @@
     cell.backgroundColor = [UIColor redColor];
     [cell.convertButton addTarget:self action:@selector(convert:) forControlEvents:UIControlEventTouchUpInside];
     cell.layer.cornerRadius = 10;
+    cell.convertButton.tag = indexPath.row;
     cell.imageView.image = [UIImage imageNamed:@"intergral_shopping_goods"];
 
     cell.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:cell.imageView];
+    self.model = self.modelArray[indexPath.row];
+
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString: self.model.image] placeholderImage:nil];
+
     [cell.contentView addSubview:cell.label];
+
+
     [cell.contentView addSubview:cell.moneyLable];
     [cell.contentView addSubview:cell.convertButton];
 
-    NSString *mutostring =  @" 20000";
+    NSString *mutostring = self.model.point;
     NSMutableAttributedString *mutableAttributes = [[NSMutableAttributedString alloc]initWithString:mutostring];
-    [mutableAttributes addAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} range:NSMakeRange(0, 4)];
+    [mutableAttributes addAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} range:NSMakeRange(0, self.model.point.length)];
     NSTextAttachment *attachment = [[NSTextAttachment alloc]init];
     attachment.image = [UIImage imageNamed:@"intergral_shopping"];
     attachment.bounds = CGRectMake(0, 0, 15, 15);
     NSAttributedString *attributedString = [NSAttributedString attributedStringWithAttachment:attachment];
     [mutableAttributes insertAttributedString:attributedString atIndex:0];
 
-    cell.label.text = @"王老吉420ml";
+    cell.label.text = self.model.name;
     cell.moneyLable.attributedText = mutableAttributes;
 
-   
+
 
 
     return cell;
@@ -135,16 +180,26 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GoodsDetialViewController *gooddetail = [[GoodsDetialViewController alloc]init];
+
+
     [self.navigationController pushViewController:gooddetail animated:YES];
 }
 - (void)convert:(UIButton *)sender
 {
-    NSLog(@"666666");
+    NSLog(@"666666,%ld",sender.tag);
 
-//    [[UIApplication sharedApplication].keyWindow addSubview:self.alphaView];
-//    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+    IntergralSViewController *intergral = [IntergralSViewController new];
+    self.model = self.modelArray[sender.tag];
 
-    [self.navigationController pushViewController:[IntergralSViewController new] animated:YES];
+
+    intergral.image =  self.model.image;
+    intergral.count = self.model.point;
+    intergral.goodsName = self.model.name;
+
+
+
+
+    [self.navigationController pushViewController:intergral animated:YES];
 
 
 

@@ -10,4 +10,6 @@
 
 @interface PostConmmentViewController : UIViewController
 
+@property (nonatomic , copy) NSString *goods_id;
+
 @end

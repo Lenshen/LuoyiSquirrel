@@ -7,13 +7,14 @@
 //
 
 #import "ContentViewController.h"
+#import "DateWriteTwoViewController.h"
 #import "ContentTableViewCell.h"
 #import "BYSHttpParameter.h"
 #import "BYSHttpTool.h"
 #import "contentModel.h"
-#define rowhight 280
+#define rowhight 44
 
-@interface ContentViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface ContentViewController ()<UITableViewDelegate,UITableViewDataSource,LZFoldButtonDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *contentArrayM;
 @property (nonatomic, strong) NSArray *contentArray;
@@ -33,12 +34,19 @@
     self.title = @"含量";
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
+
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"跳过" style:UIBarButtonItemStylePlain target:self action:@selector(jump:)];
+
+    self.navigationItem.rightBarButtonItem = item;
+
      NSMutableArray *mutaArray = [NSMutableArray new];
     [BYSHttpTool POST:APP_goods_getCmptNution Parameters:[BYSHttpParameter api_goods_getCmptNution] Success:^(id responseObject) {
         NSArray *array = responseObject[@"data"];
         for (NSDictionary *dic in array) {
             self.model  = [self.model initWithDictionary:dic error:nil];
             [mutaArray addObject:self.model];
+
+            
         }
         self.cmptArray = [mutaArray copy];
 
@@ -90,6 +98,10 @@
     }
     return _tableView;
 }
+- (void)LZFoldButton:(LZFoldButton *)foldButton didSelectObject:(id)obj
+{
+    self.tableView.rowHeight = 260;
+}
 - (void)addContent:(UIButton *)sender
 {
 
@@ -112,6 +124,7 @@
         cell = [[ContentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ContentTableViewCell"];
     }
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.lifeButton.lzDelegate = self;
     return cell;
 }
 - (void)didReceiveMemoryWarning {
@@ -119,6 +132,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)jump:(id)sender
+{
+    [self.navigationController pushViewController:[DateWriteTwoViewController new] animated:YES];
+}
 /*
 #pragma mark - Navigation
 

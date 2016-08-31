@@ -35,7 +35,7 @@
 - (UIView *)tableFootView
 {
     if (!_tableFootView) {
-        _tableFootView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 200+80+10)];
+        _tableFootView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 200+60)];
         _tableFootView.backgroundColor = [UIColor whiteColor];
         UIView *grayView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 150)];
         grayView.backgroundColor = TableviewColor;
@@ -66,18 +66,18 @@
         [_textView addSubview:_placeHold];
         [_textView addSubview:_changLabel];
 
-        UIButton *shipButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        shipButton.frame = CGRectMake(10,CGRectGetMaxY(grayView.frame)+60,BYSScreenWidth-10-10, 30);
-        [shipButton setTitleColor:NavigationColor forState:UIControlStateNormal];
-        [shipButton setTitle:@"跳过" forState:UIControlStateNormal];
-        shipButton.layer.borderWidth = 1;
-        shipButton.layer.cornerRadius = 5;
-        shipButton.layer.masksToBounds = YES;
-        shipButton.layer.borderColor = NavigationColor.CGColor;
-        [shipButton addTarget:self action:@selector(push:) forControlEvents:UIControlEventTouchUpInside];
+//        UIButton *shipButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        shipButton.frame = CGRectMake(10,CGRectGetMaxY(grayView.frame)+60,BYSScreenWidth-10-10, 30);
+//        [shipButton setTitleColor:NavigationColor forState:UIControlStateNormal];
+//        [shipButton setTitle:@"跳过" forState:UIControlStateNormal];
+//        shipButton.layer.borderWidth = 1;
+//        shipButton.layer.cornerRadius = 5;
+//        shipButton.layer.masksToBounds = YES;
+//        shipButton.layer.borderColor = NavigationColor.CGColor;
+//        [shipButton addTarget:self action:@selector(push:) forControlEvents:UIControlEventTouchUpInside];
 
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        sureButton.frame = CGRectMake(10,CGRectGetMaxY(shipButton.frame)+10,BYSScreenWidth-10-10, 30);
+        sureButton.frame = CGRectMake(10,CGRectGetMaxY(grayView.frame)+60+10,BYSScreenWidth-10-10, 30);
         sureButton.backgroundColor = NavigationColor;
         [sureButton setTitle:@"提交" forState:UIControlStateNormal];
         sureButton.layer.cornerRadius = 5;
@@ -86,7 +86,6 @@
         [grayView addSubview:_textView];
         [grayView addSubview:titleLabel];
         [_tableFootView addSubview:grayView];
-        [_tableFootView addSubview:shipButton];
         [_tableFootView addSubview:sureButton];
 
     }

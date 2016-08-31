@@ -13,9 +13,11 @@
 //@property (nonatomic, copy) NSString *provice;
 //@property (nonatomic, copy) NSString *city;
 //@property (nonatomic, copy) NSString *district;
-//@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *address;
 @property (nonatomic, copy) NSString *id_card;
 @property (nonatomic, copy) NSString *certification;
+@property (nonatomic, copy) NSString *mobile;
+
 
 
 

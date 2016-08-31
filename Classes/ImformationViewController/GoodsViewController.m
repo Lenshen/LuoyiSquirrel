@@ -10,6 +10,8 @@
 #import "GetScoreView.h"
 #import "YouSoreViewController.h"
 #import "GoodsDetialViewController.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
 static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdntifier";
 #define rowhight 100
 
@@ -32,9 +34,19 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
     // Do any additional setup after loading the view.
     self.view.backgroundColor =[UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.title = @"商品列表";
+    self.title = @"商品列表";
     [self.view addSubview:self.tableView];
-    
+    [BYSHttpTool POST:APP_goods_GetPage  Parameters:[BYSHttpParameter api_goods_getPageWithindex:@1 size:@10 type_id:@3 sort:@0 ] Success:^(id responseObject) {
+
+        NSLog(@"%@",[BYSHttpParameter api_goods_getPageWithindex:@1 size:@10 type_id:@0 sort:@0]);
+
+        NSLog(@"%@",responseObject);
+
+
+    } Failure:^(NSError *error) {
+        
+    }];
+
     [self getScore];
 
 
