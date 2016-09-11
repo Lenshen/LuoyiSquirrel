@@ -9,6 +9,7 @@
 #import "DateWriteTwoViewController.h"
 #import "HistoryLabel.h"
 #import "DateWriteThreeViewController.h"
+#import "ProduceViewController.h"
 #define DateOnebigFont [UIFont systemFontOfSize:15]
 
 #define DateOneFont [UIFont systemFontOfSize:13]
@@ -35,7 +36,6 @@
     [self configUI];
 
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"跳过" style:UIBarButtonItemStylePlain target:self action:@selector(push:)];
-
     self.navigationItem.rightBarButtonItem = item;
 
     UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -53,7 +53,7 @@
 }
 - (void)push:(UIButton *)sender
 {
-    [self.navigationController pushViewController:[DateWriteThreeViewController new] animated:YES];
+    [self.navigationController pushViewController:[ProduceViewController new] animated:YES];
 
 }
 - (void)configUI

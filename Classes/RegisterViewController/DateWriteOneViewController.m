@@ -186,7 +186,8 @@
           [_kgButton addTarget:self action:@selector(kg:) forControlEvents:UIControlEventTouchUpInside];
 
 
-
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"跳过" style:UIBarButtonItemStylePlain target:self action:@selector(push:)];
+        self.navigationItem.rightBarButtonItem = item;
 
 
         UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeCustom];

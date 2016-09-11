@@ -18,6 +18,7 @@
 #import "MessageViewController.h"
 #import "BYSHttpTool.h"
 #import "BYSHttpParameter.h"
+#import "ScoreHistoryViewController.h"
 
 #define rowheight 44
 static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
@@ -78,14 +79,14 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 - (NSArray *)lableArray
 {
     if (!_lableArray) {
-        _lableArray = @[@"个人信息",@"家庭管理(亲友)",@"数据录入",@"我的积分",@"我的消息",@"账户认证"];
+        _lableArray = @[@"家庭管理(亲友)",@"历史记录",@"数据录入",@"我的积分",@"我的消息",@"账户认证"];
     }
     return _lableArray;
 }
 - (NSArray *)images
 {
     if (!_images) {
-        _images = @[[UIImage imageNamed:@"mine_tablecell_IF"],[UIImage imageNamed:@"mine_tablecell_fraimy"],[UIImage imageNamed:@"mine_tablecell_date"],[UIImage imageNamed:@"mine_tablecell_integral"],[UIImage imageNamed:@"mine_tablecell_IF-message"],[UIImage imageNamed:@"mine_tablecell_click"]];
+        _images = @[[UIImage imageNamed:@"mine_tablecell_fraimy"],[UIImage imageNamed:@"mine_tablecell_IF"],[UIImage imageNamed:@"mine_tablecell_date"],[UIImage imageNamed:@"mine_tablecell_integral"],[UIImage imageNamed:@"mine_tablecell_IF-message"],[UIImage imageNamed:@"mine_tablecell_click"]];
     }
     return _images;
 }
@@ -241,7 +242,8 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
     date.hidesBottomBarWhenPushed = YES;
     MessageViewController *message = [MessageViewController new];
     message.hidesBottomBarWhenPushed = YES;
-
+    ScoreHistoryViewController *scoreHistory = [ScoreHistoryViewController new];
+    scoreHistory.hidesBottomBarWhenPushed = YES;
 
 
 
@@ -250,9 +252,14 @@ static  NSString *const mineTableCellReuseIdntifier = @"MineTableviewCell";
 
     NSUInteger i = indexPath.row;
     switch (i) {
-            case 1:
+            case 0:
             
             [self.navigationController pushViewController:family animated:YES];
+
+            break;
+        case 1:
+
+            [self.navigationController pushViewController:scoreHistory animated:YES];
 
             break;
         case 2:

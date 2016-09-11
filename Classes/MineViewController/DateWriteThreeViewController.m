@@ -13,6 +13,7 @@
 @interface DateWriteThreeViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, strong)NSMutableArray *countArray;
+
 @property (nonatomic, strong)UIView *tableFootView;
 
 @property (nonatomic, strong) UITextView *textView;
@@ -94,7 +95,9 @@
 - (NSMutableArray *)countArray
 {
     if (!_countArray) {
-        _countArray =(NSMutableArray *) @[@"1",@"2"];
+        _countArray = [NSMutableArray new];
+        [_countArray addObject:@"1"];
+        [_countArray addObject:@"2"];
     }
     return _countArray;
 }
@@ -130,7 +133,7 @@
         if (!cell) {
             cell = [[DateThreeLTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DateThreeLTableViewCell"];
         }
-        
+
         NSString *scoreString = [NSString stringWithFormat:@"%ld",self.countArray.count+1];
         cell.numberLabel.attributedText = [self getAttrbute:scoreString];
         self.tableView.rowHeight = 60;
@@ -146,7 +149,7 @@
         }
         _tableView.rowHeight = 120;
 
-        NSString *scoreString = self.countArray[index];
+        NSString *scoreString = self.countArray[indexPath.row];
         cell.numberLabel.attributedText = [self getAttrbute:scoreString];
 
             switch (index) {
@@ -167,7 +170,14 @@
     }
 
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == self.countArray.count) {
+        NSString *str =[NSString stringWithFormat:@"%ld",(self.countArray.count+1)];
+        [self.countArray addObject:str];
+        [self.tableView reloadData];
+    }
+}
 
 - (NSMutableAttributedString *)getAttrbute:(NSString *)scoreString
 {

@@ -166,7 +166,7 @@
 
     }else
     {
-        cell1.firstLabel.text = self.labelFArray[indexPath.row];
+        cell1.firstLabel.text = self.labelArray[indexPath.row];
 
     }
     if (indexPath.section==1 &&indexPath.row==3) {

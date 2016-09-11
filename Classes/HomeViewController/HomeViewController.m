@@ -38,6 +38,7 @@
 @property (strong,nonatomic)UILabel *dayLabel;
 @property (strong,nonatomic)UIButton *headButton;
 @property (strong,nonatomic)AdvertModel *model;
+@property (strong,nonatomic) BYSHttpTool *tool;
 
 
 @property (strong,nonatomic)SDCycleScrollView *cycleScrollView;
@@ -61,13 +62,28 @@
 
 
     }
+    _tool  = [BYSHttpTool new];
+    [_tool reachability:self];
+    [_tool.alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
 
 
 
 
 
 }
+- (void)dismiss:(id)sender
+{
 
+    _tool.alertView.alphaView.hidden = YES;
+    [_tool.alertView.alphaView removeFromSuperview];
+    _tool.alertView.alphaView = nil;
+    _tool.alertView.hidden = YES;
+    [_tool.alertView removeFromSuperview];
+    _tool.alertView = nil;
+    NSLog(@"666666");
+
+
+}
 - (NSString*)dictionaryToJson:(NSDictionary *)dic
 
 {
@@ -160,6 +176,7 @@
         self.netImages = [mutoArray copy];
         self.urls = [mutoUrlArray copy];
         NSLog(@"%@",self.netImages);
+        
 
         self.cycleScrollView.imageURLStringsGroup = self.netImages;
 

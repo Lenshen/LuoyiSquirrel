@@ -8,10 +8,11 @@
 
 #import "SearchTwoViewController.h"
 #import "HistoryLabel.h"
+#import "SearchBar.h"
+#import "NoGoodsView.h"
 
-
-@interface SearchTwoViewController ()<historyLableDelegeate>
-@property (nonatomic, strong)UIView *searchBarView;
+@interface SearchTwoViewController ()<historyLableDelegeate,UITextFieldDelegate>
+@property (nonatomic, strong)SearchBar *searchBarView;
 @property (nonatomic, strong)UITextField *textfield;
 @property (nonatomic, strong)UIView *putdownView;
 
@@ -22,8 +23,13 @@
 
 
 @property (strong, nonatomic) HistoryLabel *history;
+@property (strong, nonatomic) NoGoodsView *noGoodsView;
+
 @property (strong,nonatomic) NSMutableArray *searTXT;
 @property (nonatomic,strong)UIButton *clearButton;
+
+
+@property (nonatomic, strong)UITableView *tableView;
 
 
 
@@ -45,44 +51,41 @@
     _isOpen = NO;
 
 }
+
+- (UITableView *)tableView
+{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, BYSScreenWidth, BYSScreenHeight-64)];
+
+    }
+    return _tableView;
+}
+- (NoGoodsView *)noGoodsView
+{
+    if (!_noGoodsView) {
+        _noGoodsView = [[NoGoodsView alloc]initWithFrame:CGRectMake(0,64, BYSScreenWidth, BYSScreenHeight-64)];
+    }
+    return _noGoodsView;
+}
 - (UIView *)searchBarView
 {
     if (!_searchBarView) {
-        _searchBarView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 64)]
+        _searchBarView = [[SearchBar alloc]initWithFrame:CGRectMake(0, 0, BYSScreenWidth, 64)]
         ;
-        _searchBarView.backgroundColor = NavigationColor;
+        _searchBarView.textfield.delegate = self;
 
 
 
-
-
-        _putdownView = [[UIView alloc]initWithFrame:CGRectMake(15, 25, 45, 32)];
-//        _putdownView.backgroundColor = [UIColor redColor];
+//-----------------左侧button------------
 
         _contentGoodsButton = [UIButton buttonWithType:UIButtonTypeSystem];
         _contentGoodsButton.frame = CGRectMake(15, 25, 45, 32);
         _contentGoodsButton.backgroundColor = TableviewColor;
         [_contentGoodsButton setTitle:@"商品1" forState:UIControlStateNormal];
-//        _contentGoodsLabel.textAlignment = NSTextAlignmentCenter;
-//        _contentGoodsLabel.font = [UIFont systemFontOfSize:14];
         _contentGoodsButton.tag = 1;
         [_contentGoodsButton addTarget:self action:@selector(chickTap:) forControlEvents:UIControlEventTouchUpInside];
-
-
-    
-
-
-
-
-
-
-
-//
-//       _lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 32*2, CGRectGetWidth(self.putdownView.frame), 0.7)];
-//        _lineLabel.backgroundColor = TableviewColor;
-//        _lineLabel.alpha = 0;
-//        [self.putdownView addSubview:_lineLabel];
-
+        //        _contentGoodsLabel.textAlignment = NSTextAlignmentCenter;
+        //        _contentGoodsLabel.font = [UIFont systemFontOfSize:14];
 
 
 
@@ -109,13 +112,16 @@
         _goodsButton.backgroundColor = RGB(254, 255, 255);
         _goodsButton.tag = 3;
         [_goodsButton addTarget:self action:@selector(chickTap:) forControlEvents:UIControlEventTouchUpInside];
+        
 
 
 
         //        _goodsLabel.font = [UIFont systemFontOfSize:14];
         _goodsButton.alpha = 0;
+        
 
 
+//-----------------左侧button------------
 
         UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
 
@@ -125,15 +131,11 @@
         [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [cancelButton addTarget:self action:@selector(dissmiss:) forControlEvents:UIControlEventTouchUpInside];
 
-        _textfield = [[UITextField alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_putdownView.frame), 25, BYSScreenWidth-cancelButton.frame.size.width-10-20-60, CGRectGetHeight(_putdownView.frame))];
-        _textfield.backgroundColor = [UIColor whiteColor];
-
-
-
 
         [_searchBarView addSubview:cancelButton];
-        [_searchBarView addSubview:_textfield];
-        [_searchBarView addSubview:_putdownView];
+
+
+
 
 
 
@@ -144,62 +146,10 @@
 }
 - (void)dissmiss:(UIButton *)sender
 {
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)chickTap:(UIButton *)sender
-{
-    if (sender.tag == 1) {
-        if (!_isOpen) {
-
-
-
-            [UIView animateWithDuration:0.3 animations:^{
-                self.materialbutton.alpha = 1;
-                self.goodsButton.alpha = 1;
-
-
-
-
-
-
-
-
-            }];
-            _isOpen = YES;
-        }else
-        {
-            [UIView animateWithDuration:0.3 animations:^{
-                self.materialbutton.alpha = 0;
-                self.goodsButton.alpha = 0;
-
-                
-                
-            }];
-            _isOpen = NO;
-            
-        }
-
-    }
-
-    if (sender.tag == 2) {
-        [self.contentGoodsButton setTitle:@"原料" forState:UIControlStateNormal];
-        self.materialbutton.alpha = 0;
-        self.goodsButton.alpha = 0;
-        _isOpen = NO;
-
-    }
-
-
-    if (sender.tag == 3) {
-        [self.contentGoodsButton setTitle:@"商品" forState:UIControlStateNormal];
-        self.materialbutton.alpha = 0;
-        self.goodsButton.alpha = 0;
-        _isOpen = NO;
-
-    }
-
-    }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -297,9 +247,88 @@
 
 
     
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+
     
-    
+    [self.view addSubview:self.tableView];
+    [self.noGoodsView removeFromSuperview];
+    self.noGoodsView = nil;
+
+
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    [self.view addSubview:self.noGoodsView];
+    [self.tableView removeFromSuperview];
+    self.tableView = nil;
+
+    return YES;
+}
+
+
+//-----------------左侧button点击------------
+
+
+
+
+
+
+- (void)chickTap:(UIButton *)sender
+{
+    if (sender.tag == 1) {
+        if (!_isOpen) {
+
+            [UIView animateWithDuration:0.3 animations:^{
+                self.materialbutton.alpha = 1;
+                self.goodsButton.alpha = 1;
+
+
+
+
+
+
+            }];
+            _isOpen = YES;
+        }else
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.materialbutton.alpha = 0;
+                self.goodsButton.alpha = 0;
+
+
+
+            }];
+            _isOpen = NO;
+
+        }
+
+    }
+
+    if (sender.tag == 2) {
+        [self.contentGoodsButton setTitle:@"原料" forState:UIControlStateNormal];
+        self.materialbutton.alpha = 0;
+        self.goodsButton.alpha = 0;
+        _isOpen = NO;
+
+    }
+
+
+    if (sender.tag == 3) {
+        [self.contentGoodsButton setTitle:@"商品2" forState:UIControlStateNormal];
+        self.materialbutton.alpha = 0;
+        self.goodsButton.alpha = 0;
+        _isOpen = NO;
+        
+    }
     
 }
+
+//-----------------左侧button点击------------
+
 
 @end

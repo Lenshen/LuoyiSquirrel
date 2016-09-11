@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "BYSAlertView.h"
 
 @interface BYSHttpTool : NSObject
 
+@property (nonatomic,strong) BYSAlertView *alertView;
+
 //add
 //add
-+ (void)reachability:(UIViewController *)viewcontroller;
+
+- (void)reachability:(UIViewController *)viewcontroller;
 
 +(void)GET:(NSString *)URLString Parameters:(id)parameters Success:(void (^) (id responseObject))success Failure:(void (^) (NSError *error))failure;
 +(void)POST:(NSString *)URLString Parameters:(id)parameters Success:(void (^) (id responseObject))success Failure:(void (^) (NSError *error))failure;
