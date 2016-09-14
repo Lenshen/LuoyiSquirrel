@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 @protocol chickCollectionViewDelegate<NSObject>
 - (void)chickCollectionViewDelegate:(NSInteger )tag
-                     WithId:(NSInteger )preson_id;
+                     WithId:(NSInteger )preson_id
+                        Array:(NSArray *)array;
 
 @end
 

@@ -13,4 +13,4 @@
 - (void)verticalImageAndTitle:(CGFloat)spacing;
 
 
-@end
+@end 

@@ -16,8 +16,10 @@
 @property (nonatomic, strong)NSString *weight;
 @property (nonatomic, strong)NSString *is_default;
 @property (nonatomic, strong)NSString *birthday;
-@property (nonatomic, strong)NSString *user_id;
+@property (nonatomic, strong)NSString *member_id;
 @property (nonatomic, strong)NSString *sex;
+
+//@property (nonatomic, assign)NSInteger member;
 
 
 

@@ -75,7 +75,7 @@
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, BYSScreenWidth,rowhight*5+60) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, BYSScreenWidth,BYSScreenHeight-64) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = rowhight;
@@ -100,7 +100,17 @@
 }
 - (void)LZFoldButton:(LZFoldButton *)foldButton didSelectObject:(id)obj
 {
+
     self.tableView.rowHeight = 260;
+    [self.tableView reloadData];
+    [self tableView:self.tableView heightForRowAtIndexPath:0];
+
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    UIView* view = [cell.contentView.subviews objectAtIndex:0];
+    NSLog(@"cell.frame.size.height=%f",view.frame.size.height);
+    return view.frame.size.height;
 }
 - (void)addContent:(UIButton *)sender
 {

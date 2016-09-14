@@ -8,12 +8,16 @@
 
 #import "GetScoreView.h"
 #import "FamilyCollectionViewCell.h"
+#import "BYSHttpTool.h"
+#import "BYSHttpParameter.h"
+#import "MessageModel.h"
 
 @interface GetScoreView()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *nameArray;
 @property (nonatomic, strong) NSArray *relationArray;
+@property (nonatomic, strong) MemberIFModel *model;
 
 
 
@@ -39,13 +43,41 @@
     self = [super initWithFrame:frame];
     if (self) {
 
-       
+    [self configUI];
+    [self getDate];
 
-        [self configUI];
+
     }
     return self;
 }
+- (void)getDate
+{
+    
+    NSMutableArray *arrayM = [NSMutableArray new];
 
+    [BYSHttpTool POST:APP_member_service Parameters:[BYSHttpParameter get_app_list] Success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
+
+        NSArray *array = responseObject[@"data"];
+        for (NSDictionary *dic in array) {
+
+            self.model = [[MemberIFModel alloc] initWithDictionary:dic error:nil];
+
+
+            [arrayM addObject:self.model];
+
+
+        }
+
+        self.relationArray = [arrayM copy];
+//        self.is_edit = NO;
+
+        [self.collectionView reloadData];
+        
+    } Failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
 
 - (void)configUI
 {
@@ -103,28 +135,80 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.nameArray.count+1;
+    return self.relationArray.count+1;
 }
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 
+//    FamilyCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FamilyCollectionViewCell" forIndexPath:indexPath];
+//
+//    cell.familyHDView.image = [UIImage imageNamed:@"headimage"];
+//    if (indexPath.row == self.nameArray.count) {
+//        cell.nameLabel.text = @"添加新成员";
+//        cell.familyHDView.image = [UIImage imageNamed:@"family_add"];
+//
+//
+//
+//    }else
+//    {
+//        cell.nameLabel.text = self.nameArray[indexPath.row];
+//        cell.relationLabel.text = @"主账号";
+//        cell.relationLabel.textColor = [UIColor grayColor];
+//        [cell.contentView addSubview:cell.relationLabel];
+//
+//    }
+//
+//
+//
+//
+//    cell.backgroundColor = [UIColor whiteColor];
+//
+//
+//    [cell.contentView addSubview:cell.familyHDView];
+//    [cell.contentView addSubview:cell.nameLabel];
+//
+//
+//
+//    return cell;
+
     FamilyCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FamilyCollectionViewCell" forIndexPath:indexPath];
+    cell.deleteButton.alpha = 0;
+
 
     cell.familyHDView.image = [UIImage imageNamed:@"headimage"];
-    if (indexPath.row == self.nameArray.count) {
+    if (indexPath.row == self.relationArray.count) {
+
         cell.nameLabel.text = @"添加新成员";
         cell.familyHDView.image = [UIImage imageNamed:@"family_add"];
+        cell.deleteButton.alpha = 0;
 
 
 
     }else
     {
-        cell.nameLabel.text = self.nameArray[indexPath.row];
-        cell.relationLabel.text = @"主账号";
-        cell.relationLabel.textColor = [UIColor grayColor];
+        cell.model = self.relationArray[indexPath.row];
+//        cell.deleteButton.member = indexPath.row;
+
         [cell.contentView addSubview:cell.relationLabel];
+//        if (self.is_edit) {
+//            [UIView animateWithDuration:1 animations:^{
+//                cell.deleteButton.alpha = 1;
+//
+//            }];
+//        }else
+//        {
+//            cell.deleteButton.alpha = 0;
+//
+//
+//
+//        }
+
+
+
+
+
 
     }
 
@@ -133,12 +217,27 @@
 
     cell.backgroundColor = [UIColor whiteColor];
 
+//    [cell.deleteButton addTarget:self action:@selector(delete:) forControlEvents:UIControlEventTouchUpInside];
+
+
+//    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self
+//                                                                                           action:@selector(longpress:)];
+//    longPress.minimumPressDuration = 1.0;
+    //将长按手势添加到需要实现长按操作的视图里
+
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+//    tap.delegate = self;
+//    [self.collectionView addGestureRecognizer:tap];
+//
+//    [self.collectionView addGestureRecognizer:longPress];
 
     [cell.contentView addSubview:cell.familyHDView];
     [cell.contentView addSubview:cell.nameLabel];
+//    [cell.contentView addSubview:cell.deleteButton];
 
-
-
+    
+    
+    //    [cell addGestureRecognizer:[self longpress:nil]] ;
     return cell;
 
 }
@@ -149,8 +248,8 @@
 {
     
 
-    if ([self.chickDelegate respondsToSelector:@selector(chickCollectionViewDelegate:WithId:)]) {
-        [self.chickDelegate chickCollectionViewDelegate:indexPath.row WithId:100];
+    if ([self.chickDelegate respondsToSelector:@selector(chickCollectionViewDelegate:WithId: Array:)]) {
+        [self.chickDelegate chickCollectionViewDelegate:indexPath.row WithId:100 Array:self.relationArray];
 
     }
 

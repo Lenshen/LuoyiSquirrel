@@ -156,9 +156,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == self.countArray.count) {
+
+
         NSString *str =[NSString stringWithFormat:@"%ld",(self.countArray.count+1)];
         [self.countArray addObject:str];
-        [self.tableView reloadData];
+
+//        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+        //          NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[arrayRow count]-1 inSection:0];
+        tableView.rowHeight = 160;
+
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.countArray count]-1 inSection:0];
+        
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+//        [self.tableView reloadData];
+//        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 

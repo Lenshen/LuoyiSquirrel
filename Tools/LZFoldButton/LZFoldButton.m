@@ -73,7 +73,8 @@
     table.dataSource = self;
     table.rowHeight = 44;
     table.backgroundColor = [UIColor clearColor];
-    [self addSubview:table];  
+//    [self addSubview:table];
+    [[UIApplication sharedApplication].keyWindow addSubview:table];
     _lzTableView = table;
 }
 
@@ -203,6 +204,9 @@
 #pragma mark - 按钮点击事件
 - (void)buttonClick:(UIButton*)button {
     button.selected = !button.selected;
+    if ([self.lzDelegate respondsToSelector:@selector(LZFoldButton: didSelectObject:)]) {
+        [self.lzDelegate LZFoldButton:button didSelectObject:nil];
+    }
     if (_isTableFold) {
         
         [self tableClose];

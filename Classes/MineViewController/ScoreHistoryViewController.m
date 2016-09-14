@@ -24,7 +24,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     [self.view addSubview:self.tableView];
-    self.view.backgroundColor = [UIColor blueColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 
 
 }

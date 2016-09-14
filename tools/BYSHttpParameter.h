@@ -17,7 +17,7 @@
 + (NSDictionary *)get_APP_member_getToken:(NSString *)code;
 
 //   3.增加基本信息
-+ (NSString *)get_APP_member_addInfo_jsonStr:(NSString *)is_default nick_name:(NSString *)nick_name birthday:(NSString *)brithday sex:(NSString *)sex height:(NSString *)height weight:(NSString *)weight;
++ (NSString *)get_APP_member_addInfo_jsonStr:(NSString *)is_default nick_name:(NSString *)nick_name birthday:(NSString *)brithday sex:(NSString *)sex height:(NSString *)height weight:(NSString *)weight head_image:(NSString *)head_image;
 
 //  4.修改基本信息
 + (NSString *)get_app_member_changeinfo_user_id:(NSString *)user_id
@@ -93,4 +93,7 @@
 
 
 + (NSString *)api_member_setAddressWithAddress:(NSString *)address mobile:(NSString *)mobile;
+
++ (NSString *)get_app_delete_info_member_id:(NSString *)member_id;
+
 @end

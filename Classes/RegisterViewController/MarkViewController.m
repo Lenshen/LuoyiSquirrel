@@ -14,6 +14,7 @@
 #import "BYSHttpParameter.h"
 #import "markCellModel.h"
 #import "UIButton+countDown.h"
+#import "FamilyMGViewController.h"
 static NSString* markReuseIdentifier = @"markReuseIdentifier";
 @interface MarkViewController ()<UITableViewDelegate,UITableViewDataSource,HXTagsViewDelegate>
 @property (nonatomic,strong) UITableView *tableView;
@@ -77,7 +78,11 @@ static NSString* markReuseIdentifier = @"markReuseIdentifier";
 
     }];
 
-    [self.navigationController pushViewController:[FamilyMGViewController new] animated:YES];
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[FamilyMGViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
 
     if (self.familyBlock) {
         self.familyBlock();

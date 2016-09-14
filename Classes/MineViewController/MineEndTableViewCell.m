@@ -28,6 +28,8 @@
 
     _textfield = [[UITextField alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_firstLabel.frame), 15,200, 30)];
     _textfield.textAlignment = NSTextAlignmentCenter;
+    _textfield.userInteractionEnabled = NO;
+
 
     [self.contentView addSubview:_endLabel];
     [self.contentView addSubview:_textfield];

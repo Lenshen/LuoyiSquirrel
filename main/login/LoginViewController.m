@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "BYSHttpTool.h"
 #import "BYSHttpParameter.h"
+#import "BYSAlertView.h"
 
 
 @interface LoginViewController ()<SDCycleScrollViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
@@ -25,6 +26,9 @@
 
 @property (strong,nonatomic)UITextField *tureTextField;
 @property (strong,nonatomic)UITextField *codeTextField;
+
+@property (nonatomic,strong) BYSAlertView *alertView;
+
 
 
 
@@ -235,6 +239,10 @@
 
                 NSLog(@"%@",responseObject);
 
+                NSString *str = [NSString stringWithFormat:@"您的验证码是:%@", responseObject[@"data"]];
+
+                [self setAlertUI:str];
+
 
 
             } Failure:^(NSError *error) {
@@ -265,7 +273,45 @@
 }
 
 
+- (void)setAlertUI:(NSString *)str
+{
 
+    _alertView = [[BYSAlertView alloc]initWithFrame:CGRectMake(15,-110, BYSScreenWidth-15*2, 180) titleString:@"温馨提示"  messageSting:str buttonTitle:@"确定"];
+    __weak typeof (self) weakSelf = self;
+    _alertView.chickDissMissButton = ^{
+        weakSelf.alertView = nil;
+    };
+    [_alertView.rightButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+
+
+
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView.alphaView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.alertView];
+
+
+
+
+    [UIView animateWithDuration:0.7 animations:^{
+
+        self.alertView.frame = CGRectMake(15, 110, BYSScreenWidth-15*2, 180);
+    }];
+}
+
+
+
+- (void)dismiss:(id)sender
+{
+
+    self.alertView.alphaView.hidden = YES;
+    [self.alertView.alphaView removeFromSuperview];
+    self.alertView.alphaView = nil;
+    self.alertView.hidden = YES;
+    [self.alertView removeFromSuperview];
+    self.alertView = nil;
+    NSLog(@"666666");
+    
+    
+}
 - (void)limitMobile:(UITextField *)textField
 {
 

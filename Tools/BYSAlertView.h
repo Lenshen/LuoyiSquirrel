@@ -11,6 +11,7 @@
 @interface BYSAlertView : UIView
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder;
+
 - (instancetype)initWithFrame:(CGRect)frame titleString:(NSString *)titleString messageSting:(NSString *)messageSting buttonTitle:(NSString *)buttonTitle;
 
 

@@ -12,6 +12,7 @@
 #import "GoodsDetialViewController.h"
 #import "BYSHttpTool.h"
 #import "BYSHttpParameter.h"
+#import "PersonIFViewController.h"
 static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdntifier";
 #define rowhight 100
 
@@ -133,9 +134,15 @@ static  NSString *const goodsTableCellReuseIdntifier = @"goodsTableCellReuseIdnt
 {
     [self.navigationController pushViewController:[GoodsDetialViewController new] animated:YES];
 }
-- (void)chickCollectionViewDelegate:(NSInteger)tag WithId:(NSInteger)preson_id
+- (void)chickCollectionViewDelegate:(NSInteger)tag WithId:(NSInteger)preson_id Array:(NSArray *)array
 {
-    [self.navigationController pushViewController:[YouSoreViewController new] animated:YES];
+
+    if (tag == array.count) {
+        [self.navigationController pushViewController:[PersonIFViewController new] animated:YES];
+    }else
+    {
+       [self.navigationController pushViewController:[YouSoreViewController new] animated:YES];
+    }
 }
 
 - (void)getScore:(UIButton *)sender

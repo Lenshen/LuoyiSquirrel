@@ -61,12 +61,13 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 
 
 
+
 @property (nonatomic,strong) UIImagePickerController *imagePickerController;
 
 
 
 
-
+@property (nonatomic, copy) NSString *imageStr;
 
 
 
@@ -105,6 +106,8 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
     [sureButton addTarget:self action:@selector(push:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sureButton];
 
+    self.imageStr = @"";
+
 
 
 
@@ -113,12 +116,11 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 - (void)push:(UIButton *)sender
 {
 
-    NSString *str =[BYSHttpParameter get_APP_member_addInfo_jsonStr:@"1" nick_name:@"bao" birthday:@"1995" sex:@"1" height:@"187" weight:@"45"];
-    NSLog(@"%@-------",str );
 
 
 
-    [BYSHttpTool POST:APP_member_addInfo Parameters:[BYSHttpParameter get_APP_member_addInfo_jsonStr:@"true" nick_name:@"bao" birthday:@"1995-06" sex:@"true" height:@"187" weight:@"45"] Success:^(id responseObject) {
+
+    [BYSHttpTool POST:APP_member_addInfo Parameters:[BYSHttpParameter get_APP_member_addInfo_jsonStr:@"true" nick_name:@"bao" birthday:@"1995-06" sex:@"true" height:@"187" weight:@"45" head_image:self.imageStr] Success:^(id responseObject) {
         NSLog(@"%@",responseObject);
 
     } Failure:^(NSError *error) {
@@ -501,7 +503,7 @@ static  NSString *const PersonTableCellReuseIdntifier = @"PersonableviewCell";
 {
     NSData *imagedata = UIImageJPEGRepresentation(image, 1.0);
     NSString *imageStr = [imagedata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-//    self.imageStr = imageStr;
+    self.imageStr = imageStr;
 
 }
 

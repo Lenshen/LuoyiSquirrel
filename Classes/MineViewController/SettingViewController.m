@@ -163,6 +163,9 @@
             cell1.endLabel.text = @"幼儿园";
             cell1.accessoryType = UITableViewCellAccessoryNone;
         }
+        if (indexPath.row == 1) {
+            cell1.textfield.userInteractionEnabled = YES;
+        }
 
     }else
     {

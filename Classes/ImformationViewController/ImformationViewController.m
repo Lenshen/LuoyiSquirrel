@@ -19,6 +19,11 @@
 
 @property (nonatomic, strong)NSArray *titileArray;
 @property (nonatomic, strong)NSArray *buttonArray;
+@property (nonatomic, strong)NSArray *class_listArray;
+@property (nonatomic, strong)NSArray *class_nameArray;
+
+
+
 @property (nonatomic, strong)ResourceModel *model;
 @property (nonatomic, strong)UIView *naviView;
 
@@ -36,12 +41,30 @@
     [self.view addSubview:self.naviView];
     [self.view addSubview:self.collectionView];
 
+    NSMutableArray *mutoArrayBig = [NSMutableArray new];
+    NSMutableArray *mutoClass_name = [NSMutableArray new];
 
     [BYSHttpTool POST:APP_goods_service Parameters:[BYSHttpParameter api_class_list] Success:^(id responseObject) {
 
 
         NSLog(@"%@",responseObject);
-        
+        NSArray *array = responseObject[@"data"];
+        for (NSDictionary *dic in array) {
+            NSArray *array1 = dic[@"class_list"];
+            [mutoClass_name addObject:dic[@"parent_class"]];
+
+            NSMutableArray *mutoArray1 = [NSMutableArray new];
+
+            for (NSDictionary *dic in array1) {
+                [mutoArray1 addObject:dic];
+            }
+            [mutoArrayBig addObject:mutoArray1];
+
+        }
+        self.class_listArray = [mutoArrayBig copy];
+        self.class_nameArray = [mutoClass_name copy];
+        [self.collectionView reloadData];
+
     } Failure:^(NSError *error) {
         
     }];
@@ -116,14 +139,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.titileArray.count;
+    return self.class_nameArray.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ResourceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ResourceCollectionViewCell" forIndexPath:indexPath];
     cell.delegate = self;
 
-    self.model.titleString = self.titileArray[indexPath.row];
+    self.model.titleString = self.class_nameArray[indexPath.row];
 
 
 

@@ -13,7 +13,7 @@
 #import "AssessListViewController.h"
 #import "GetScoreView.h"
 #import "YouSoreViewController.h"
-
+#import "PersonIFViewController.h"
 
 @interface GoodsDetialViewController ()<UIWebViewDelegate,chickCollectionViewDelegate>
 @property (strong, nonatomic) UIWebView *webView;
@@ -77,9 +77,14 @@
     _scoreVIiew.hidden = YES;
     _scoreVIiew.chickDelegate = self;
 }
-- (void)chickCollectionViewDelegate:(NSInteger)tag WithId:(NSInteger)preson_id
+- (void)chickCollectionViewDelegate:(NSInteger)tag WithId:(NSInteger)preson_id Array:(NSArray *)array
 {
-    [self.navigationController pushViewController:[YouSoreViewController new] animated:YES];
+    if (tag == array.count) {
+        [self.navigationController pushViewController:[PersonIFViewController new] animated:YES];
+    }else
+    {
+        [self.navigationController pushViewController:[YouSoreViewController new] animated:YES];
+    }
 }
 - (void)dissmiss:(UIButton *)sender
 {

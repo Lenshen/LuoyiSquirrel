@@ -27,9 +27,9 @@
 }
 
 //   3.增加基本信息
-+ (NSString *)get_APP_member_addInfo_jsonStr:(NSString *)is_default nick_name:(NSString *)nick_name birthday:(NSString *)brithday sex:(NSString *)sex height:(NSString *)height weight:(NSString *)weight 
++ (NSString *)get_APP_member_addInfo_jsonStr:(NSString *)is_default nick_name:(NSString *)nick_name birthday:(NSString *)brithday sex:(NSString *)sex height:(NSString *)height weight:(NSString *)weight head_image:(NSString *)head_image
 {
-    NSDictionary *dic = @{@"is_default":is_default,@"nick_name":nick_name,@"birthday":brithday,@"sex":sex,@"height":height,@"weight":weight,@"token":[USER_DEFAULT objectForKey:@"token"]};
+    NSDictionary *dic = @{@"is_default":is_default,@"nick_name":nick_name,@"birthday":brithday,@"sex":sex,@"height":height,@"weight":weight,@"token":[USER_DEFAULT objectForKey:@"token"],@"head_image":head_image};
     NSString *jsonstr = [self dictionaryToJson:dic];
     return [DES encryptWithContent:jsonstr];
 
@@ -94,6 +94,14 @@
 + (NSString *)get_app_change_isdefault_user_id:(NSString *)user_id
 {
     NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"], @"method":@"change_default",@"user_id":user_id};
+    return [DES encryptWithContent:[self dictionaryToJson:dic]];
+}
+
++ (NSString *)get_app_delete_info_member_id:(NSString *)member_id
+{
+    NSDictionary *dic = @{@"token":[USER_DEFAULT objectForKey:@"token"], @"method":@"delet_info",@"member_id":member_id};
+    NSLog(@"%@",[DES encryptWithContent:[self dictionaryToJson:dic]]);
+
     return [DES encryptWithContent:[self dictionaryToJson:dic]];
 }
 

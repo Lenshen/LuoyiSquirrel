@@ -14,7 +14,14 @@
 @property (nonatomic, strong) UIImageView *familyHDView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *relationLabel;
+@property (nonatomic, strong)UIButton *deleteButton;
+
+@property (nonatomic, copy) NSString *member_id;
+@property (nonatomic, strong) UIImageView *mainHeadimageview;
+
+
 
 @property (nonatomic, strong) MemberIFModel *model;
+@property (nonatomic, assign) NSInteger tag;
 
 @end

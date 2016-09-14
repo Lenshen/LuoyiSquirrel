@@ -137,8 +137,24 @@
         NSString *scoreString = [NSString stringWithFormat:@"%ld",self.countArray.count+1];
         cell.numberLabel.attributedText = [self getAttrbute:scoreString];
         self.tableView.rowHeight = 60;
+
+
+
+        switch (index) {
+            case 0:
+                cell.backgroundColor = [UIColor whiteColor];
+                break;
+            case 1:
+                cell.backgroundColor = TableviewColor;
+                break;
+
+
+            default:
+                break;
+        }
+
         return cell;
-        
+
         
 
     }else
